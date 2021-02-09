@@ -1,0 +1,463 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Radiance Global School </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="site.webmanifest">		
+        <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+		<!-- CSS here -->
+            <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+            <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+            <link rel="stylesheet" href="assets/css/slicknav.css">
+            <link rel="stylesheet" href="assets/css/flaticon.css">
+            <link rel="stylesheet" href="assets/css/animate.min.css">
+            <link rel="stylesheet" href="assets/css/magnific-popup.css">
+            <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+            <link rel="stylesheet" href="assets/css/themify-icons.css">
+            <link rel="stylesheet" href="assets/css/slick.css">
+            <link rel="stylesheet" href="assets/css/nice-select.css">
+            <link rel="stylesheet" href="assets/css/style.css">
+   </head>
+
+   <body>
+    <!-- Announcement Modal Start -->
+
+    <!-- Preloader Start -->    
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/loder.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Preloader Start -->
+    <header>
+        <!-- Header Start -->
+        <script language="javascript" type="text/javascript" src="assets/js/header.js"></script>       
+        <!-- Header End -->
+    </header>
+
+    <main>
+           <!-- Want To Work End -->
+        <!-- <h2>Modal Example</h2> -->
+
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3> Announcements </h3>
+            <table style="color: black">
+                <tr > <th> Date </th> <th> Notice</th></tr>
+                <tr> <td> 2/2/2021 </td> <td> Opening for Principal </td> </tr>
+                <tr> <td> 26/1/2021 </td> <td> Republic Day Celebrations </td> </tr>
+            </table>
+          </div>
+
+        </div>
+
+        <script>
+        // Get the modal
+            window.onload = function() {     
+                modal.style.display = "block";
+            }
+            var modal = document.getElementById("myModal");            
+            var span = document.getElementsByClassName("close")[0];
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+        </script>           
+        <!-- slider Area Start-->
+        <div class="slider-area  slider-height" >            
+            <div height="50px" class="pt-3 mr-40 ml-40">
+                <h4 class="mt-5"> Notice: </h4>
+                <marquee width="100%" direction="left" height="25px" color="red">
+                    This is a sample scrolling text that has scrolls texts to left.
+                </marquee>
+            </div>
+            
+            <div class="slider-active" id="slideshow">                
+                <div class="single-slider">
+                    <div class="slider-cap-wrapper">
+                          <div class="hero__img">
+                            <img src="assets/img/hero/hero_img.jpg">
+                          </div>
+                    </div>
+                </div>                
+                <div class="single-slider">
+                    <div class="slider-cap-wrapper">
+                          <div class="hero__img">
+                            <img src="assets/img/hero/hero_img2.jpg" transition-duration="1s">
+                          </div>                          
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            $("#slideshow > div:gt(0)").hide();            
+            setInterval(function() {
+              $('#slideshow > div:first')
+                .fadeOut(1000)
+                .next()
+                .fadeIn(1000)
+                .end()
+                .appendTo('#slideshow');
+            }, 3000);
+            // var slideIndex = 0;
+            // // showSlides();
+
+            // while(1){
+            //     slides[slideIndex].display = "block";
+            //     wait(2);
+            //     slides[slideIndex].display = "none";
+            //     slideIndex++;
+            //     if(slideIndex == slides.length){
+            //         slideIndex = 0;
+            //     }
+            // }      
+
+            // function showSlides() {
+            //   var i;
+            //   var slides = document.getElementsByClassName("hero__img"); 
+
+            //   // var dots = document.getElementsByClassName("dot");
+            //   for (i = 0; i < slides.length && slideIndex == 0; i++) {
+            //     slides[i].style.display = "none";  
+            //   }
+            //   slideIndex++;
+            //   if (slideIndex > slides.length) {slideIndex = 1}    
+            //   // for (i = 0; i < dots.length; i++) {
+            //   //   dots[i].className = dots[i].className.replace(" active", "");
+            //   // }
+            //   slides[slideIndex-1].style.display = "block";  
+            //   // dots[slideIndex-1].className += " active";
+            //   setTimeout(showSlides, 2000); // Change image every 2 seconds
+            // }
+        </script>
+
+        <!-- slider Area End-->
+        <!-- Want To Work Start -->
+        <!-- <div class="wantToWork-area w-padding">
+            <div class="container">
+                <div class="row align-items-end">
+                    <div class="col-xl-5 col-lg-7 col-md-8">
+                        <div class="wantToWork-caption">
+                            <p>Once you’ve settled on a business</p>
+                            <h2>High Performance Services For Multiple Industries.</h2>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-lg-5 col-md-4">
+                       <div class="wantToWork-btn f-right">
+                            <a href="#" class="btn btn-ans">view more</a>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Want To Work End -->
+        <!-- Our Services Start -->
+        <div class="container ">
+               <div class="row d-flex justify-content-center">
+                    <div class="col-xl-11 col-lg-11 col-md-9">
+                        <div class="h1-testimonial-active">
+                            <!-- Single Testimonial -->
+                            <div class="single-testimonial text-center">
+                                 <!-- Testimonial Content -->
+                                <div class="testimonial-caption ">
+                                    <div class="testimonial-top-cap" style="padding-top: 50px">
+                                        <h1> About Us </h1>
+                                        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis por incididunt ut labore et dolore mas. </p>
+                                    </div>
+                                    <!-- founder -->                                    
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+               </div>
+            </div>
+        <div class="our-services  pt-50 pb-50">
+            <div class="container">
+                <div class="row">
+                    <div class=" col-lg-4 col-md-6 col-sm-6 services-cap">
+                        <img src = "assets/img/gallery/sr1.jpg">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-cap">
+                                <h5>Pre-School</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-ion">
+                                <span class="flaticon-pay"></span>
+                            </div>
+                            <div class="services-cap">
+                                <h5>Middle School</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-ion">
+                                <span class="flaticon-good"></span>
+                            </div>
+                            <div class="services-cap">
+                                <h5>High School</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-ion">
+                                <span class="flaticon-experience"></span>
+                            </div>
+                            <div class="services-cap">
+                                <h5>Sports</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-ion">
+                                <span class="flaticon-pay"></span>
+                            </div>
+                            <div class="services-cap">
+                                <h5>Cultural Acivities</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-4 col-md-6 col-sm-6">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-ion">
+                                <span class="flaticon-good"></span>
+                            </div>
+                            <div class="services-cap">
+                                <h5>Smart-Learning</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Our Services End -->
+        
+
+        </div>
+        <!-- Visit Our Tailor End -->
+        <!-- Want To Work Start -->
+        <div class="wantToWork-area" style="padding-bottom: 30px">
+            <div class="container">
+                <div class="row align-items-end">
+                    <div class="col-xl-5 col-lg-7 col-md-8">
+                        <div class="wantToWork-caption">
+                            <!-- <p>Works That We Done Recently</p> -->
+                            <h2>Have a look at our brochure</h2>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-lg-5 col-md-4">
+                        <div class="wantToWork-btn f-right">
+                            <a href="gallery/Brochure.pdf" class="btn btn-ans">View Brochure</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Want To Work End -->
+        <!-- Project Gallery Start -->
+        <div class="project-gallery-area">
+            <div class="container-full p-0">
+                <div class="row no-gutters">
+                    <!-- Big img -->
+                    <div class="col-lg-5 col-md-4">
+                        <div class="portfolio-wrapper">
+                            <div class="portfolio-thumb big-img" style="background-image: url(assets/img/gallery/p_list1.jpg);">
+                                <div class="portfolio-text"> Infrastructure </div>
+                            </div>
+                            <!-- Popup img Link -->
+                            <div class="portfolio-content">
+                                <a href="assets/img/gallery/p1.jpg" class="img-pop-up">
+                                    <div class="portfolio-text">Infrastructure </div> 
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Small Img -->
+                    <div class="col-lg-7 col-md-8">
+                        <div class="row no-gutters">
+                            <div class="col-lg-5 col-md-6 col-sm-6">
+                                <div class="portfolio-wrapper">
+                                    <div class="portfolio-thumb small-img"  style="background-image: url(assets/img/gallery/p_list2.jpg);">
+                                    <div class="portfolio-text"> Curriculum </div>
+                                    </div>
+                                    <!-- Popup img Link -->
+                                    <div class="portfolio-content">
+                                        <a href="assets/img/gallery/p1.jpg" class="img-pop-up">
+                                            <div class="portfolio-text">Curriculum </div> 
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-6 col-sm-6">
+                                <div class="portfolio-wrapper">
+                                    <div class="portfolio-thumb small-img" style="background-image: url(assets/img/gallery/p_list3.jpg);">
+                                    <div class="portfolio-text"> Events and Activities </div>
+                                    </div>
+                                    <!-- Popup img Link -->
+                                    <div class="portfolio-content">
+                                        <a href="assets/img/gallery/p1.jpg" class="img-pop-up">
+                                            <div class="portfolio-text">Events and Activities </div> 
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-lg-7 col-md-6 col-sm-6">
+                                <div class="portfolio-wrapper">
+                                    <div class="portfolio-thumb small-img" style="background-image: url(assets/img/gallery/p_list4.jpg);"></div>
+                                    <!-- Popup img Link -->
+                                    <div class="portfolio-text"> Sports </div>
+                                </div>
+                                <!-- Popup img Link -->
+                                <div class="portfolio-content">
+                                    <a href="assets/img/gallery/p1.jpg" class="img-pop-up">
+                                        <div class="portfolio-text">Sports </div> 
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-6 col-sm-6">
+                                <div class="portfolio-wrapper">
+                                    <div class="portfolio-thumb small-img" style="background-image: url(assets/img/gallery/p_list5.jpg);"></div>
+                                    <!-- Popup img Link -->
+                                    <div class="portfolio-text"> Academic Calendar </div>
+                                </div>
+                                <!-- Popup img Link -->
+                                <div class="portfolio-content">
+                                    <a href="assets/img/gallery/p1.jpg" class="img-pop-up">
+                                        <div class="portfolio-text">Academic Calendar </div> 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-area testimonial-padding">
+            <div class="container ">
+               <div class="row d-flex justify-content-center">
+                    <div class="col-xl-11 col-lg-11 col-md-9">
+                        <div class="h1-testimonial-active">
+                            <!-- Single Testimonial -->
+                            <div class="single-testimonial text-center">
+                                 <!-- Testimonial Content -->
+                                <div class="testimonial-caption ">
+                                    <div class="testimonial-top-cap">
+                                        <img src="assets/img/icon/testimonial.png" alt="">
+                                        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis por incididunt ut labore et dolore mas. </p>
+                                    </div>
+                                    <!-- founder -->
+                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">                                        
+                                       <div class="founder-text">
+                                            <span>Oliva jems</span>
+                                            <p>UIX designer</p>
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Single Testimonial -->
+                            <div class="single-testimonial text-center">
+                                 <!-- Testimonial Content -->
+                                <div class="testimonial-caption ">
+                                    <div class="testimonial-top-cap">
+                                        <img src="assets/img/icon/testimonial.png" alt="">
+                                        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis por incididunt ut labore et dolore mas. </p>
+                                    </div>
+                                    <!-- founder -->
+                                    <div class="testimonial-founder d-flex align-items-center justify-content-center">                                        
+                                       <div class="founder-text">
+                                            <span>Oliva jems</span>
+                                            <p>UIX designer</p>
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+            </div>
+        </div>
+
+    </main>
+    <footer>
+        <!-- Footer Start-->
+        <script language="javascript" type="text/javascript" src="assets/js/footer.js"></script>       
+        <!-- Footer End-->
+    </footer>
+    <!-- Scroll Up -->
+    <div id="back-top" >
+        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+    </div>
+
+
+    <!-- JS here -->
+		<!-- All JS Custom Plugins Link Here here -->
+        <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+		<!-- Jquery, Popper, Bootstrap -->
+		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="./assets/js/popper.min.js"></script>
+        <script src="./assets/js/bootstrap.min.js"></script>
+	    <!-- Jquery Mobile Menu -->
+        <script src="./assets/js/jquery.slicknav.min.js"></script>
+
+		<!-- Jquery Slick , Owl-Carousel Plugins -->
+        <script src="./assets/js/owl.carousel.min.js"></script>
+        <script src="./assets/js/slick.min.js"></script>
+		<!-- One Page, Animated-HeadLin -->
+        <script src="./assets/js/wow.min.js"></script>
+		<script src="./assets/js/animated.headline.js"></script>
+        <script src="./assets/js/jquery.magnific-popup.js"></script>
+
+		<!-- Nice-select, sticky -->
+        <script src="./assets/js/jquery.nice-select.min.js"></script>
+		<script src="./assets/js/jquery.sticky.js"></script>
+        
+        <!-- contact js -->
+        <script src="./assets/js/contact.js"></script>
+        <script src="./assets/js/jquery.form.js"></script>
+        <script src="./assets/js/jquery.validate.min.js"></script>
+        <script src="./assets/js/mail-script.js"></script>
+        <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+        
+		<!-- Jquery Plugins, main Jquery -->	
+        <script src="./assets/js/plugins.js"></script>
+        <script src="./assets/js/main.js"></script>
+        
+    </body>
+</html>
