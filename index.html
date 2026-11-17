@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Corner of the Galaxy | Comic Strip & Tools Lab</title>
+
+  <!-- DoodleCSS + Comic Handwritten Fonts -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/doodle.css@0.0.2/doodle.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Short+Stack&family=Patrick+Hand&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      /* Default: Midnight Stargazing Hill */
+      --bg-sky: #0f1322;
+      --panel-bg: #1a2138;
+      --stage-bg: #12172a;
+      --ink-cream: #f6f1d3;
+      --accent-primary: #ff7b29;   /* Tiger Orange */
+      --accent-secondary: #38d9a9; /* Starlight Mint */
+      --accent-pop: #ff4d4d;       /* Wagon / Cape Red */
+      --accent-gold: #ffd166;      /* Moon / Star Gold */
+      --shadow-color: #070911;
+    }
+
+    /* Alternate Theme: Spaceman Spiff (Planet Zorg) */
+    body.spiff-mode {
+      --bg-sky: #140b24;
+      --panel-bg: #22133b;
+      --stage-bg: #180c2c;
+      --ink-cream: #f5e9ff;
+      --accent-primary: #f72585;   /* Ray-Gun Magenta */
+      --accent-secondary: #4cc9f0; /* Nebula Cyan */
+      --accent-pop: #ff9e00;       /* Thruster Flame */
+      --accent-gold: #fee440;      /* Alien Sun Yellow */
+      --shadow-color: #080310;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body.doodle {
+      background-color: var(--bg-sky);
+      color: var(--ink-cream);
+      font-family: 'Short Stack', 'Patrick Hand', cursive, sans-serif;
+      font-size: 1.02rem;
+      line-height: 1.55;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+
+      /* Starry Night Sky Pattern */
+      background-image:
+        radial-gradient(1.5px 1.5px at 25px 35px, var(--ink-cream) 50%, transparent 100%),
+        radial-gradient(2px 2px at 130px 80px, var(--accent-secondary) 50%, transparent 100%),
+        radial-gradient(2px 2px at 250px 40px, var(--accent-gold) 50%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 350px 160px, var(--ink-cream) 50%, transparent 100%),
+        radial-gradient(2px 2px at 90px 220px, var(--accent-primary) 50%, transparent 100%);
+      background-size: 380px 260px;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-pill {
+      text-decoration: none;
+      color: var(--ink-cream);
+      background: var(--panel-bg);
+      padding: 0.35rem 0.85rem;
+      border: 2.5px solid var(--ink-cream);
+      border-radius: 12px 6px 14px 8px / 8px 14px 6px 12px;
+      box-shadow: 3px 3px 0 var(--shadow-color);
+      font-weight: bold;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .nav-pill:hover {
+      transform: translate(-2px, -2px);
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    .theme-btn {
+      cursor: pointer;
+      background: var(--accent-primary);
+      color: #111524;
+      font-weight: bold;
+      border: 2.5px solid var(--ink-cream);
+      border-radius: 14px 8px 12px 6px;
+      padding: 0.4rem 0.95rem;
+      box-shadow: 3px 3px 0 var(--shadow-color);
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    /* Wide Sunday Hero Strip */
+    .hero-strip {
+      background: var(--panel-bg);
+      border: 3.5px solid var(--ink-cream);
+      border-radius: 10px 18px 12px 16px / 16px 12px 18px 10px;
+      box-shadow: 8px 8px 0 var(--shadow-color);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2.25rem;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      align-items: center;
+    }
+
+    @media (max-width: 740px) {
+      .hero-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-copy {
+      padding: 1.8rem 1.5rem;
+      z-index: 2;
+    }
+
+    .comic-caption {
+      display: inline-block;
+      background: var(--accent-gold);
+      color: #111524;
+      font-weight: bold;
+      font-size: 0.82rem;
+      padding: 0.15rem 0.7rem;
+      border: 2px solid #111524;
+      border-radius: 5px;
+      transform: rotate(-1.5deg);
+      margin-bottom: 0.75rem;
+      box-shadow: 2px 2px 0 var(--shadow-color);
+    }
+
+    .speech-bubble {
+      background: var(--ink-cream);
+      color: #111524;
+      padding: 0.85rem 1.2rem;
+      border-radius: 22px 28px 24px 18px / 18px 24px 20px 26px;
+      position: relative;
+      font-weight: bold;
+      margin-bottom: 1.1rem;
+      box-shadow: 4px 4px 0 var(--shadow-color);
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      right: 40px;
+      border-width: 14px 14px 0 0;
+      border-style: solid;
+      border-color: var(--ink-cream) transparent transparent transparent;
+    }
+
+    /* Hero SVG Art Stage */
+    .hero-art-stage {
+      background: var(--stage-bg);
+      border-left: 3px dashed rgba(246, 241, 211, 0.25);
+      height: 100%;
+      min-height: 270px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      position: relative;
+      padding-top: 1rem;
+    }
+
+    .hero-art-stage svg {
+      width: 100%;
+      height: auto;
+      max-height: 280px;
+      display: block;
+    }
+
+    /* Reusable SVG Stage inside Comic Panels */
+    .svg-stage {
+      background: var(--stage-bg);
+      border: 2.5px solid var(--ink-cream);
+      border-radius: 8px 12px 6px 10px;
+      height: 155px;
+      margin-bottom: 0.9rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .svg-stage svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Floating Sticker / Character Look-Alike Badge */
+    .sticker-slot {
+      position: absolute;
+      top: -18px;
+      right: -12px;
+      width: 66px;
+      height: 66px;
+      background: var(--stage-bg);
+      border: 2.5px solid var(--ink-cream);
+      border-radius: 50%;
+      box-shadow: 3px 3px 0 var(--shadow-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(6deg);
+      z-index: 3;
+      padding: 6px;
+    }
+
+    .comic-panel:hover .sticker-slot {
+      transform: rotate(-6deg) scale(1.08);
+      border-color: var(--accent-gold);
+    }
+
+    /* Tiger Stripe Divider */
+    .tiger-divider {
+      height: 10px;
+      border: 2.5px solid var(--ink-cream);
+      margin: 2.5rem 0;
+      background: repeating-linear-gradient(
+        -55deg,
+        var(--accent-primary),
+        var(--accent-primary) 14px,
+        #111524 14px,
+        #111524 26px
+      );
+      border-radius: 6px;
+    }
+
+    /* Section Header with Mini Icon */
+    .section-title {
+      font-size: 1.55rem;
+      margin-bottom: 1.1rem;
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Comic Strip Multi-Panel Grid */
+    .comic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .comic-panel {
+      background: var(--panel-bg);
+      border: 3px solid var(--ink-cream);
+      border-radius: 6px 15px 8px 14px / 14px 8px 15px 6px;
+      padding: 1.2rem;
+      box-shadow: 6px 6px 0 var(--shadow-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .comic-panel:hover {
+      transform: translate(-3px, -3px) rotate(-0.4deg);
+      border-color: var(--accent-primary);
+    }
+
+    .panel-tag {
+      display: inline-block;
+      font-size: 0.76rem;
+      font-weight: bold;
+      padding: 0.12rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1.5px solid var(--accent-secondary);
+      color: var(--accent-secondary);
+      margin-bottom: 0.45rem;
+      width: fit-content;
+    }
+
+    .panel-btn {
+      display: inline-block;
+      margin-top: 0.9rem;
+      text-align: center;
+      text-decoration: none;
+      background: var(--accent-secondary);
+      color: #111524;
+      font-weight: bold;
+      padding: 0.45rem 0.9rem;
+      border: 2.5px solid var(--ink-cream);
+      border-radius: 10px 5px 12px 6px;
+      box-shadow: 3px 3px 0 var(--shadow-color);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .panel-btn:hover {
+      background: var(--accent-primary);
+    }
+
+    /* Comic Strip 3-Panel Story Row (Pure Art + Quips) */
+    .story-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.1rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .story-cell {
+      background: var(--stage-bg);
+      border: 3px solid var(--ink-cream);
+      border-radius: 6px 10px 8px 12px;
+      box-shadow: 5px 5px 0 var(--shadow-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .story-caption {
+      background: var(--ink-cream);
+      color: #111524;
+      font-weight: bold;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.7rem;
+      border-bottom: 2.5px solid #111524;
+    }
+
+    .story-art {
+      height: 175px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-art svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Footer Forest & Treehouse Scene */
+    .footer-scene {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .footer-scene svg {
+      width: 100%;
+      max-height: 150px;
+      display: block;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body class="doodle">
+
+  <!-- Top Navigation -->
+  <header class="top-bar">
+    <nav class="nav-links">
+      <a href="#tools" class="nav-pill">📦 Transmogrifier Lab</a>
+      <a href="#comic-row" class="nav-pill">🦸 Alter Egos</a>
+      <a href="#hobbies" class="nav-pill">🛸 Side Quests</a>
+    </nav>
+    <button class="theme-btn" id="themeToggle" onclick="toggleSpiffMode()">
+      🚀 Spaceman Spiff Mode
+    </button>
+  </header>
+
+  <!-- 1. SUNDAY HERO PANEL: Boy & Stuffed Tiger Look-Alike Under the Stars -->
+  <section class="hero-strip">
+    <div class="hero-copy">
+      <span class="comic-caption">SUNDAY EDITION • ZERO GROWN-UP STUFF</span>
+      <div class="speech-bubble">
+        "Look at all those stars! Quick, grab the cardboard box—we're warping to Sector Z!"
+      </div>
+      <h1 style="margin: 0.2rem 0 0.5rem; font-size: 1.85rem;">
+        Welcome to My Secret Treehouse.
+      </h1>
+      <p style="margin: 0; opacity: 0.92;">
+        No resumes, no corporate buzzwords, and no slimy servers. Just browser tools I built in my spare time, board game chaos, salsa beats, and night-sky adventures.
+      </p>
+    </div>
+
+    <!-- SWAP YOUR SVG HERE: Hero Stargazing Hill & Log Bridge Illustration -->
+    <div class="hero-art-stage">
+      <svg viewBox="0 0 420 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Giant Crescent Moon -->
+        <path d="M335 35 C300 35 280 70 295 105 C310 140 355 145 375 120 C345 125 320 100 325 70 C328 50 340 40 335 35 Z" fill="var(--accent-gold)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+        <!-- Twinkling Comic Stars -->
+        <path d="M70 45 L74 56 L85 60 L74 64 L70 75 L66 64 L55 60 L66 56 Z" fill="var(--ink-cream)"/>
+        <path d="M195 28 L198 36 L206 39 L198 42 L195 50 L192 42 L184 39 L192 36 Z" fill="var(--accent-secondary)"/>
+        <circle cx="130" cy="85" r="3" fill="var(--accent-primary)"/>
+        <circle cx="255" cy="70" r="2.5" fill="var(--ink-cream)"/>
+
+        <!-- Distant Ringed Planet (Spiff Vibe) -->
+        <circle cx="95" cy="125" r="16" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+        <ellipse cx="95" cy="125" rx="32" ry="7" transform="rotate(-18 95 125)" stroke="var(--accent-secondary)" stroke-width="2.5" fill="none"/>
+
+        <!-- Spiky Kid Silhouette Stargazing -->
+        <g transform="translate(175, 138)">
+          <!-- Spiky Hair Head -->
+          <path d="M15 22 L8 10 L19 14 L23 4 L29 14 L38 7 L35 19 C42 23 42 36 32 40 L16 40 C8 35 10 25 15 22 Z" fill="var(--accent-gold)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+          <!-- Striped Shirt Torso -->
+          <path d="M14 40 L34 40 L38 72 L10 72 Z" fill="var(--accent-pop)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+          <line x1="12" y1="50" x2="36" y2="50" stroke="#111524" stroke-width="4"/>
+          <line x1="11" y1="60" x2="37" y2="60" stroke="#111524" stroke-width="4"/>
+          <!-- Pointing Arm at Stars -->
+          <path d="M15 45 L-8 24" stroke="var(--ink-cream)" stroke-width="4" stroke-linecap="round"/>
+        </g>
+
+        <!-- Tall Striped Tiger Buddy Silhouette Next to Him -->
+        <g transform="translate(230, 112)">
+          <!-- Tiger Ears & Head -->
+          <path d="M12 20 L8 8 L20 14 L34 14 L44 8 L40 20 C48 28 46 44 36 48 L16 48 C6 44 4 28 12 20 Z" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+          <!-- White Muzzle / Ruff -->
+          <ellipse cx="26" cy="38" rx="14" ry="8" fill="var(--ink-cream)"/>
+          <!-- Striped Body -->
+          <path d="M12 48 L40 48 L45 98 L8 98 Z" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+          <line x1="12" y1="60" x2="24" y2="60" stroke="#111524" stroke-width="4"/>
+          <line x1="30" y1="70" x2="42" y2="70" stroke="#111524" stroke-width="4"/>
+          <line x1="10" y1="82" x2="25" y2="82" stroke="#111524" stroke-width="4"/>
+          <!-- Curled Striped Tail -->
+          <path d="M44 90 Q72 85 68 62 Q64 48 54 56" stroke="var(--accent-primary)" stroke-width="9" stroke-linecap="round" fill="none"/>
+          <path d="M44 90 Q72 85 68 62 Q64 48 54 56" stroke="var(--ink-cream)" stroke-width="2" stroke-dasharray="5 6" fill="none"/>
+        </g>
+
+        <!-- grassy Night Hill Foreground -->
+        <path d="M0 230 Q190 175 420 220 L420 270 L0 270 Z" fill="#0b0e1a" stroke="var(--ink-cream)" stroke-width="3"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 2. ALTER EGO 3-PANEL COMIC STRIP ROW (Stupendous Hero, Space Saucer, Secret Treehouse) -->
+  <section id="comic-row">
+    <h2 class="section-title">🦸‍♂️ Today's Comic Strip: Alter Egos & Hideouts</h2>
+    <div class="story-strip">
+
+      <!-- Panel 1: Stupendous Masked Hero -->
+      <div class="story-cell">
+        <div class="story-caption">MEANWHILE... STUPENDOUS HERO STRIKES!</div>
+        <!-- SWAP YOUR SVG HERE: Masked Cape Crusader SVG -->
+        <div class="story-art">
+          <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Dramatic Speed Lines -->
+            <line x1="15" y1="30" x2="75" y2="30" stroke="var(--accent-secondary)" stroke-width="2" stroke-dasharray="6 4"/>
+            <line x1="5" y1="85" x2="60" y2="85" stroke="var(--accent-gold)" stroke-width="2"/>
+            <line x1="20" y1="135" x2="85" y2="135" stroke="var(--accent-secondary)" stroke-width="2" stroke-dasharray="4 4"/>
+            <!-- Billowing Red Cape -->
+            <path d="M125 65 Q65 45 35 110 Q75 120 115 115 Z" fill="var(--accent-pop)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+            <!-- Flying Hero Body -->
+            <rect x="115" y="72" width="46" height="32" rx="6" transform="rotate(-12 115 72)" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+            <!-- Masked Head + Goggles -->
+            <circle cx="172" cy="64" r="22" fill="var(--accent-pop)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+            <!-- Hero Eye Slits -->
+            <polygon points="166,58 185,54 182,65 166,65" fill="var(--ink-cream)"/>
+            <!-- Outstretched Fist -->
+            <path d="M190 74 L232 58" stroke="var(--ink-cream)" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="234" cy="57" r="7" fill="var(--accent-gold)" stroke="var(--ink-cream)" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Panel 2: Spaceman Spiff Red Saucer -->
+      <div class="story-cell">
+        <div class="story-caption">DARING ESCAPE PAST PLANET ZORG!</div>
+        <!-- SWAP YOUR SVG HERE: Red Bubble Saucer & Alien Landscape -->
+        <div class="story-art">
+          <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Twin Alien Moons -->
+            <circle cx="45" cy="42" r="14" fill="var(--accent-secondary)" opacity="0.8"/>
+            <circle cx="72" cy="28" r="8" fill="var(--accent-gold)"/>
+            <!-- Laser Zaps -->
+            <path d="M195 95 L245 120 M185 108 L230 135" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+            <!-- Bubble Cockpit Dome -->
+            <g transform="rotate(14 125 75)">
+              <path d="M95 72 C95 44 155 44 155 72 Z" fill="var(--accent-secondary)" fill-opacity="0.45" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Goggled Pilot Head Inside -->
+              <circle cx="125" cy="62" r="11" fill="var(--accent-gold)" stroke="var(--ink-cream)" stroke-width="2"/>
+              <rect x="118" y="56" width="16" height="7" rx="3" fill="var(--ink-cream)"/>
+              <!-- Red Saucer Hull -->
+              <ellipse cx="125" cy="76" rx="48" ry="14" fill="var(--accent-pop)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Saucer Fins & Exhaust Smoke -->
+              <polygon points="75,76 60,60 88,70" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2"/>
+              <circle cx="58" cy="82" r="6" fill="var(--ink-cream)" opacity="0.7"/>
+              <circle cx="42" cy="88" r="9" fill="var(--ink-cream)" opacity="0.5"/>
+            </g>
+            <!-- Jagged Alien Canyon Floor -->
+            <path d="M0 170 L0 140 L35 115 L65 145 L110 125 L155 150 L205 130 L260 148 L260 170 Z" fill="#101528" stroke="var(--ink-cream)" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Panel 3: G.R.O.S.S. Secret Treehouse Fortress -->
+      <div class="story-cell">
+        <div class="story-caption">HIGH IN COMMAND HQ (NO SLIMY SERVERS!)</div>
+        <!-- SWAP YOUR SVG HERE: Treehouse & Rope Ladder SVG -->
+        <div class="story-art">
+          <svg viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Tree Trunk & Branches -->
+            <path d="M105 170 L112 95 L75 65 M148 170 L140 95 L180 65" stroke="#8d5b4c" stroke-width="14" stroke-linecap="round"/>
+            <!-- Leafy Canopy -->
+            <circle cx="80" cy="48" r="35" fill="#1e4d3b" stroke="var(--ink-cream)" stroke-width="2"/>
+            <circle cx="175" cy="48" r="35" fill="#1e4d3b" stroke="var(--ink-cream)" stroke-width="2"/>
+            <circle cx="128" cy="32" r="40" fill="#25634b" stroke="var(--ink-cream)" stroke-width="2"/>
+            <!-- Wooden Treehouse Shack -->
+            <polygon points="88,52 168,48 164,104 92,104" fill="#d9822b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+            <!-- Pitched Roof -->
+            <polygon points="78,54 128,24 178,50" fill="var(--accent-pop)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+            <!-- Crooked "G.R.O.S.S." Sign & Window -->
+            <rect x="114" y="65" width="26" height="24" fill="#111524" stroke="var(--ink-cream)" stroke-width="2"/>
+            <rect x="98" y="46" width="58" height="14" transform="rotate(-4 98 46)" fill="var(--ink-cream)" stroke="#111524" stroke-width="1.5"/>
+            <text x="104" y="56" fill="#111524" font-size="9" font-weight="bold">G.R.O.S.S. HQ</text>
+            <!-- Dangling Rope Ladder -->
+            <line x1="120" y1="104" x2="116" y2="168" stroke="var(--ink-cream)" stroke-width="2"/>
+            <line x1="136" y1="104" x2="132" y2="168" stroke="var(--ink-cream)" stroke-width="2"/>
+            <line x1="118" y1="118" x2="135" y2="118" stroke="var(--accent-gold)" stroke-width="2.5"/>
+            <line x1="117" y1="136" x2="134" y2="136" stroke="var(--accent-gold)" stroke-width="2.5"/>
+            <line x1="116" y1="154" x2="133" y2="154" stroke="var(--accent-gold)" stroke-width="2.5"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="tiger-divider" />
+
+  <!-- 3. TOOLS LAB: Cardboard Box Transmogrifier, Calvinball & Stargazing Cards -->
+  <section id="tools">
+    <h2 class="section-title">📦 The Cardboard Box Transmogrifier Lab (Tools)</h2>
+    <p style="margin-top: -0.6rem; opacity: 0.9;">
+      Step inside the corrugated cardboard box, flip the dial, and transform your files 100% locally in your browser.
+    </p>
+
+    <div class="comic-grid">
+
+      <!-- Tool 1: PDF Watermark Stamper (With Cardboard Box Transmogrifier SVG) -->
+      <article class="comic-panel">
+        <!-- Floating Character Look-Alike Sticker -->
+        <div class="sticker-slot" title="Swap any character avatar SVG here!">
+          <svg viewBox="0 0 50 50" fill="none">
+            <circle cx="25" cy="26" r="16" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+            <polygon points="12,14 16,4 22,12" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2"/>
+            <polygon points="38,14 34,4 28,12" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2"/>
+            <circle cx="20" cy="24" r="2.5" fill="#111524"/>
+            <circle cx="30" cy="24" r="2.5" fill="#111524"/>
+            <ellipse cx="25" cy="31" rx="8" ry="5" fill="var(--ink-cream)"/>
+          </svg>
+        </div>
+
+        <div>
+          <!-- SWAP YOUR SVG HERE: Cardboard Transmogrifier Box Illustration -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lightning Bolts Around Box -->
+              <path d="M45 35 L62 52 L52 58 L70 78" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M215 30 L198 50 L208 55 L190 75" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Upside-down Cardboard Box -->
+              <polygon points="75,55 185,50 192,130 70,130" fill="#c88a4b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Open Box Flaps -->
+              <polygon points="75,55 52,35 95,40 115,53" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <polygon points="185,50 210,32 165,36 145,51" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <!-- Hand-drawn Dial & Arrow -->
+              <circle cx="105" cy="90" r="14" fill="var(--ink-cream)" stroke="#111524" stroke-width="2"/>
+              <line x1="105" y1="90" x2="114" y2="82" stroke="var(--accent-pop)" stroke-width="3"/>
+              <text x="126" y="88" fill="#111524" font-size="11" font-weight="bold">PDF-O-MATIC</text>
+              <text x="126" y="103" fill="var(--ink-cream)" font-size="10" font-weight="bold">ZAP! BOINK!</text>
+            </svg>
+          </div>
+
+          <span class="panel-tag">PDF UTILITY • LIVE</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">PDF Watermark Transmogrifier</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Drop any PDF into the cardboard box, dial in your custom diagonal text or secret stamp, and export instantly.
+          </p>
+        </div>
+        <a href="/tools/watermark" class="panel-btn">Fire Transmogrifier →</a>
+      </article>
+
+      <!-- Tool 2: Calvinball Game Picker (With Croquet, Flag & Mask SVG) -->
+      <article class="comic-panel">
+        <div class="sticker-slot" title="Swap any character avatar SVG here!">
+          <svg viewBox="0 0 50 50" fill="none">
+            <!-- Spiky Hair Kid Pilot Sticker -->
+            <path d="M14 20 L10 8 L20 14 L26 5 L31 14 L40 9 L36 20 Z" fill="var(--accent-gold)" stroke="var(--ink-cream)" stroke-width="2"/>
+            <circle cx="25" cy="28" r="13" fill="#ffd6a5" stroke="var(--ink-cream)" stroke-width="2"/>
+            <rect x="14" y="22" width="22" height="8" rx="4" fill="var(--accent-secondary)" stroke="#111524" stroke-width="2"/>
+          </svg>
+        </div>
+
+        <div>
+          <!-- SWAP YOUR SVG HERE: Calvinball Croquet Mallet & Vortex Flag -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Crazy Dotted Trajectory Line -->
+              <path d="M25 120 Q70 20 130 85 T230 35" stroke="var(--accent-secondary)" stroke-width="2.5" stroke-dasharray="6 5" fill="none"/>
+              <!-- Red Flag on Pole ("vortex zone") -->
+              <line x1="185" y1="30" x2="175" y2="135" stroke="var(--ink-cream)" stroke-width="3"/>
+              <polygon points="185,32 238,44 182,62" fill="var(--accent-pop)" stroke="var(--ink-cream)" stroke-width="2"/>
+              <text x="190" y="51" fill="var(--ink-cream)" font-size="9" font-weight="bold">Q-ZONE</text>
+              <!-- Croquet Mallet -->
+              <line x1="75" y1="35" x2="125" y2="115" stroke="var(--accent-gold)" stroke-width="4"/>
+              <rect x="102" y="102" width="38" height="18" rx="4" transform="rotate(-32 102 102)" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Domino Mask -->
+              <path d="M50 65 Q70 55 90 65 Q85 82 70 76 Q55 82 50 65 Z" fill="#111524" stroke="var(--ink-cream)" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <span class="panel-tag">BOARD GAMES • WIP</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">Calvinball Game Night Picker</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Pick your player count, time limit, and chaos level. Never play by the same board game tie-breaker rules twice!
+          </p>
+        </div>
+        <button class="panel-btn" onclick="rollCalvinballRule()">Generate New Rule →</button>
+      </article>
+
+      <!-- Tool 3: Salsa & Stargazing Clave / Telescope Box (With Runaway Wagon SVG) -->
+      <article class="comic-panel">
+        <div class="sticker-slot" title="Swap any character avatar SVG here!">
+          <svg viewBox="0 0 50 50" fill="none">
+            <circle cx="25" cy="25" r="15" fill="var(--accent-pop)" stroke="var(--ink-cream)" stroke-width="2"/>
+            <path d="M18 18 L32 32 M32 18 L18 32" stroke="var(--ink-cream)" stroke-width="3"/>
+          </svg>
+        </div>
+
+        <div>
+          <!-- SWAP YOUR SVG HERE: Red Wagon Flying Down a Cliff -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Steep Cliff Slope -->
+              <path d="M0 45 L110 135 L260 150 L0 150 Z" fill="#0d111f" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Airborne Red Wagon -->
+              <g transform="translate(105, 32) rotate(22)">
+                <rect x="10" y="25" width="76" height="24" rx="4" fill="var(--accent-pop)" stroke="var(--ink-cream)" stroke-width="2.5"/>
+                <!-- Wagon Wheels (Off the ground!) -->
+                <circle cx="24" cy="56" r="10" fill="#111524" stroke="var(--ink-cream)" stroke-width="2.5"/>
+                <circle cx="72" cy="56" r="10" fill="#111524" stroke="var(--ink-cream)" stroke-width="2.5"/>
+                <!-- Wagon Handle -->
+                <path d="M86 38 L112 18" stroke="var(--ink-cream)" stroke-width="3" stroke-linecap="round"/>
+                <!-- Passengers Silhouette -->
+                <circle cx="32" cy="14" r="9" fill="var(--accent-gold)" stroke="var(--ink-cream)" stroke-width="2"/>
+                <circle cx="62" cy="11" r="11" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2"/>
+              </g>
+            </svg>
+          </div>
+
+          <span class="panel-tag">ADVENTURE & SALSA • IDEA</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">Runaway Wagon BPM & Sky Finder</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Tap out salsa clave beats or check tonight's darkest 2-hour window before hurtling down the next cliff.
+          </p>
+        </div>
+        <button class="panel-btn" onclick="tapSalsaBeat()" id="salsaBtn">💃 Tap Salsa Beat (BPM)</button>
+      </article>
+
+    </div>
+  </section>
+
+  <hr class="tiger-divider" />
+
+  <!-- 4. SIDE QUESTS & T-REX IMAGINATION PANEL -->
+  <section id="hobbies">
+    <h2 class="section-title">🦖 Current Side Quests & Imagination Log (/now)</h2>
+    <div class="comic-grid">
+
+      <!-- Left Panel: T-Rex in a Fighter Jet / Stargazing Log -->
+      <div class="comic-panel">
+        <div class="svg-stage">
+          <!-- SWAP YOUR SVG HERE: T-Rex Dinosaur Silhouette Against Sunset/Moon -->
+          <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="195" cy="55" r="36" fill="var(--accent-primary)" opacity="0.85"/>
+            <!-- Roaring T-Rex Silhouette -->
+            <path d="M55 145 L75 95 L65 75 L90 42 L138 35 L135 50 L112 52 L132 62 L105 68 L115 95 L140 90 L135 102 L115 102 L120 145 Z" fill="#0b0e1a" stroke="var(--ink-cream)" stroke-width="2.5"/>
+            <!-- Tiny T-Rex Teeth -->
+            <path d="M115 48 L118 53 L122 48 L126 53 L130 48" stroke="var(--ink-cream)" stroke-width="1.5"/>
+            <text x="148" y="32" fill="var(--ink-cream)" font-size="13" font-weight="bold">ROOOAAAR!!</text>
+          </svg>
+        </div>
+        <span class="panel-tag">NOW PLAYING & EXPLORING</span>
+        <ul style="padding-left: 1.2rem; margin: 0.4rem 0 0;">
+          <li><strong>Board Games:</strong> Hunting for clever 2-to-4 player strategy games.</li>
+          <li><strong>Salsa:</strong> Drilling clean spins and finding the 1-beat without looking at my feet.</li>
+          <li><strong>Stargazing:</strong> Chasing Bortle 3 skies and tracking Jupiter's moons.</li>
+          <li><strong>Adventures:</strong> Packing light, hiking steep ridges, and sketching new web toys.</li>
+        </ul>
+      </div>
+
+      <!-- Right Panel: Live Interactive Calvinball Rule & Dice Box -->
+      <div class="comic-panel">
+        <div>
+          <span class="panel-tag">LIVE MINI-WIDGET</span>
+          <h3 style="margin: 0.2rem 0 0.5rem;">🎲 Official Calvinball Rule Generator</h3>
+          <p style="margin: 0 0 0.75rem; font-size: 0.94rem;">
+            Stuck in a board game tie? Click below to decree an official temporary house rule:
+          </p>
+          <div id="calvinballOutput" style="background: var(--stage-bg); border: 2.5px dashed var(--accent-gold); padding: 1rem; border-radius: 10px; font-weight: bold; color: var(--accent-gold); min-height: 82px; display: flex; align-items: center;">
+            "Rule #42: Whoever most recently ate something orange goes first!"
+          </div>
+        </div>
+        <button class="panel-btn" onclick="rollCalvinballRule()">⚡ Decree New Rule + Roll D20</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. WIDE PINE FOREST & CAMPFIRE FOOTER -->
+  <footer class="footer-scene">
+    <p style="margin: 0; font-size: 0.95rem;">
+      Hand-coded under starry skies • Drop your own SVGs into any <code>.svg-stage</code> or <code>.sticker-slot</code>!
+    </p>
+    <!-- Wide Pine Tree Forest Ridge SVG -->
+    <svg viewBox="0 0 960 130" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Distant Mountain Ridge -->
+      <path d="M0 130 L0 85 Q180 40 380 82 T760 65 T960 80 L960 130 Z" fill="#161d33"/>
+      <!-- Pine Tree Silhouettes -->
+      <g fill="#090c16" stroke="var(--ink-cream)" stroke-width="1.5">
+        <polygon points="55,115 75,45 95,115"/>
+        <polygon points="82,115 105,30 128,115"/>
+        <polygon points="118,115 135,55 152,115"/>
+        <polygon points="780,115 802,38 824,115"/>
+        <polygon points="815,115 842,22 869,115"/>
+        <polygon points="858,115 878,52 898,115"/>
+      </g>
+      <!-- Glowing Campfire Tent on the Hill -->
+      <polygon points="455,112 480,78 505,112" fill="var(--accent-primary)" stroke="var(--ink-cream)" stroke-width="2"/>
+      <polygon points="472,112 480,92 488,112" fill="var(--accent-gold)"/>
+      <!-- Foreground Hill -->
+      <path d="M0 130 L0 105 Q260 88 520 108 T960 98 L960 130 Z" fill="#070911" stroke="var(--ink-cream)" stroke-width="2"/>
+    </svg>
+  </footer>
+
+  <script>
+    // 1. Toggle between Midnight Hill and Spaceman Spiff (Planet Zorg)
+    function toggleSpiffMode() {
+      const body = document.body;
+      const btn = document.getElementById('themeToggle');
+      body.classList.toggle('spiff-mode');
+      btn.textContent = body.classList.contains('spiff-mode')
+        ? '🌲 Midnight Hill Mode'
+        : '🚀 Spaceman Spiff Mode';
+    }
+
+    // 2. Calvinball Rule + D20 Generator
+    const calvinballRules = [
+      "Whoever most recently saw a shooting star gets +3 bonus points!",
+      "All players must speak like Spaceman Spiff for the next round.",
+      "Tie-breaker: Closest guess to tonight's moon phase percentage wins!",
+      "The Invisible Time-Zone Rule: The tallest player must play left-handed for 1 turn.",
+      "If you roll an odd number, you must hum a salsa rhythm before drawing a card!",
+      "Secret Treehouse Decree: The player wearing the brightest colors goes first."
+    ];
+
+    function rollCalvinballRule() {
+      const box = document.getElementById('calvinballOutput');
+      const d20 = Math.floor(Math.random() * 20) + 1;
+      const rule = calvinballRules[Math.floor(Math.random() * calvinballRules.length)];
+      box.innerHTML = `🎲 <strong>D20 Roll: ${d20}</strong> — "${rule}"`;
+    }
+
+    // 3. Quick Salsa BPM Tapper right inside the card
+    let taps = [];
+    function tapSalsaBeat() {
+      const now = performance.now();
+      taps.push(now);
+      if (taps.length > 6) taps.shift();
+      const btn = document.getElementById('salsaBtn');
+
+      if (taps.length >= 2) {
+        let intervals = [];
+        for (let i = 1; i < taps.length; i++) {
+          intervals.push(taps[i] - taps[i - 1]);
+        }
+        const avgMs = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+        const bpm = Math.round(60000 / avgMs);
+        btn.textContent = `💃 ${bpm} BPM! (Keep Tapping)`;
+      } else {
+        btn.textContent = `💃 Tap Again...`;
+      }
+    }
+  </script>
+</body>
+</html>
