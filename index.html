@@ -79,7 +79,9 @@
       flex-wrap: wrap;
     }
 
-    .nav-pill {
+    a.nav-pill,
+	a.nav-pill:link,
+	a.nav-pill:visited	{
       text-decoration: none;
       color: var(--ink-cream);
       background: var(--panel-bg);
@@ -391,7 +393,7 @@
     <div class="hero-copy">
       <span class="comic-caption">SUNDAY EDITION • ZERO GROWN-UP STUFF</span>
       <div class="speech-bubble">
-        "Look at all those stars! Quick, grab the cardboard box—we're warping to Sector Z!"
+        "It's a magical universe ol'buddy. Let's go exploring!"
       </div>
       <h1 style="margin: 0.2rem 0 0.5rem; font-size: 1.85rem;">
         Welcome to My Secret Treehouse.
@@ -403,7 +405,8 @@
 
     <!-- SWAP YOUR SVG HERE: Hero Stargazing Hill & Log Bridge Illustration -->
     <div class="hero-art-stage">
-      <svg viewBox="0 0 420 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+	  <img src="./res/img/title.png" style="display: block; margin: 0 auto; max-width: 100%; height: 100%; object-fit: cover;">
+      <!-- <svg viewBox="0 0 420 270" fill="none" xmlns="http://www.w3.org/2000/svg">
         <!-- Giant Crescent Moon -->
         <path d="M335 35 C300 35 280 70 295 105 C310 140 355 145 375 120 C345 125 320 100 325 70 C328 50 340 40 335 35 Z" fill="var(--accent-gold)" stroke="var(--ink-cream)" stroke-width="2.5"/>
         <!-- Twinkling Comic Stars -->

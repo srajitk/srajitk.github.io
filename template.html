@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transmogrifier UI Kit & Use Cases</title>
+
+  <!-- 1. Optional DoodleCSS base + 2. Master Comic Stylesheet -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/doodle.css@0.0.2/doodle.css" />
+  <link rel="stylesheet" href="res/master.css" />
+</head>
+<body class="doodle">
+
+  <!-- TOP NAVIGATION (Reusable across all pages) -->
+  <header class="top-bar">
+    <nav class="nav-links">
+      <a href="index.html" class="nav-pill">🏠 Home Strip</a>
+      <a href="style-guide.html" class="nav-pill active">🎨 UI Style Guide</a>
+      <a href="#forms" class="nav-pill">🎛️ Tool Inputs</a>
+      <a href="#upload" class="nav-pill">📦 File Upload</a>
+    </nav>
+    <button id="themeToggle" onclick="toggleSpiffMode()">
+      🚀 Spaceman Spiff Mode
+    </button>
+  </header>
+
+  <!-- 1. TYPOGRAPHY, LINKS & SPEECH BUBBLES -->
+  <section class="comic-panel" style="margin-bottom: 2rem;">
+    <span class="comic-caption">SECTION 1 • TEXT, LINKS & SPEECH BUBBLES</span>
+    <h1>Heading 1: The Cardboard Box Lab</h1>
+    <h2>Heading 2: Sub-panel Title for Tools & Quests</h2>
+    <h3>Heading 3: Card Title or Step Label</h3>
+
+    <div class="speech-bubble">
+      "Scientific progress goes 'BOINK'! Try clicking the wavy links or toggling Spaceman Spiff Mode!"
+    </div>
+
+    <p>
+      This is a standard paragraph (<code>&lt;p&gt;</code>). Notice how <a href="#upload">inline hyperlinks (a href)</a> have a playful wavy underline that turns moon-gold on hover. You can also drop inline <code>code snippets</code> or <span class="text-muted">muted helper notes</span> anywhere inside your tool instructions.
+    </p>
+  </section>
+
+  <hr class="tiger-divider" />
+
+  <!-- 2. BUTTONS & ACTION FLAVORS -->
+  <section class="comic-panel" style="margin-bottom: 2rem;">
+    <span class="panel-tag">BUTTON FLAVORS</span>
+    <h2>Buttons & Action Links</h2>
+    <p class="text-muted">Use standard <code>&lt;button&gt;</code> tags or add <code>class="btn"</code> to any <code>&lt;a href="..."&gt;</code> tag:</p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 1rem;">
+      <button>🔥 Primary Action (Default)</button>
+      <button class="btn-secondary">🔭 Secondary Button (.btn-secondary)</button>
+      <button class="btn-danger">💥 Reset / Delete (.btn-danger)</button>
+      <button class="btn-ghost">🌙 Ghost Toggle (.btn-ghost)</button>
+      <a href="https://example.com" class="btn btn-secondary">🔗 Link Styled as Button (a.btn)</a>
+    </div>
+  </section>
+
+  <!-- 3. TOOL CONTROLS: INPUTS, DROPDOWNS, SLIDERS & CHECKBOXES -->
+  <section id="forms" class="comic-grid">
+
+    <!-- Left Card: Text Boxes, Dropdown & Textarea -->
+    <div class="comic-panel">
+      <span class="panel-tag">FORM INPUTS</span>
+      <h3>Text Boxes & Dropdown Menu</h3>
+
+      <label for="watermarkText">Watermark Text (input type="text")</label>
+      <input type="text" id="watermarkText" placeholder="e.g., TOP SECRET - G.R.O.S.S. HQ" />
+
+      <label for="gameSelect">Dropdown Menu (select)</label>
+      <select id="gameSelect">
+        <option value="calvinball">🏐 Calvinball (No Permanent Rules)</option>
+        <option value="catan">🌾 2-4 Player Strategy Game</option>
+        <option value="salsa">💃 Salsa Clave Rhythm Trainer</option>
+        <option value="stargaze">🔭 Bortle Dark Sky Calculator</option>
+      </select>
+
+      <label for="notesArea">Multi-line Text Box (textarea)</label>
+      <textarea id="notesArea" rows="3" placeholder="Jot down stargazing coordinates or custom game rules..."></textarea>
+    </div>
+
+    <!-- Right Card: File Upload, Sliders, Checkboxes & Progress Bar -->
+    <div id="upload" class="comic-panel">
+      <span class="panel-tag">UPLOAD & SLIDERS</span>
+      <h3>File Upload & Tool Dials</h3>
+
+      <!-- Upload Dropzone -->
+      <label>Upload Button / Dropzone (<code>.file-dropzone</code>)</label>
+      <div class="file-dropzone" id="dropzoneBox">
+        <input type="file" id="fileInput" accept=".pdf,.png,.jpg" onchange="showFileName(this)" />
+        <div style="font-size: 2rem; margin-bottom: 0.25rem;">📦</div>
+        <strong id="fileLabel">Drop your PDF or Image into the Transmogrifier</strong>
+        <span class="text-muted">or click to browse local files (100% client-side)</span>
+      </div>
+
+      <!-- Range Slider -->
+      <label for="opacitySlider">
+        Stamp Opacity / BPM Slider: <span id="sliderVal" style="color: var(--accent-gold);">75%</span>
+      </label>
+      <input type="range" id="opacitySlider" min="10" max="100" value="75" oninput="document.getElementById('sliderVal').textContent = this.value + '%'" />
+
+      <!-- Checkboxes -->
+      <label class="check-row">
+        <input type="checkbox" checked /> Diagonal Tiger-Stripe Stamp
+      </label>
+      <label class="check-row">
+        <input type="checkbox" /> Flatten PDF Layers (Anti-Tamper Mode)
+      </label>
+
+      <!-- Tiger-Stripe Progress Bar -->
+      <label style="margin-top: 0.75rem;">Transmogrifier Progress Bar (<code>.progress-track</code>)</label>
+      <div class="progress-track">
+        <div class="progress-fill" id="demoProgress" style="width: 70%;"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 4. CUSTOM SCROLLBAR & ARTWORK STAGE SHOWCASE -->
+  <section class="comic-grid">
+
+    <!-- Custom Scrollbar Demo Box -->
+    <div class="comic-panel">
+      <span class="panel-tag">CUSTOM SCROLLBAR</span>
+      <h3>Scrollable Log Box (<code>.scroll-box</code>)</h3>
+      <p class="text-muted">Scroll inside the box below (or on the main window) to see the themed scrollbar:</p>
+
+      <div class="scroll-box">
+        <p><strong>Log Entry #01:</strong> Built the client-side PDF watermark tool. Zero server uploads required.</p>
+        <p><strong>Log Entry #02:</strong> Spotted Jupiter and four Galilean moons through binoculars at 11:40 PM.</p>
+        <p><strong>Log Entry #03:</strong> Practiced On1 salsa turns for an hour—finally staying on beat during fast tracks.</p>
+        <p><strong>Log Entry #04:</strong> Added Spaceman Spiff theme switcher with localStorage persistence.</p>
+        <p><strong>Log Entry #05:</strong> Next up: building a board game night randomizer for 2 to 6 players.</p>
+      </div>
+    </div>
+
+    <!-- Image / Artwork Stage -->
+    <div class="comic-panel">
+      <span class="panel-tag">IMAGE & SVG CONTAINER</span>
+      <h3>Artwork Frame (<code>.art-stage</code>)</h3>
+      <p class="text-muted">Drop your generated stargazing image or any SVG straight inside <code>.art-stage</code>:</p>
+      <div class="art-stage" style="padding: 1.5rem; text-align: center;">
+        <div>
+          <div style="font-size: 2.2rem;">🌌 👦🏼 🐯 🛸</div>
+          <code>&lt;div class="art-stage"&gt;&lt;img src="stargazing.png" /&gt;&lt;/div&gt;</code>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SHARED THEME PERSISTENCE SCRIPT (Saves theme across all HTML pages) -->
+  <script>
+    const body = document.body;
+    const btn = document.getElementById('themeToggle');
+
+    // Load saved theme when switching between pages
+    if (localStorage.getItem('comicTheme') === 'spiff') {
+      body.classList.add('spiff-mode');
+      btn.textContent = '🌲 Midnight Hill Mode';
+    }
+
+    function toggleSpiffMode() {
+      body.classList.toggle('spiff-mode');
+      const isSpiff = body.classList.contains('spiff-mode');
+      localStorage.setItem('comicTheme', isSpiff ? 'spiff' : 'midnight');
+      btn.textContent = isSpiff ? '🌲 Midnight Hill Mode' : '🚀 Spaceman Spiff Mode';
+    }
+
+    function showFileName(input) {
+      const label = document.getElementById('fileLabel');
+      if (input.files && input.files[0]) {
+        label.textContent = `✅ Loaded: ${input.files[0].name}`;
+        label.style.color = 'var(--accent-secondary)';
+      }
+    }
+  </script>
+</body>
+</html>

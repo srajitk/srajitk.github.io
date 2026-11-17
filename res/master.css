@@ -1,0 +1,582 @@
+/* ==========================================================================
+   MASTER COMIC & TRANSMogrifier THEME (comic-theme.css)
+   Use across all pages: Homepage, /tools, /now, and Hobby Logs
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Short+Stack&family=Patrick+Hand&family=Space+Mono:wght@400;700&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. THEME VARIABLES (Midnight Stargazer Default + Spaceman Spiff Mode)
+   -------------------------------------------------------------------------- */
+:root {
+  --bg-sky: #0f1322;
+  --panel-bg: #1a2138;
+  --stage-bg: #111626;
+  --ink-cream: #f6f1d3;
+  --ink-muted: #b5b29e;
+  --accent-primary: #ff7b29;    /* Tiger Orange */
+  --accent-secondary: #38d9a9;  /* Starlight Mint */
+  --accent-pop: #ff4d4d;        /* Wagon / Cape Red */
+  --accent-gold: #ffd166;       /* Moon / Star Gold */
+  --shadow-color: #060810;
+
+  --font-comic: 'Short Stack', 'Patrick Hand', cursive, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+/* Alternate Theme: Spaceman Spiff (Planet Zorg) */
+body.spiff-mode {
+  --bg-sky: #140b24;
+  --panel-bg: #22133b;
+  --stage-bg: #160b29;
+  --ink-cream: #f5e9ff;
+  --ink-muted: #c2add9;
+  --accent-primary: #f72585;    /* Ray-Gun Magenta */
+  --accent-secondary: #4cc9f0;  /* Nebula Cyan */
+  --accent-pop: #ff9e00;        /* Thruster Flame */
+  --accent-gold: #fee440;       /* Alien Sun Yellow */
+  --shadow-color: #07020d;
+}
+
+body.doodle {
+  background-color: var(--bg-sky);
+  color: var(--ink-cream);
+  font-family: 'Short Stack', 'Patrick Hand', cursive, sans-serif;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  /* Starry Night Sky Pattern */
+  background-image:
+	radial-gradient(1.5px 1.5px at 25px 35px, var(--ink-cream) 50%, transparent 100%),
+	radial-gradient(2px 2px at 130px 80px, var(--accent-secondary) 50%, transparent 100%),
+	radial-gradient(2px 2px at 250px 40px, var(--accent-gold) 50%, transparent 100%),
+	radial-gradient(1.5px 1.5px at 350px 160px, var(--ink-cream) 50%, transparent 100%),
+	radial-gradient(2px 2px at 90px 220px, var(--accent-primary) 50%, transparent 100%);
+  background-size: 380px 260px;
+}
+
+/* --------------------------------------------------------------------------
+   2. CUSTOM SCROLLBARS (Webkit & Firefox)
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) var(--stage-bg);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--stage-bg);
+  border-left: 2px solid var(--ink-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border: 2px solid var(--ink-cream);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gold);
+}
+
+/* --------------------------------------------------------------------------
+   3. BASE PAGE & STARRY CANVAS
+   -------------------------------------------------------------------------- */
+body {
+  background-color: var(--bg-sky);
+  color: var(--ink-cream);
+  font-family: var(--font-comic);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+  transition: background-color 0.25s ease, color 0.25s ease;
+
+  /* Starry Night Sky Background */
+  background-image:
+    radial-gradient(1.5px 1.5px at 25px 35px, var(--ink-cream) 50%, transparent 100%),
+    radial-gradient(2px 2px at 130px 80px, var(--accent-secondary) 50%, transparent 100%),
+    radial-gradient(2px 2px at 250px 40px, var(--accent-gold) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 350px 160px, var(--ink-cream) 50%, transparent 100%),
+    radial-gradient(2px 2px at 90px 220px, var(--accent-primary) 50%, transparent 100%);
+  background-size: 380px 260px;
+}
+
+/* --------------------------------------------------------------------------
+   4. TYPOGRAPHY, LINKS, LISTS & QUOTES
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  line-height: 1.25;
+  margin-top: 0;
+  letter-spacing: 0.3px;
+}
+
+h1 { font-size: 2rem; color: var(--ink-cream); }
+h2 { font-size: 1.55rem; color: var(--accent-gold); }
+h3 { font-size: 1.25rem; color: var(--accent-secondary); }
+
+p {
+  margin: 0 0 1rem;
+}
+
+.text-muted {
+  color: var(--ink-muted);
+  font-size: 0.92rem;
+}
+
+/* Links (a href) */
+a {
+  color: var(--accent-secondary);
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-underline-offset: 4px;
+  font-weight: bold;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--accent-gold);
+}
+
+/* Inline Code & Readouts */
+code, pre {
+  font-family: var(--font-mono);
+  background: var(--stage-bg);
+  color: var(--accent-gold);
+  border: 1.5px solid var(--ink-cream);
+  border-radius: 6px;
+}
+
+code {
+  padding: 0.1rem 0.45rem;
+  font-size: 0.88em;
+}
+
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+  box-shadow: 4px 4px 0 var(--shadow-color);
+}
+
+/* Speech Bubble Blockquotes */
+.speech-bubble, blockquote {
+  background: var(--ink-cream);
+  color: #111524;
+  padding: 0.9rem 1.3rem;
+  border-radius: 22px 28px 24px 18px / 18px 24px 20px 26px;
+  position: relative;
+  font-weight: bold;
+  margin: 0 0 1.4rem;
+  box-shadow: 4px 4px 0 var(--shadow-color);
+  display: inline-block;
+}
+
+.speech-bubble::after, blockquote::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 34px;
+  border-width: 14px 14px 0 0;
+  border-style: solid;
+  border-color: var(--ink-cream) transparent transparent transparent;
+}
+
+/* Yellow Comic Narrative Caption Box */
+.comic-caption {
+  display: inline-block;
+  background: var(--accent-gold);
+  color: #111524;
+  font-weight: bold;
+  font-size: 0.82rem;
+  padding: 0.2rem 0.75rem;
+  border: 2px solid #111524;
+  border-radius: 5px;
+  transform: rotate(-1deg);
+  margin-bottom: 0.75rem;
+  box-shadow: 3px 3px 0 var(--shadow-color);
+}
+
+/* Tiger Stripe Divider */
+hr, .tiger-divider {
+  height: 10px;
+  border: 2.5px solid var(--ink-cream);
+  margin: 2.25rem 0;
+  background: repeating-linear-gradient(
+    -55deg,
+    var(--accent-primary),
+    var(--accent-primary) 14px,
+    #111524 14px,
+    #111524 26px
+  );
+  border-radius: 6px;
+}
+
+/* Reusable SVG Stage inside Comic Panels */
+.svg-stage {
+  background: var(--stage-bg);
+  border: 2.5px solid var(--ink-cream);
+  border-radius: 8px 12px 6px 10px;
+  height: 155px;
+  margin-bottom: 0.9rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg-stage svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   5. NAVIGATION & BUTTONS
+   -------------------------------------------------------------------------- */
+.top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.nav-pill {
+  text-decoration: none;
+  color: var(--ink-cream);
+  background: var(--panel-bg);
+  padding: 0.35rem 0.9rem;
+  border: 2.5px solid var(--ink-cream);
+  border-radius: 12px 6px 14px 8px / 8px 14px 6px 12px;
+  box-shadow: 3px 3px 0 var(--shadow-color);
+  font-weight: bold;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-pill:hover, .nav-pill.active {
+  transform: translate(-2px, -2px);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* Universal Comic Button */
+button, .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-family: var(--font-comic);
+  font-size: 0.98rem;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0.55rem 1.15rem;
+  border: 2.5px solid var(--ink-cream);
+  border-radius: 12px 6px 14px 8px / 8px 14px 6px 12px;
+  box-shadow: 4px 4px 0 var(--shadow-color);
+  background: var(--accent-primary);
+  color: #111524;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+}
+
+button:hover, .btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--shadow-color);
+  background: var(--accent-gold);
+  color: #111524;
+}
+
+button:active, .btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--shadow-color);
+}
+
+/* Button Flavors */
+.btn-secondary {
+  background: var(--accent-secondary);
+  color: #111524;
+}
+
+.btn-danger {
+  background: var(--accent-pop);
+  color: var(--ink-cream);
+}
+
+.btn-ghost {
+  background: var(--stage-bg);
+  color: var(--ink-cream);
+}
+
+.panel-tag {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: bold;
+  padding: 0.12rem 0.55rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid var(--accent-secondary);
+  color: var(--accent-secondary);
+  margin-bottom: 0.45rem;
+  width: fit-content;
+}
+
+.panel-btn {
+  display: inline-block;
+  margin-top: 0.9rem;
+  text-align: center;
+  text-decoration: none;
+  background: var(--accent-secondary);
+  color: #111524;
+  font-weight: bold;
+  padding: 0.45rem 0.9rem;
+  border: 2.5px solid var(--ink-cream);
+  border-radius: 10px 5px 12px 6px;
+  box-shadow: 3px 3px 0 var(--shadow-color);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.panel-btn:hover {
+  background: var(--accent-primary);
+}
+
+/* --------------------------------------------------------------------------
+   6. FORMS: TEXT INPUTS, TEXTAREAS, DROPDOWNS, SLIDERS & CHECKBOXES
+   -------------------------------------------------------------------------- */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.35rem;
+  color: var(--ink-cream);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+  width: 100%;
+  font-family: var(--font-comic);
+  font-size: 1rem;
+  color: var(--ink-cream);
+  background-color: var(--stage-bg);
+  border: 2.5px solid var(--ink-cream);
+  border-radius: 8px 14px 10px 12px / 12px 10px 14px 8px;
+  padding: 0.6rem 0.9rem;
+  box-shadow: 3px 3px 0 var(--shadow-color);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: 1rem;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 4px 4px 0 var(--accent-primary);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--ink-muted);
+  opacity: 0.7;
+}
+
+/* Custom Dropdown Menu (select) with Hand-Drawn Arrow */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.5rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ffd166' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+}
+
+select option {
+  background-color: var(--panel-bg);
+  color: var(--ink-cream);
+}
+
+/* File Upload Dropzone (Cardboard Transmogrifier Slot) */
+.file-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.25rem;
+  background: var(--stage-bg);
+  border: 3px dashed var(--accent-secondary);
+  border-radius: 12px 18px 10px 16px;
+  box-shadow: 5px 5px 0 var(--shadow-color);
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.file-dropzone:hover, .file-dropzone.dragover {
+  border-color: var(--accent-gold);
+  background: rgba(255, 123, 41, 0.08);
+  transform: scale(1.01);
+}
+
+.file-dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+/* Range Sliders (e.g., Watermark Opacity, BPM Speed) */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  background: var(--stage-bg);
+  border: 2px solid var(--ink-cream);
+  border-radius: 8px;
+  outline: none;
+  margin: 0.6rem 0 1rem;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  border: 2.5px solid var(--ink-cream);
+  box-shadow: 2px 2px 0 var(--shadow-color);
+  cursor: pointer;
+}
+
+/* Checkboxes & Radios */
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  margin-bottom: 0.6rem;
+  font-weight: normal;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  accent-color: var(--accent-primary);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   7. COMIC PANELS, GRIDS, SCROLL BOXES & PROGRESS BARS
+   -------------------------------------------------------------------------- */
+.comic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.comic-panel {
+  background: var(--panel-bg);
+  border: 3px solid var(--ink-cream);
+  border-radius: 6px 15px 8px 14px / 14px 8px 15px 6px;
+  padding: 1.35rem;
+  box-shadow: 6px 6px 0 var(--shadow-color);
+  position: relative;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.comic-panel:hover {
+  border-color: var(--accent-primary);
+}
+
+.panel-tag {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: bold;
+  padding: 0.12rem 0.55rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid var(--accent-secondary);
+  color: var(--accent-secondary);
+  margin-bottom: 0.55rem;
+}
+
+/* Artwork / Image Frame */
+.art-stage {
+  background: var(--stage-bg);
+  border: 2.5px solid var(--ink-cream);
+  border-radius: 8px 12px 6px 10px;
+  overflow: hidden;
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.art-stage img, .art-stage svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Scrollable Container (Demonstrates Custom Scrollbar inside Panels) */
+.scroll-box {
+  max-height: 170px;
+  overflow-y: auto;
+  background: var(--stage-bg);
+  border: 2.5px solid var(--ink-cream);
+  border-radius: 8px;
+  padding: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+/* Tiger-Stripe Progress / Loading Bar */
+.progress-track {
+  width: 100%;
+  height: 22px;
+  background: var(--stage-bg);
+  border: 2.5px solid var(--ink-cream);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 3px 3px 0 var(--shadow-color);
+  margin-bottom: 1rem;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 65%;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent-primary),
+    var(--accent-primary) 12px,
+    var(--accent-gold) 12px,
+    var(--accent-gold) 24px
+  );
+  transition: width 0.3s ease;
+}

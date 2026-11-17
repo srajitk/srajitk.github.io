@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Game Night — Choose a Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./res/master.css" />
+
+<!--
+<style>
+  :root{
+    --void:#15181d;
+    --panel:#1c2027;
+    --panel-edge:#2a2f38;
+    --text:#eceef0;
+    --muted:#8b939c;
+    --gold:#d9a441;
+    --coral:#e0765c;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    min-height:100vh;
+    background:var(--void);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+  }
+  .bg{
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 90% 60% at 50% -5%, #23272f 0%, transparent 55%),
+      radial-gradient(ellipse 70% 50% at 85% 100%, rgba(217,164,65,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 10% 100%, rgba(224,118,92,0.06) 0%, transparent 60%),
+      var(--void);
+  }
+  .bg::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size:40px 40px;
+    mask-image:radial-gradient(ellipse 75% 65% at 50% 35%, black 30%, transparent 90%);
+  }
+
+  main{
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
+    gap:clamp(32px, 6vh, 56px);
+  }
+
+  .masthead{ text-align:center; max-width:520px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 12px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-optical-sizing:auto;
+    font-size:clamp(2.4rem, 8vw, 3.6rem);
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .tagline{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:clamp(0.9rem, 2.2vw, 1rem);
+    color:var(--muted);
+    margin:14px 0 0;
+    line-height:1.5;
+  }
+
+  .shelf{
+    width:100%;
+    max-width:720px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:18px;
+  }
+
+  .card{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:168px;
+    padding:22px 22px 20px;
+    border-radius:10px;
+    background:var(--panel);
+    border:1px solid var(--panel-edge);
+    text-decoration:none;
+    color:var(--text);
+    overflow:hidden;
+    transition:transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:3px;
+    background:var(--accent, var(--gold));
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    border-color:var(--accent, var(--gold));
+    box-shadow:0 16px 30px rgba(0,0,0,0.35);
+  }
+  .card:focus-visible{
+    outline:2px solid var(--accent, var(--gold));
+    outline-offset:3px;
+  }
+
+  .card .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--accent, var(--gold));
+    margin:0 0 10px;
+  }
+  .card h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.55rem;
+    margin:0 0 8px;
+  }
+  .card p{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.88rem;
+    color:var(--muted);
+    line-height:1.45;
+    margin:0;
+  }
+  .card .enter{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text);
+    margin-top:16px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .card .enter::after{
+    content:"→";
+    transition:transform 0.18s ease;
+  }
+  .card:hover .enter::after{ transform:translateX(4px); }
+
+  .card.decrypto{ --accent:var(--gold); }
+  .card.monikers{ --accent:var(--coral); }
+
+  .card.more{
+    border-style:dashed;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:var(--muted);
+    cursor:default;
+  }
+  .card.more::before{ display:none; }
+  .card.more:hover{
+    transform:none;
+    border-color:var(--panel-edge);
+    box-shadow:none;
+  }
+  .card.more p{ font-size:0.82rem; }
+
+  footer{
+    position:relative; z-index:1;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:#525a63;
+    text-align:center;
+    padding:0 20px 24px;
+  }
+</style>
+-->
+</head>
+<body>
+
+<div class="bg"></div>
+
+<main>
+  <div class="masthead">
+    <p class="eyebrow">house rules apply</p>
+    <h1>Game Night</h1>
+    <p class="tagline">Pick a game to start playing. Each one runs entirely in your browser — no sign‑in, no setup.</p>
+  </div>
+
+  
+  <div class="comic-grid">
+
+      <!-- Card 1: Decrypto -->
+      <article class="comic-panel">
+        <!-- Floating Character Look-Alike Sticker -->
+        
+        <div>
+          <!-- SWAP YOUR SVG HERE: Cardboard Transmogrifier Box Illustration -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lightning Bolts Around Box -->
+              <path d="M45 35 L62 52 L52 58 L70 78" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M215 30 L198 50 L208 55 L190 75" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Upside-down Cardboard Box -->
+              <polygon points="75,55 185,50 192,130 70,130" fill="#c88a4b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Open Box Flaps -->
+              <polygon points="75,55 52,35 95,40 115,53" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <polygon points="185,50 210,32 165,36 145,51" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <!-- Hand-drawn Dial & Arrow -->
+              <circle cx="105" cy="90" r="14" fill="var(--ink-cream)" stroke="#111524" stroke-width="2"/>
+              <line x1="105" y1="90" x2="114" y2="82" stroke="var(--accent-pop)" stroke-width="3"/>
+              <text x="126" y="88" fill="#111524" font-size="11" font-weight="bold">PDF-O-MATIC</text>
+              <text x="126" y="103" fill="var(--ink-cream)" font-size="10" font-weight="bold">ZAP! BOINK!</text>
+            </svg>
+          </div>
+
+          <span class="panel-tag">Word • Deduction</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">DECRYPTO</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Drop any PDF into the cardboard box, dial in your custom diagonal text or secret stamp, and export instantly.
+          </p>
+        </div>
+        <a href="./games/decrypto.html" class="panel-btn">Fire Transmogrifier →</a>
+      </article>
+	  
+	  <!-- Card 2: Monikers -->
+	  <article class="comic-panel">
+        
+        <div>
+          <!-- SWAP YOUR SVG HERE: Cardboard Transmogrifier Box Illustration -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lightning Bolts Around Box -->
+              <path d="M45 35 L62 52 L52 58 L70 78" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M215 30 L198 50 L208 55 L190 75" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Upside-down Cardboard Box -->
+              <polygon points="75,55 185,50 192,130 70,130" fill="#c88a4b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Open Box Flaps -->
+              <polygon points="75,55 52,35 95,40 115,53" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <polygon points="185,50 210,32 165,36 145,51" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <!-- Hand-drawn Dial & Arrow -->
+              <circle cx="105" cy="90" r="14" fill="var(--ink-cream)" stroke="#111524" stroke-width="2"/>
+              <line x1="105" y1="90" x2="114" y2="82" stroke="var(--accent-pop)" stroke-width="3"/>
+              <text x="126" y="88" fill="#111524" font-size="11" font-weight="bold">PDF-O-MATIC</text>
+              <text x="126" y="103" fill="var(--ink-cream)" font-size="10" font-weight="bold">ZAP! BOINK!</text>
+            </svg>
+          </div>
+
+          <span class="panel-tag">Party • Team</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">MONIKERS</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Drop any PDF into the cardboard box, dial in your custom diagonal text or secret stamp, and export instantly.
+          </p>
+        </div>
+        <a href="./games/monikers.html" class="panel-btn">Fire Transmogrifier →</a>
+      </article>
+	  
+	  <!-- Card 3: Wits and Wagers -->
+	  <article class="comic-panel">
+        <div>
+          <!-- SWAP YOUR SVG HERE: Cardboard Transmogrifier Box Illustration -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lightning Bolts Around Box -->
+              <path d="M45 35 L62 52 L52 58 L70 78" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M215 30 L198 50 L208 55 L190 75" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Upside-down Cardboard Box -->
+              <polygon points="75,55 185,50 192,130 70,130" fill="#c88a4b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Open Box Flaps -->
+              <polygon points="75,55 52,35 95,40 115,53" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <polygon points="185,50 210,32 165,36 145,51" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <!-- Hand-drawn Dial & Arrow -->
+              <circle cx="105" cy="90" r="14" fill="var(--ink-cream)" stroke="#111524" stroke-width="2"/>
+              <line x1="105" y1="90" x2="114" y2="82" stroke="var(--accent-pop)" stroke-width="3"/>
+              <text x="126" y="88" fill="#111524" font-size="11" font-weight="bold">PDF-O-MATIC</text>
+              <text x="126" y="103" fill="var(--ink-cream)" font-size="10" font-weight="bold">ZAP! BOINK!</text>
+            </svg>
+          </div>
+
+          <span class="panel-tag">Party • Gambling • Trivia</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">Wits and Wagers</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Drop any PDF into the cardboard box, dial in your custom diagonal text or secret stamp, and export instantly.
+          </p>
+        </div>
+        <a href="./games/witsandwagers.html" class="panel-btn">Fire Transmogrifier →</a>
+      </article>
+	  
+	  <!-- Card 4: Green Team Wins -->
+	  <article class="comic-panel">    
+        <div>
+          <!-- SWAP YOUR SVG HERE: Cardboard Transmogrifier Box Illustration -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lightning Bolts Around Box -->
+              <path d="M45 35 L62 52 L52 58 L70 78" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M215 30 L198 50 L208 55 L190 75" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Upside-down Cardboard Box -->
+              <polygon points="75,55 185,50 192,130 70,130" fill="#c88a4b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Open Box Flaps -->
+              <polygon points="75,55 52,35 95,40 115,53" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <polygon points="185,50 210,32 165,36 145,51" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <!-- Hand-drawn Dial & Arrow -->
+              <circle cx="105" cy="90" r="14" fill="var(--ink-cream)" stroke="#111524" stroke-width="2"/>
+              <line x1="105" y1="90" x2="114" y2="82" stroke="var(--accent-pop)" stroke-width="3"/>
+              <text x="126" y="88" fill="#111524" font-size="11" font-weight="bold">PDF-O-MATIC</text>
+              <text x="126" y="103" fill="var(--ink-cream)" font-size="10" font-weight="bold">ZAP! BOINK!</text>
+            </svg>
+          </div>
+
+          <span class="panel-tag">Word • Deduction</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">GREEN TEAM WINS</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Drop any PDF into the cardboard box, dial in your custom diagonal text or secret stamp, and export instantly.
+          </p>
+        </div>
+        <a href="./games/greenteamwins.html" class="panel-btn">Fire Transmogrifier →</a>
+      </article>
+	  
+	  <!-- Card 5: Just One -->
+	  <article class="comic-panel">    
+        <div>
+          <!-- SWAP YOUR SVG HERE: Cardboard Transmogrifier Box Illustration -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lightning Bolts Around Box -->
+              <path d="M45 35 L62 52 L52 58 L70 78" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M215 30 L198 50 L208 55 L190 75" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Upside-down Cardboard Box -->
+              <polygon points="75,55 185,50 192,130 70,130" fill="#c88a4b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Open Box Flaps -->
+              <polygon points="75,55 52,35 95,40 115,53" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <polygon points="185,50 210,32 165,36 145,51" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <!-- Hand-drawn Dial & Arrow -->
+              <circle cx="105" cy="90" r="14" fill="var(--ink-cream)" stroke="#111524" stroke-width="2"/>
+              <line x1="105" y1="90" x2="114" y2="82" stroke="var(--accent-pop)" stroke-width="3"/>
+              <text x="126" y="88" fill="#111524" font-size="11" font-weight="bold">PDF-O-MATIC</text>
+              <text x="126" y="103" fill="var(--ink-cream)" font-size="10" font-weight="bold">ZAP! BOINK!</text>
+            </svg>
+          </div>
+
+          <span class="panel-tag">Word • Deduction</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">JUST ONE</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Drop any PDF into the cardboard box, dial in your custom diagonal text or secret stamp, and export instantly.
+          </p>
+        </div>
+        <a href="./games/justone.html" class="panel-btn">Fire Transmogrifier →</a>
+      </article>
+	  
+	  
+	  <!-- Card 6: Fake Artist Goes to Paris -->
+	  <article class="comic-panel">    
+        <div>
+          <!-- SWAP YOUR SVG HERE: Cardboard Transmogrifier Box Illustration -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lightning Bolts Around Box -->
+              <path d="M45 35 L62 52 L52 58 L70 78" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M215 30 L198 50 L208 55 L190 75" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Upside-down Cardboard Box -->
+              <polygon points="75,55 185,50 192,130 70,130" fill="#c88a4b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Open Box Flaps -->
+              <polygon points="75,55 52,35 95,40 115,53" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <polygon points="185,50 210,32 165,36 145,51" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <!-- Hand-drawn Dial & Arrow -->
+              <circle cx="105" cy="90" r="14" fill="var(--ink-cream)" stroke="#111524" stroke-width="2"/>
+              <line x1="105" y1="90" x2="114" y2="82" stroke="var(--accent-pop)" stroke-width="3"/>
+              <text x="126" y="88" fill="#111524" font-size="11" font-weight="bold">PDF-O-MATIC</text>
+              <text x="126" y="103" fill="var(--ink-cream)" font-size="10" font-weight="bold">ZAP! BOINK!</text>
+            </svg>
+          </div>
+
+          <span class="panel-tag">Word • Deduction</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">Fake Artist Goes to Paris</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Drop any PDF into the cardboard box, dial in your custom diagonal text or secret stamp, and export instantly.
+          </p>
+        </div>
+        <a href="./games/fakeartist.html" class="panel-btn">Fire Transmogrifier →</a>
+      </article>
+	  
+	  
+	  <!-- Card 7: That Escalated Quickly -->
+	  <article class="comic-panel">    
+        <div>
+          <!-- SWAP YOUR SVG HERE: Cardboard Transmogrifier Box Illustration -->
+          <div class="svg-stage">
+            <svg viewBox="0 0 260 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lightning Bolts Around Box -->
+              <path d="M45 35 L62 52 L52 58 L70 78" stroke="var(--accent-gold)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M215 30 L198 50 L208 55 L190 75" stroke="var(--accent-secondary)" stroke-width="3" stroke-linecap="round"/>
+              <!-- Upside-down Cardboard Box -->
+              <polygon points="75,55 185,50 192,130 70,130" fill="#c88a4b" stroke="var(--ink-cream)" stroke-width="2.5"/>
+              <!-- Open Box Flaps -->
+              <polygon points="75,55 52,35 95,40 115,53" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <polygon points="185,50 210,32 165,36 145,51" fill="#e09f5a" stroke="var(--ink-cream)" stroke-width="2"/>
+              <!-- Hand-drawn Dial & Arrow -->
+              <circle cx="105" cy="90" r="14" fill="var(--ink-cream)" stroke="#111524" stroke-width="2"/>
+              <line x1="105" y1="90" x2="114" y2="82" stroke="var(--accent-pop)" stroke-width="3"/>
+              <text x="126" y="88" fill="#111524" font-size="11" font-weight="bold">PDF-O-MATIC</text>
+              <text x="126" y="103" fill="var(--ink-cream)" font-size="10" font-weight="bold">ZAP! BOINK!</text>
+            </svg>
+          </div>
+
+          <span class="panel-tag">Word • Deduction</span>
+          <h3 style="margin: 0.2rem 0 0.4rem;">That Escalated Quickly</h3>
+          <p style="margin: 0; font-size: 0.94rem;">
+            Drop any PDF into the cardboard box, dial in your custom diagonal text or secret stamp, and export instantly.
+          </p>
+        </div>
+        <a href="./games/thatescalatedquickly.html" class="panel-btn">Fire Transmogrifier →</a>
+      </article>
+	  
+  </div>
+  
+  
+  <div class="shelf">
+    <a class="card decrypto" href="./games/decrypto.html">
+      <div>
+        <p class="tag">Word &amp; code game</p>
+        <h2>Decrypto</h2>
+        <p>Pull clue words and generate the round's secret code.</p>
+      </div>
+      <span class="enter">Play</span>
+    </a>
+
+    <a class="card monikers" href="./games/monikers.html">
+      <div>
+        <p class="tag">Party game</p>
+        <h2>Monikers</h2>
+        <p>Describe, act, and guess your way through the deck.</p>
+      </div>
+      <span class="enter">Play</span>
+    </a>
+
+
+    <a class="card witsandwagers" href="./games/witsandwagers.html">
+      <div>
+        <p class="tag">Gambling game</p>
+        <h2>Wits and Wagers</h2>
+        <p>Win by knowing the answer... or being the best Gambler</p>
+      </div>
+      <span class="enter">Play</span>
+    </a>
+
+    <a class="card greenteamwins" href="./games/greenteamwins.html">
+      <div>
+        <p class="tag">Party game</p>
+        <h2>Green Team Wins</h2>
+        <p>Knowing the popular answer wins not the right one!!</p>
+      </div>
+      <span class="enter">Play</span>
+    </a>
+
+    <a class="card justone" href="./games/justone.html">
+      <div>
+        <p class="tag">Word game</p>
+        <h2>Just One</h2>
+        <p>A co-op word game where you need to think uniquely, but not too uniquely</p>
+      </div>
+      <span class="enter">Play</span>
+    </a>
+
+    <div class="card more">
+      <p>More games land here as you add them</p>
+    </div>
+  </div>
+</main>
+
+<footer>Add a new game by dropping its HTML file next to this page and linking a card to it.</footer>
+
+</body>
+</html>

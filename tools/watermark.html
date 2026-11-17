@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Red Watermark Tool</title>
+  <!-- <style>
+    :root {
+      --primary: #dc2626;
+      --primary-hover: #b91c1c;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: var(--card);
+      max-width: 540px;
+      width: 100%;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    h1 {
+      margin: 0 0 0.35rem 0;
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+
+    p.subtitle {
+      margin: 0 0 1.4rem 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="file"],
+    select {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input[readonly] {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    input[type="file"] {
+      padding: 0.5rem;
+      background: #f1f5f9;
+      cursor: pointer;
+    }
+
+    .size-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .size-row input {
+      flex: 2;
+    }
+
+    .size-row select {
+      flex: 1;
+    }
+
+    .hint {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.85rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      margin-top: 0.5rem;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: var(--primary-hover);
+    }
+
+    button:disabled {
+      background-color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    #status {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      display: block;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    #status.info {
+      background: #eff6ff;
+      color: #1e40af;
+      border-color: #bfdbfe;
+    }
+
+    #status.success {
+      background: #f0fdf4;
+      color: #166534;
+      border-color: #bbf7d0;
+    }
+
+    #status.error {
+      background: #fef2f2;
+      color: #991b1b;
+      border-color: #fecaca;
+    }
+  </style> -->
+  <link rel="stylesheet" href="../res/master.css" />
+</head>
+<body>
+
+<div class="container">
+  <h1>Red Watermark Transmogrifier</h1>
+  <p class="subtitle">Client-side processing with AI-resistant red security watermarking.</p>
+
+  <section class="comic-panel" style="margin-bottom: 2rem;">
+	  <div class="form-group">
+		<label for="fileInput">1. Upload File (PDF or JPEG)</label>
+		<input
+		  type="file"
+		  id="fileInput"
+		  accept=".pdf,.jpg,.jpeg,application/pdf,image/jpeg"
+		  onchange="handleFileSelect(this)"
+		/>
+	  </div>
+
+	  <div class="form-group">
+		<label for="uploadedSizeDisplay">Uploaded File Size</label>
+		<input
+		  type="text"
+		  id="uploadedSizeDisplay"
+		  readonly
+		  placeholder="Select a file above to see its size..."
+		/>
+	  </div>
+
+	  <div class="form-group">
+		<label for="watermarkText">2. Watermark Text</label>
+		<input
+		  type="text"
+		  id="watermarkText"
+		  placeholder="e.g., CONFIDENTIAL - DO NOT COPY"
+		/>
+	  </div>
+
+	  <div class="form-group">
+		<label for="outputFormat">3. Output Format</label>
+		<select id="outputFormat">
+		  <option value="pdf">PDF (.pdf)</option>
+		  <option value="jpeg">JPEG (.jpg / .zip for multi-page)</option>
+		</select>
+	  </div>
+
+	  <div class="form-group">
+		<label for="targetSize">4. Target Output File Size (Optional)</label>
+		<div class="size-row">
+		  <input
+			type="number"
+			id="targetSize"
+			min="1"
+			step="any"
+			placeholder="Leave blank to keep natural size"
+		  />
+		  <select id="sizeUnit">
+			<option value="KB">KB</option>
+			<option value="MB">MB</option>
+		  </select>
+		</div>
+		<span class="hint">If left blank, no compression or size padding will be applied.</span>
+	  </div>
+
+	  <button type="button" id="processBtn" onclick="handleProcess()">
+		Apply Watermark & Download
+	  </button>
+
+	  <div id="status">Ready. Select a PDF or JPEG file to begin.</div>
+	</section>
+</div>
+
+<script>
+  function setStatus(msg, type) {
+    var box = document.getElementById("status");
+    box.textContent = msg;
+    box.className = type || "";
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes || bytes === 0) return "0 Bytes";
+    var k = 1024;
+    if (bytes < k) return bytes + " Bytes";
+    if (bytes < k * k) {
+      return (bytes / k).toFixed(2) + " KB (" + bytes.toLocaleString() + " bytes)";
+    }
+    return (bytes / (k * k)).toFixed(2) + " MB (" + bytes.toLocaleString() + " bytes)";
+  }
+
+  // Immediately displays file size when a file is chosen
+  function handleFileSelect(input) {
+    var display = document.getElementById("uploadedSizeDisplay");
+    if (input.files && input.files[0]) {
+      var f = input.files[0];
+      display.value = formatBytes(f.size);
+      setStatus("Loaded \"" + f.name + "\" (" + formatBytes(f.size) + "). Ready to watermark.", "info");
+    } else {
+      display.value = "";
+      setStatus("Ready. Select a PDF or JPEG file to begin.", "");
+    }
+  }
+
+  // Dynamically load external script only when needed (for reading PDFs or creating multi-page ZIPs)
+  function loadExternalScript(urls) {
+    return new Promise(function (resolve, reject) {
+      var idx = 0;
+      function next() {
+        if (idx >= urls.length) {
+          reject(new Error("Could not load helper library from CDN. Check internet/firewall."));
+          return;
+        }
+        var s = document.createElement("script");
+        var currentUrl = urls[idx++];
+        s.src = currentUrl;
+        s.onload = function () { resolve(currentUrl); };
+        s.onerror = function () {
+          s.remove();
+          next();
+        };
+        document.head.appendChild(s);
+      }
+      next();
+    });
+  }
+
+  async function ensurePdfJsLoaded() {
+    if (window.pdfjsLib) return;
+    setStatus("Loading PDF reader engine...", "info");
+    var loadedUrl = await loadExternalScript([
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",
+      "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js",
+      "https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"
+    ]);
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = loadedUrl.replace("pdf.min.js", "pdf.worker.min.js");
+  }
+
+  async function ensureJsZipLoaded() {
+    if (window.JSZip) return;
+    setStatus("Loading ZIP archiver...", "info");
+    await loadExternalScript([
+      "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js",
+      "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js",
+      "https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"
+    ]);
+  }
+
+  /**
+   * Applies a non-intrusive, AI-resistant red watermark across the canvas:
+   * - Layer 1: Sinusoidal guilloche security waves in translucent red
+   * - Layer 2: Staggered micro-text watermark grid across the entire page
+   * - Layer 3: Corner-to-corner diagonal red watermark using dual blend modes (multiply + normal)
+   * - Layer 4: Subtle chromatic red-channel pixel jitter along watermark strokes to defeat AI inpainting
+   */
+  function applyAiResistantRedWatermark(ctx, width, height, text) {
+    var diagonal = Math.hypot(width, height);
+    var angle = -Math.atan2(height, width);
+
+    // 1. Sinusoidal Guilloche Security Waves (disrupts AI patch matching)
+    ctx.save();
+    ctx.translate(width / 2, height / 2);
+    ctx.rotate(angle);
+    ctx.strokeStyle = "rgba(220, 38, 38, 0.055)";
+    ctx.lineWidth = Math.max(1, diagonal * 0.001);
+
+    var waveSpacing = Math.max(24, Math.round(diagonal * 0.03));
+    var amplitude = Math.max(4, diagonal * 0.004);
+    var freq = 0.025;
+
+    for (var y = -diagonal; y <= diagonal; y += waveSpacing) {
+      ctx.beginPath();
+      for (var x = -diagonal; x <= diagonal; x += 12) {
+        var wy = y + Math.sin(x * freq + y) * amplitude;
+        if (x === -diagonal) ctx.moveTo(x, wy);
+        else ctx.lineTo(x, wy);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // 2. Full-page subtle micro-watermark grid
+    ctx.save();
+    ctx.translate(width / 2, height / 2);
+    ctx.rotate(angle);
+
+    var microSize = Math.max(11, Math.round(diagonal * 0.014));
+    ctx.font = "600 " + microSize + "px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.globalCompositeOperation = "multiply";
+    ctx.fillStyle = "rgba(220, 38, 38, 0.085)";
+
+    var stepX = Math.max(120, ctx.measureText(text).width + microSize * 4);
+    var stepY = microSize * 6.5;
+
+    var rowIdx = 0;
+    for (var my = -diagonal * 0.8; my <= diagonal * 0.8; my += stepY) {
+      var offsetX = (rowIdx % 2 === 0) ? 0 : stepX / 2;
+      for (var mx = -diagonal * 0.8; mx <= diagonal * 0.8; mx += stepX) {
+        ctx.fillText(text, mx + offsetX, my);
+      }
+      rowIdx++;
+    }
+    ctx.restore();
+
+    // 3. Main Diagonal Corner-to-Corner Red Watermark
+    ctx.save();
+    ctx.translate(width / 2, height / 2);
+    ctx.rotate(angle);
+
+    var targetWidth = diagonal * 0.84;
+    var testSize = 100;
+    ctx.font = "800 " + testSize + "px sans-serif";
+    var measured = ctx.measureText(text).width || 1;
+    var mainFontSize = Math.max(20, Math.floor((targetWidth / measured) * testSize));
+
+    ctx.font = "800 " + mainFontSize + "px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // Pass A: Multiply blend fuses red into underlying dark & light pixels
+    ctx.globalCompositeOperation = "multiply";
+    ctx.fillStyle = "rgba(220, 38, 38, 0.20)";
+    ctx.fillText(text, 0, 0);
+
+    // Pass B: Normal source-over ensures visibility over pure black ink/images
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "rgba(239, 68, 68, 0.14)";
+    ctx.fillText(text, 0, 0);
+
+    // Pass C: Offset micro-stroke to break uniform edge gradients used by AI masks
+    ctx.lineWidth = Math.max(1, mainFontSize * 0.015);
+    ctx.strokeStyle = "rgba(185, 28, 28, 0.22)";
+    ctx.strokeText(text, 0, 0);
+
+    ctx.restore();
+
+    // 4. Subtle Chromatic Pixel Jitter (prevents exact mathematical color subtraction)
+    try {
+      var imgData = ctx.getImageData(0, 0, width, height);
+      var data = imgData.data;
+      // Stride through pixels and introduce tiny +/- 3 luminance/red variations
+      for (var i = 0; i < data.length; i += 16) {
+        var jitter = ((i * 1103515245 + 12345) & 0x07) - 3;
+        data[i] = Math.min(255, Math.max(0, data[i] + jitter));
+      }
+      ctx.putImageData(imgData, 0, 0);
+    } catch (e) {
+      // Ignore if canvas pixel read is restricted
+    }
+  }
+
+  function canvasToJpegBytes(canvas, quality) {
+    return new Promise(function (resolve, reject) {
+      canvas.toBlob(
+        function (blob) {
+          if (!blob) {
+            reject(new Error("Canvas toBlob failed."));
+            return;
+          }
+          var reader = new FileReader();
+          reader.onloadend = function () {
+            resolve(new Uint8Array(reader.result));
+          };
+          reader.onerror = reject;
+          reader.readAsArrayBuffer(blob);
+        },
+        "image/jpeg",
+        quality
+      );
+    });
+  }
+
+  function scaleCanvas(sourceCanvas, scale) {
+    var c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(sourceCanvas.width * scale));
+    c.height = Math.max(1, Math.round(sourceCanvas.height * scale));
+    var ctx = c.getContext("2d");
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(sourceCanvas, 0, 0, c.width, c.height);
+    return c;
+  }
+
+  async function compressCanvasToTarget(originalCanvas, maxBytes) {
+    var workingCanvas = originalCanvas;
+    var scale = 1.0;
+
+    while (scale >= 0.1) {
+      var minBytes = await canvasToJpegBytes(workingCanvas, 0.05);
+      if (minBytes.length <= maxBytes) {
+        var low = 0.05;
+        var high = 0.98;
+        var best = minBytes;
+
+        for (var i = 0; i < 8; i++) {
+          var mid = (low + high) / 2;
+          var candidate = await canvasToJpegBytes(workingCanvas, mid);
+          if (candidate.length <= maxBytes) {
+            best = candidate;
+            low = mid;
+          } else {
+            high = mid;
+          }
+        }
+        return best;
+      }
+      scale *= 0.75;
+      workingCanvas = scaleCanvas(originalCanvas, scale);
+    }
+
+    return await canvasToJpegBytes(workingCanvas, 0.05);
+  }
+
+  /**
+   * Zero-dependency Native PDF Builder!
+   * Takes an array of { jpgBytes, width, height } and constructs a valid PDF binary directly in JS.
+   */
+  function buildNativePdfFromJpegs(pages) {
+    var chunks = [];
+    var offsets = [];
+    var currentOffset = 0;
+    var encoder = new TextEncoder();
+
+    function pushStr(str) {
+      var bytes = encoder.encode(str);
+      chunks.push(bytes);
+      currentOffset += bytes.length;
+    }
+
+    function pushBytes(bytes) {
+      chunks.push(bytes);
+      currentOffset += bytes.length;
+    }
+
+    function startObj(id) {
+      offsets[id] = currentOffset;
+      pushStr(id + " 0 obj\n");
+    }
+
+    function endObj() {
+      pushStr("\nendobj\n");
+    }
+
+    pushStr("%PDF-1.4\n%\xFF\xFF\xFF\xFF\n");
+
+    // Object 1: Catalog
+    startObj(1);
+    pushStr("<< /Type /Catalog /Pages 2 0 R >>");
+    endObj();
+
+    // Object 2: Pages Kids list
+    var kidsRef = pages
+      .map(function (_, idx) {
+        return (3 + idx * 3) + " 0 R";
+      })
+      .join(" ");
+
+    startObj(2);
+    pushStr("<< /Type /Pages /Kids [ " + kidsRef + " ] /Count " + pages.length + " >>");
+    endObj();
+
+    // Each page uses 3 objects: Page (3 + i*3), ContentStream (4 + i*3), ImageXObject (5 + i*3)
+    for (var i = 0; i < pages.length; i++) {
+      var p = pages[i];
+      var pageObjId = 3 + i * 3;
+      var contentObjId = 4 + i * 3;
+      var imgObjId = 5 + i * 3;
+      var w = p.width;
+      var h = p.height;
+
+      startObj(pageObjId);
+      pushStr(
+        "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 " + w + " " + h + "] " +
+        "/Resources << /XObject << /Im0 " + imgObjId + " 0 R >> >> " +
+        "/Contents " + contentObjId + " 0 R >>"
+      );
+      endObj();
+
+      var contentStr = "q " + w + " 0 0 " + h + " 0 0 cm /Im0 Do Q";
+      startObj(contentObjId);
+      pushStr("<< /Length " + contentStr.length + " >>\nstream\n" + contentStr + "\nendstream");
+      endObj();
+
+      startObj(imgObjId);
+      pushStr(
+        "<< /Type /XObject /Subtype /Image /Width " + w + " /Height " + h +
+        " /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length " +
+        p.jpgBytes.length + " >>\nstream\n"
+      );
+      pushBytes(p.jpgBytes);
+      pushStr("\nendstream");
+      endObj();
+    }
+
+    var totalObjs = 3 + pages.length * 3;
+    var xrefOffset = currentOffset;
+    pushStr("xref\n0 " + totalObjs + "\n");
+    pushStr("0000000000 65535 f \n");
+
+    for (var objId = 1; objId < totalObjs; objId++) {
+      var offStr = String(offsets[objId]).padStart(10, "0");
+      pushStr(offStr + " 00000 n \n");
+    }
+
+    pushStr(
+      "trailer\n<< /Size " + totalObjs + " /Root 1 0 R >>\nstartxref\n" +
+      xrefOffset + "\n%%EOF"
+    );
+
+    var out = new Uint8Array(currentOffset);
+    var pos = 0;
+    for (var c = 0; c < chunks.length; c++) {
+      out.set(chunks[c], pos);
+      pos += chunks[c].length;
+    }
+    return out;
+  }
+
+  async function buildPdfFromCanvases(canvases, scale, quality) {
+    var pagesData = [];
+    for (var i = 0; i < canvases.length; i++) {
+      var orig = canvases[i];
+      var scaled = scale === 1.0 ? orig : scaleCanvas(orig, scale);
+      var jpgBytes = await canvasToJpegBytes(scaled, quality);
+      pagesData.push({
+        jpgBytes: jpgBytes,
+        width: scaled.width,
+        height: scaled.height
+      });
+    }
+    return buildNativePdfFromJpegs(pagesData);
+  }
+
+  function padBytesToExactSize(bytes, targetBytes) {
+    if (bytes.length >= targetBytes) return bytes;
+    var padded = new Uint8Array(targetBytes);
+    padded.set(bytes, 0);
+    return padded;
+  }
+
+  async function renderWatermarkedCanvases(file, watermarkText) {
+    var canvases = [];
+    var isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+
+    if (isPdf) {
+      await ensurePdfJsLoaded();
+      var arrayBuffer = await file.arrayBuffer();
+      var pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+      for (var pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        setStatus("Rendering & watermarking page " + pageNum + " of " + pdf.numPages + "...", "info");
+        var page = await pdf.getPage(pageNum);
+        var viewport = page.getViewport({ scale: 1.5 });
+
+        var canvas = document.createElement("canvas");
+        canvas.width = Math.round(viewport.width);
+        canvas.height = Math.round(viewport.height);
+        var ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+        applyAiResistantRedWatermark(ctx, canvas.width, canvas.height, watermarkText);
+        canvases.push(canvas);
+      }
+    } else {
+      setStatus("Rendering & watermarking JPEG image...", "info");
+      var imgUrl = URL.createObjectURL(file);
+      var img = await new Promise(function (resolve, reject) {
+        var image = new Image();
+        image.onload = function () { resolve(image); };
+        image.onerror = function () { reject(new Error("Could not decode the uploaded JPEG image.")); };
+        image.src = imgUrl;
+      });
+      URL.revokeObjectURL(imgUrl);
+
+      var canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      var ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+
+      applyAiResistantRedWatermark(ctx, canvas.width, canvas.height, watermarkText);
+      canvases.push(canvas);
+    }
+
+    return canvases;
+  }
+
+  function triggerDownload(bytes, filename, mimeType) {
+    var blob = new Blob([bytes], { type: mimeType });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+  }
+
+  async function handleProcess() {
+    var fileInput = document.getElementById("fileInput");
+    var watermarkInput = document.getElementById("watermarkText");
+    var outputFormatSelect = document.getElementById("outputFormat");
+    var targetSizeInput = document.getElementById("targetSize");
+    var sizeUnitSelect = document.getElementById("sizeUnit");
+    var processBtn = document.getElementById("processBtn");
+
+    var file = fileInput.files && fileInput.files[0];
+    var watermarkText = watermarkInput.value.trim();
+    var outputFormat = outputFormatSelect.value;
+    var rawSizeStr = targetSizeInput.value.trim();
+    var hasTargetSize = rawSizeStr !== "";
+    var rawSize = parseFloat(rawSizeStr);
+    var unit = sizeUnitSelect.value;
+
+    if (!file) {
+      setStatus("Please upload a PDF or JPEG file first.", "error");
+      return;
+    }
+    if (!watermarkText) {
+      setStatus("Please enter the watermark text.", "error");
+      return;
+    }
+    if (hasTargetSize && (isNaN(rawSize) || rawSize <= 0)) {
+      setStatus("Please enter a valid target file size greater than 0, or leave it blank.", "error");
+      return;
+    }
+
+    var targetBytes = hasTargetSize
+      ? Math.round(rawSize * (unit === "MB" ? 1024 * 1024 : 1024))
+      : null;
+    var baseName = file.name.replace(/\.[^/.]+$/, "");
+
+    processBtn.disabled = true;
+    setStatus("Starting watermark process...", "info");
+
+    try {
+      var canvases = await renderWatermarkedCanvases(file, watermarkText);
+
+      var finalBytes;
+      var downloadName;
+      var mimeType;
+
+      if (outputFormat === "jpeg") {
+        if (canvases.length === 1) {
+          if (hasTargetSize) {
+            setStatus("Adjusting JPEG to match target size...", "info");
+            var compressed = await compressCanvasToTarget(canvases[0], targetBytes);
+            finalBytes = padBytesToExactSize(compressed, targetBytes);
+          } else {
+            setStatus("Encoding watermarked JPEG...", "info");
+            finalBytes = await canvasToJpegBytes(canvases[0], 0.92);
+          }
+          downloadName = baseName + "_watermarked.jpg";
+          mimeType = "image/jpeg";
+        } else {
+          await ensureJsZipLoaded();
+          var zip = new window.JSZip();
+
+          if (hasTargetSize) {
+            var zipOverhead = canvases.length * 300 + 256;
+            var budgetPerPage = Math.max(2048, Math.floor((targetBytes - zipOverhead) / canvases.length));
+            for (var i = 0; i < canvases.length; i++) {
+              setStatus("Compressing page " + (i + 1) + " of " + canvases.length + "...", "info");
+              var pageJpg = await compressCanvasToTarget(canvases[i], budgetPerPage);
+              zip.file(baseName + "_page_" + (i + 1) + ".jpg", pageJpg);
+            }
+            var zipBytes = await zip.generateAsync({ type: "uint8array", compression: "STORE" });
+            finalBytes = padBytesToExactSize(zipBytes, targetBytes);
+          } else {
+            for (var j = 0; j < canvases.length; j++) {
+              setStatus("Encoding page " + (j + 1) + " of " + canvases.length + "...", "info");
+              var naturalJpg = await canvasToJpegBytes(canvases[j], 0.92);
+              zip.file(baseName + "_page_" + (j + 1) + ".jpg", naturalJpg);
+            }
+            finalBytes = await zip.generateAsync({ type: "uint8array", compression: "DEFLATE" });
+          }
+          downloadName = baseName + "_watermarked_pages.zip";
+          mimeType = "application/zip";
+        }
+      } else {
+        // PDF Output
+        if (hasTargetSize) {
+          setStatus("Adjusting PDF to match target size...", "info");
+          var scale = 1.0;
+          var bestPdfBytes = null;
+
+          while (scale >= 0.1) {
+            var minTest = await buildPdfFromCanvases(canvases, scale, 0.05);
+            if (minTest.length <= targetBytes) {
+              var low = 0.05;
+              var high = 0.98;
+              bestPdfBytes = minTest;
+
+              for (var step = 0; step < 7; step++) {
+                var mid = (low + high) / 2;
+                var testPdf = await buildPdfFromCanvases(canvases, scale, mid);
+                if (testPdf.length <= targetBytes) {
+                  bestPdfBytes = testPdf;
+                  low = mid;
+                } else {
+                  high = mid;
+                }
+              }
+              break;
+            }
+            scale *= 0.75;
+          }
+
+          if (!bestPdfBytes) {
+            bestPdfBytes = await buildPdfFromCanvases(canvases, 0.1, 0.05);
+          }
+          finalBytes = padBytesToExactSize(bestPdfBytes, targetBytes);
+        } else {
+          setStatus("Building watermarked PDF...", "info");
+          finalBytes = await buildPdfFromCanvases(canvases, 1.0, 0.92);
+        }
+
+        downloadName = baseName + "_watermarked.pdf";
+        mimeType = "application/pdf";
+      }
+
+      triggerDownload(finalBytes, downloadName, mimeType);
+      setStatus("Success! Downloaded \"" + downloadName + "\" (" + formatBytes(finalBytes.length) + ").", "success");
+    } catch (err) {
+      console.error(err);
+      setStatus("Error: " + (err && err.message ? err.message : String(err)), "error");
+    } finally {
+      processBtn.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>
