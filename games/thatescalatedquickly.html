@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>That Escalated Quickly! - The Party Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #f7f3ea;
+      --card-bg: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #64748b;
+      --primary: #f59e0b;
+      --primary-dark: #d97706;
+      --accent-coral: #ef4444;
+      --accent-blue: #0284c7;
+      --accent-green: #10b981;
+      --border-card: #282f3d;
+      --shadow-color: rgba(30, 41, 59, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 20%),
+        radial-gradient(circle at 85% 85%, rgba(239, 68, 68, 0.08) 0%, transparent 20%),
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(0,0,0,0.015) 35px, rgba(0,0,0,0.015) 70px);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 1rem;
+    }
+
+    /* Header */
+    header {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .badge-icon {
+      background: var(--accent-coral);
+      color: white;
+      font-weight: 800;
+      font-size: 1.1rem;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 0 #991b1b;
+      transform: rotate(-4deg);
+    }
+
+    .game-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .game-title span {
+      color: var(--accent-coral);
+    }
+
+    .icon-btn {
+      background: #ffffff;
+      border: 2px solid var(--border-card);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 0 var(--border-card);
+      transition: all 0.15s ease;
+      font-family: 'Fredoka', cursive;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 var(--border-card);
+      background: #fef08a;
+    }
+
+    .icon-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 var(--border-card);
+    }
+
+    /* Category Filter Bar */
+    .filter-wrapper {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.6rem;
+      margin-bottom: 1rem;
+      scrollbar-width: none;
+    }
+    .filter-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn {
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 0.45rem 1.05rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: #94a3b8;
+      color: #334155;
+    }
+
+    .filter-btn.active {
+      background: #1e293b;
+      border-color: #1e293b;
+      color: #ffffff;
+      box-shadow: 0 3px 8px rgba(30, 41, 59, 0.15);
+    }
+
+    /* Main Card Stage */
+    .stage {
+      width: 100%;
+      max-width: 580px;
+      perspective: 1000px;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .card-deck-stack {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: -10px;
+      bottom: -10px;
+      background: #e2d9cc;
+      border: 3.5px solid var(--border-card);
+      border-radius: 28px;
+      z-index: 1;
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      background: var(--card-bg);
+      border: 3.5px solid var(--border-card);
+      border-radius: 28px;
+      box-shadow: 0 16px 32px var(--shadow-color);
+      padding: 2.2rem 1.8rem 1.8rem 1.8rem;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+      will-change: transform;
+    }
+
+    .card.animating {
+      transform: scale(0.95) rotate(-2deg);
+      opacity: 0.4;
+    }
+
+    .card-header-tag {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .category-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      background: #fef3c7;
+      color: #b45309;
+      padding: 0.35rem 0.8rem;
+      border-radius: 8px;
+      border: 1.5px solid #fde68a;
+    }
+
+    .card-counter {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .card-prompt {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.65rem;
+      line-height: 1.38;
+      font-weight: 600;
+      color: #111827;
+      margin: auto 0;
+      text-align: center;
+      padding: 0.8rem 0;
+    }
+
+    /* Escalation Visual Spectrum */
+    .scale-preview-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 8px;
+      background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+      border-radius: 999px;
+      margin: 1rem 0.2rem 0.4rem 0.2rem;
+      position: relative;
+    }
+
+    .scale-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #1e293b;
+    }
+
+    .scale-simple-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      padding: 0 0.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    /* Hint Bulb System */
+    .hint-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .hint-toggle-btn {
+      background: #f1f5f9;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .hint-toggle-btn:hover {
+      background: #fef08a;
+      border-color: #facc15;
+      color: #854d0e;
+    }
+
+    .hint-toggle-btn.open {
+      background: #fef3c7;
+      border-color: #fbbf24;
+      color: #92400e;
+    }
+
+    .hint-drawer {
+      width: 100%;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+      background: #f8fafc;
+      border-radius: 16px;
+      margin-top: 0.7rem;
+      border: 2px dashed transparent;
+    }
+
+    .hint-drawer.visible {
+      max-height: 200px;
+      opacity: 1;
+      border-color: #cbd5e1;
+      padding: 1rem;
+    }
+
+    .hint-scale-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .hint-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hint-box.right {
+      text-align: right;
+    }
+
+    .hint-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .hint-box.left .hint-badge {
+      color: #059669;
+    }
+
+    .hint-box.right .hint-badge {
+      color: #dc2626;
+    }
+
+    .hint-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.25;
+    }
+
+    /* Action Controls */
+    .controls {
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .primary-btn {
+      background: #f59e0b;
+      border: 3.5px solid var(--border-card);
+      border-radius: 20px;
+      padding: 1.1rem 1.8rem;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e293b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 6px 0 var(--border-card);
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+
+    .primary-btn:hover {
+      background: #fbbf24;
+      transform: translateY(-3px);
+      box-shadow: 0 9px 0 var(--border-card);
+    }
+
+    .primary-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 var(--border-card);
+    }
+
+    .sub-controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .secondary-btn {
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .secondary-btn:hover:not(:disabled) {
+      background: #f8fafc;
+      border-color: #94a3b8;
+      color: #1e293b;
+    }
+
+    .secondary-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      background: #ffffff;
+      border: 3.5px solid var(--border-card);
+      border-radius: 26px;
+      max-width: 540px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-backdrop.open .modal-sheet {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .rules-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .rule-item {
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+    }
+
+    .rule-num {
+      background: #fef3c7;
+      color: #b45309;
+      border: 2px solid #fde68a;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .rule-text h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.2rem;
+    }
+
+    .rule-text p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.45;
+    }
+
+    .modal-close-btn {
+      width: 100%;
+      background: #1e293b;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1.8rem;
+      transition: background 0.15s;
+    }
+
+    .modal-close-btn:hover {
+      background: #334155;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        min-height: 380px;
+        padding: 1.5rem 1.25rem 1.25rem 1.25rem;
+      }
+      .card-prompt {
+        font-size: 1.35rem;
+      }
+      .hint-text {
+        font-size: 0.8rem;
+      }
+      .game-title {
+        font-size: 1.35rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <div class="badge-icon">⚡</div>
+      <h1 class="game-title">That Escalated <span>Quickly</span></h1>
+    </div>
+    <button class="icon-btn" id="infoBtn" aria-label="Game Rules">i</button>
+  </header>
+
+  <!-- Category Filter Bar -->
+  <div class="filter-wrapper" id="filterContainer">
+    <button class="filter-btn active" data-category="all">All Topics (220)</button>
+    <button class="filter-btn" data-category="Social">Social & Awkward</button>
+    <button class="filter-btn" data-category="Absurd">Absurd & Chaos</button>
+    <button class="filter-btn" data-category="Work">Work & School</button>
+    <button class="filter-btn" data-category="Performance">Sounds & Mimes</button>
+    <button class="filter-btn" data-category="Survival">Survival</button>
+    <button class="filter-btn" data-category="Cinema">🎬 Cinema & Drama</button>
+    <button class="filter-btn" data-category="Friendship">🤝 Friends & Petty Wars</button>
+    <button class="filter-btn" data-category="Street">🍛 Street & Food Life</button>
+  </div>
+
+  <!-- Interactive Card Stage -->
+  <main class="stage">
+    <div class="card-deck-stack"></div>
+    <article class="card" id="cardElement">
+      <div class="card-header-tag">
+        <span class="category-tag" id="cardCategory">🔥 Ready</span>
+        <span class="card-counter" id="deckCounter">Card 0 / 220</span>
+      </div>
+
+      <p class="card-prompt" id="cardPrompt">
+        Tap the big yellow button below to draw your first card!
+      </p>
+
+      <!-- Escalation Bar & Simple Direction -->
+      <div>
+        <div class="scale-preview-bar">
+          <div class="scale-dot"></div>
+          <div class="scale-dot"></div>
+        </div>
+        <div class="scale-simple-labels">
+          <span>1 = Chill / Mild</span>
+          <span>10 = Absolute Chaos</span>
+        </div>
+
+        <!-- Collapsible Hint Section with Bulb -->
+        <div class="hint-section">
+          <button class="hint-toggle-btn" id="hintToggleBtn" aria-expanded="false">
+            <span>💡</span> Need a hint for this card?
+          </button>
+          <div class="hint-drawer" id="hintDrawer">
+            <div class="hint-scale-grid">
+              <div class="hint-box left">
+                <span class="hint-badge">Level 1 Example</span>
+                <span class="hint-text" id="hintFrom">Mildest reaction</span>
+              </div>
+              <div class="hint-box right">
+                <span class="hint-badge">Level 10 Example</span>
+                <span class="hint-text" id="hintTo">Unfiltered chaos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Controls -->
+  <footer class="controls">
+    <button class="primary-btn" id="drawBtn">
+      <span>🃏</span> Draw a Card
+    </button>
+    <div class="sub-controls">
+      <button class="secondary-btn" id="prevBtn" disabled>
+        <span>←</span> Previous
+      </button>
+      <button class="secondary-btn" id="reshuffleBtn">
+        <span>🔄</span> Reshuffle Deck
+      </button>
+    </div>
+  </footer>
+
+  <!-- Rules Modal -->
+  <div class="modal-backdrop" id="rulesModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 class="modal-title">How To Play</h3>
+        <button class="icon-btn" id="closeModalBtn" style="width:36px; height:36px; font-size:1rem;">✕</button>
+      </div>
+      <div class="rules-list">
+        <div class="rule-item">
+          <div class="rule-num">1</div>
+          <div class="rule-text">
+            <h4>Secret Numbers (1 to 10)</h4>
+            <p>One player acts as the Captain (guesser) for the round. Every other player secretly receives a private number from <strong>1 to 10</strong>.</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">2</div>
+          <div class="rule-text">
+            <h4>Draw a Card</h4>
+            <p>Draw a question. <strong>1</strong> represents the most chill/mild answer, while <strong>10</strong> represents absolute, unhinged escalation!</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">3</div>
+          <div class="rule-text">
+            <h4>Improvise Answers</h4>
+            <p>Each player improvises a response corresponding to the exact intensity of their secret number. Need inspiration? Tap the <strong>💡 Hint</strong> bulb!</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">4</div>
+          <div class="rule-text">
+            <h4>Rank & Reveal</h4>
+            <p>The Captain must guess and arrange the players in ascending order from <strong>1 to 10</strong>. Reveal your numbers to see if you survived the round!</p>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="gotItBtn">Got It, Let's Play!</button>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       220 COMPREHENSIVE CARD DATABASE
+       ========================================================= */
+    const CARDS = [
+      // --- SOCIAL & AWKWARD ---
+      { id: 1, category: "Social", prompt: "A stranger accidentally spills hot coffee down your clean white shirt. How do you react?", from: "Saintly, reassuring smile", to: "Starting a full-room brawl" },
+      { id: 2, category: "Social", prompt: "Decline an invitation to a party you have zero interest in going to.", from: "Polite little white lie", to: "Faking your legal death" },
+      { id: 3, category: "Social", prompt: "Your friend asks: 'Does this haircut look terrible on me?' Answer honestly.", from: "Diplomatic kindness", to: "Emotionally shattering truth" },
+      { id: 4, category: "Social", prompt: "You run into your ex at the grocery store produce aisle. What do you do?", from: "Casual friendly nod", to: "Hiding inside the vegetable cooler" },
+      { id: 5, category: "Social", prompt: "What is your excuse for showing up 45 minutes late to dinner?", from: "Traffic was slightly bad", to: "Interrogated by secret agents" },
+      { id: 6, category: "Social", prompt: "The restaurant waiter brings food that tastes terrible. When they ask 'How is everything?', how do you reply?", from: "Polite smile and 'It's great'", to: "Gordon Ramsay kitchen eruption" },
+      { id: 7, category: "Social", prompt: "You need to break up with someone you've been seeing for 3 months.", from: "Gentle 'It's not you, it's me'", to: "Vanishing via witness protection" },
+      { id: 8, category: "Social", prompt: "What pickup line do you use on a dating app?", from: "Wholesome friendly compliment", to: "Restraining order material" },
+      { id: 9, category: "Social", prompt: "Someone repeatedly mispronounces your name after you've corrected them three times.", from: "Quiet acceptance forever", to: "Legally changing their name in revenge" },
+      { id: 10, category: "Social", prompt: "Your friend has prominent spinach stuck between their front teeth. How do you alert them?", from: "Subtle secret hand gesture", to: "Megaphone announcement to the room" },
+      { id: 11, category: "Social", prompt: "You accidentally wave at someone who was actually waving at the person right behind you.", from: "Play it off smoothly", to: "Moving to a remote monastery" },
+      { id: 12, category: "Social", prompt: "How do you split a restaurant bill when you only had tap water and bread?", from: "Even split without complaint", to: "Pulling out an audited Excel spreadsheet" },
+      { id: 13, category: "Social", prompt: "A dinner guest brings a casserole that smells foul. What do you say when they serve you?", from: "Smiles and takes a tiny bite", to: "Calls the hazardous waste squad" },
+      { id: 14, category: "Social", prompt: "Someone brings a screaming toddler to a romantic candlelit restaurant. What is your reaction?", from: "Empathetic gentle smile", to: "Challenging the child to a duel" },
+      { id: 15, category: "Social", prompt: "You accidentally send an embarrassing screenshot to the person it was about. How do you recover?", from: "Apologetic light joke", to: "Throwing your phone into a lake" },
+      { id: 16, category: "Social", prompt: "How do you ask someone to take their shoes off before stepping onto your rug?", from: "Polite gentle offer of slippers", to: "Bodyslamming them at the doorway" },
+      { id: 17, category: "Social", prompt: "A barber gives you the worst haircut of your life. What do you do when they hold up the mirror?", from: "Smile and tip 20%", to: "Shaving the barber's head on spot" },
+      { id: 18, category: "Social", prompt: "You find out your best friend believes the Earth is shaped like a taco. How do you respond?", from: "Chuckling and ignoring it", to: "Launching them into low Earth orbit" },
+      { id: 19, category: "Social", prompt: "What do you say when someone walks in on you in a public restroom stall?", from: "'Someone's in here!'", to: "Unhinged demonic screeching" },
+      { id: 20, category: "Social", prompt: "You meet your partner's parents for the first time. What do you bring as a gift?", from: "Nice bouquet of flowers", to: "A legal background dossier on the family" },
+      { id: 21, category: "Social", prompt: "A person in front of you at the cinema checks their phone on maximum brightness every two minutes.", from: "Quiet sigh", to: "Confiscating the phone and swallowing it" },
+      { id: 22, category: "Social", prompt: "Your friend asks you to help them move apartments on a Sunday morning.", from: "Happily helping all day", to: "Blocking their number permanently" },
+      { id: 23, category: "Social", prompt: "A telemarketer calls during your family dinner. How do you handle it?", from: "Polite 'No thank you' and hang up", to: "Attempting to exorcise their soul" },
+      { id: 24, category: "Social", prompt: "How do you leave a boring party without saying goodbye to anyone?", from: "Subtle Irish goodbye", to: "Setting off the emergency sprinkler system" },
+      { id: 25, category: "Social", prompt: "Someone asks you to hold their crying baby on a plane flight.", from: "Gentle cradle and rocking", to: "Offering the baby for a parachute trade" },
+      { id: 26, category: "Social", prompt: "Your roommate never replaces the toilet paper roll. How do you address this?", from: "Just replacing it yourself", to: "Locking all bathroom paper in a safe" },
+      { id: 27, category: "Social", prompt: "Someone loudly cuts in front of you in a line of 50 people.", from: "Tolerant eye-roll", to: "Citizens arrest with zip-ties" },
+      { id: 28, category: "Social", prompt: "What is your excuse for forgetting someone's name 10 seconds after they introduced themselves?", from: "Humble honest apology", to: "Faking immediate selective amnesia" },
+      { id: 29, category: "Social", prompt: "How do you tell a coworker their perfume is giving the whole floor a migraine?", from: "Gentle private whisper", to: "Wearing a full HAZMAT gas mask" },
+      { id: 30, category: "Social", prompt: "How do you react when your friend spoils the climax of a movie you were about to watch?", from: "A slight frown", to: "Demanding cash reparations for ruined joy" },
+
+      // --- ABSURD & CHAOS ---
+      { id: 31, category: "Absurd", prompt: "You meet an extraterrestrial alien for the first time. What do you offer as a welcome gift?", from: "A fresh apple", to: "The deed to human consciousness" },
+      { id: 32, category: "Absurd", prompt: "You are cursed by a witch. What minor inconvenience is your curse?", from: "Socks are perpetually damp", to: "Every bird mocks your life choices" },
+      { id: 33, category: "Absurd", prompt: "Invent a new holiday tradition that families must do together.", from: "Exchanging handwritten notes", to: "Cage match for the last dinner roll" },
+      { id: 34, category: "Absurd", prompt: "What is the secret passphrase to enter an elite billionaire speakeasy?", from: "'Swordfish'", to: "A 4-minute opera sung backwards" },
+      { id: 35, category: "Absurd", prompt: "What is the weirdest reason to challenge someone to a duel at high noon?", from: "They stepped on your shoelace", to: "They breathe in 3/4 time signature" },
+      { id: 36, category: "Absurd", prompt: "You discover your dog can speak fluent English. What are its first words to you?", from: "'More bacon please'", to: "'We need to talk about your life choices'" },
+      { id: 37, category: "Absurd", prompt: "Describe a bizarre warning label on an ordinary household toaster.", from: "'Caution: Gets hot'", to: "'Do not feed bread after midnight'" },
+      { id: 38, category: "Absurd", prompt: "You are allowed to make one ridiculous law as temporary supreme dictator.", from: "Mandatory Friday afternoon naps", to: "Speaking requires rhyming in iambs" },
+      { id: 39, category: "Absurd", prompt: "What is the worst superpower you could accidentally get from a radioactive spill?", from: "Ability to smell lukewarm milk", to: "Teleporting 2 inches into brick walls" },
+      { id: 40, category: "Absurd", prompt: "How do you explain the concept of money to a medieval peasant who traveled to 2026?", from: "Simple gold exchange analogy", to: "Cryptocurrency chart breakdown" },
+      { id: 41, category: "Absurd", prompt: "What is hidden inside the secret compartment of your grandmother's antique armoire?", from: "Old hard candies", to: "The true declaration of independence" },
+      { id: 42, category: "Absurd", prompt: "What do you do if you realize you're trapped inside a simulated reality?", from: "Try to live nicely anyway", to: "Spam jumping jacks to crash the CPU" },
+      { id: 43, category: "Absurd", prompt: "Invent a new ice cream flavor that should never exist.", from: "Slightly burnt toast", to: "Sweaty gym sock with oysters" },
+      { id: 44, category: "Absurd", prompt: "What does the creature living under your bed ask for in exchange for peaceful co-existence?", from: "One sock per month", to: "Your firstborn child's social security card" },
+      { id: 45, category: "Absurd", prompt: "You wake up and realize you've swapped bodies with a duck. What do you do first?", from: "Swim quietly around the pond", to: "Raid the local bakery for pastry" },
+      { id: 46, category: "Absurd", prompt: "What is your cover identity while working undercover at a kindergarten?", from: "Friendly substitute teacher", to: "Russian weapons inspector" },
+      { id: 47, category: "Absurd", prompt: "Describe a useless invention you try to pitch on a billionaire startup show.", from: "Pre-cracked egg in a shell", to: "Toothbrush for houseflies" },
+      { id: 48, category: "Absurd", prompt: "What is the reason time travelers keep visiting your front porch?", from: "You dropped a rare penny", to: "You accidentally cause the apocalypse" },
+      { id: 49, category: "Absurd", prompt: "How do you celebrate winning $5 on a gas station scratch card?", from: "Buy a chocolate bar", to: "Hire an orchestra to follow you around" },
+      { id: 50, category: "Absurd", prompt: "What bizarre animal would you choose to pull your personal chariot through city traffic?", from: "A team of oversized golden retrievers", to: "Twelve furious rabid geese" },
+      { id: 51, category: "Absurd", prompt: "What message do you send in a bottle that washes up 200 years in the future?", from: "'Hope the future is peaceful'", to: "'Beware the penguin uprising'" },
+      { id: 52, category: "Absurd", prompt: "Describe a brand new Olympic sport that involves ordinary household furniture.", from: "Speed ironing pillowcases", to: "High-dive onto a memory-foam mattress" },
+      { id: 53, category: "Absurd", prompt: "You are given unlimited funds to build a useless monument in your hometown. What is it?", from: "A golden park bench", to: "A 400-foot statue of a grilled cheese" },
+      { id: 54, category: "Absurd", prompt: "What is the weirdest superstition you strictly follow?", from: "Knocking on wood twice", to: "Bathing in tomato soup on Tuesdays" },
+      { id: 55, category: "Absurd", prompt: "A genie gives you 3 wishes, but with the rule that they must be petty inconveniences for your nemesis.", from: "Warm pillow on both sides", to: "Every shoelace unties every 14 steps" },
+      { id: 56, category: "Absurd", prompt: "What is the worst object to accidentally bring through airport security?", from: "An oversized bottle of shampoo", to: "A live badger in your coat" },
+      { id: 57, category: "Absurd", prompt: "How do you persuade a ghost to vacate your attic?", from: "Polite sage cleansing ritual", to: "Playing heavy metal accordion 24/7" },
+      { id: 58, category: "Absurd", prompt: "Describe your personal cult if you accidentally started one.", from: "Devoted to afternoon naps", to: "Worship of expired discount coupons" },
+      { id: 59, category: "Absurd", prompt: "What is the ultimate excuse to get out of a parking ticket?", from: "'The meter was broken'", to: "'My car was commandeered by time cops'" },
+      { id: 60, category: "Absurd", prompt: "What ridiculous rumor would you start about yourself to sound mysterious?", from: "'I studied abroad in Finland'", to: "'I am wanted by three royal families'" },
+
+      // --- WORK & SCHOOL ---
+      { id: 61, category: "Work", prompt: "You fell asleep during an executive Zoom call and were called on by name. How do you respond?", from: "'My microphone was lagging'", to: "'I was entering an astral trance'" },
+      { id: 62, category: "Work", prompt: "How do you quit your terrible retail or office job?", from: "Standard polite two-week notice", to: "Hiring a gospel choir to deliver the news" },
+      { id: 63, category: "Work", prompt: "You haven't read the assigned book for your class presentation. What is your improvised summary?", from: "Vague high school tropes", to: "Full-blown fanfiction with dragons" },
+      { id: 64, category: "Work", prompt: "Your boss asks you to work unpaid overtime this weekend. What is your response?", from: "Mild polite hesitation", to: "Unionizing the company by sunrise" },
+      { id: 65, category: "Work", prompt: "What do you write as your automated 'Out of Office' email message?", from: "Formal corporate notice", to: "Confession of fleeing to the jungle" },
+      { id: 66, category: "Work", prompt: "Someone ate your clearly labeled lasagna out of the breakroom fridge. What note do you leave?", from: "Gentle reminder about courtesy", to: "Affidavit of biological warfare" },
+      { id: 67, category: "Work", prompt: "You accidentally replied 'Reply All' to the whole company with personal gossip. How do you fix it?", from: "Quick apology note", to: "Triggering building fire alarm" },
+      { id: 68, category: "Work", prompt: "How do you explain a 5-year gap on your resume during a high-stakes job interview?", from: "'I traveled to learn languages'", to: "'I was king of an uncontacted island'" },
+      { id: 69, category: "Work", prompt: "Your company demands everyone return to the office full-time. How do you protest?", from: "Signing an online petition", to: "Releasing crickets in the C-suite" },
+      { id: 70, category: "Work", prompt: "You get caught playing games on your computer during work hours. What excuse do you give?", from: "'Just testing the graphics driver'", to: "'I am hacking foreign adversaries'" },
+      { id: 71, category: "Work", prompt: "How do you ask your manager for a 50% raise?", from: "Calm presentation of achievements", to: "Holding the database passwords hostage" },
+      { id: 72, category: "Work", prompt: "What is your lie when calling in sick on a sunny Friday morning?", from: "'Sudden 24-hour stomach bug'", to: "'Bitten by a venomous viper'" },
+      { id: 73, category: "Work", prompt: "Your coworker will not stop talking about their cryptocurrency portfolio. How do you shut it down?", from: "Nod politely and walk away", to: "Faking a seizure on the floor" },
+      { id: 74, category: "Work", prompt: "What do you say during the mandatory 'Two Truths and a Lie' corporate icebreaker?", from: "'I love hiking in the woods'", to: "'I have escaped three federal prisons'" },
+      { id: 75, category: "Work", prompt: "You get caught cheating during an exam. What is your reaction?", from: "Look down in quiet shame", to: "Swallow the paper whole with water" },
+      { id: 76, category: "Work", prompt: "How do you handle being placed in a group project where no one else does any work?", from: "Do all the work quietly", to: "Erase everyone's name right before submission" },
+      { id: 77, category: "Work", prompt: "What do you do when your boss gives credit for your idea to someone else?", from: "Polite clarification in private", to: "Projecting your evidence on the lobby wall" },
+      { id: 78, category: "Work", prompt: "You accidentally spill water all over the teacher's grading notebook. What do you say?", from: "'I am so deeply sorry!'", to: "'It was an act of benevolent God'" },
+      { id: 79, category: "Work", prompt: "Describe your contribution during a chaotic company brainstorming session.", from: "Practical incremental improvement", to: "Suggesting we replace the CEO with a ferret" },
+      { id: 80, category: "Work", prompt: "How do you celebrate the final day of school or university?", from: "Getting ice cream with friends", to: "Burning all your notebooks in a pagan circle" },
+      { id: 81, category: "Work", prompt: "You arrive at an interview wearing mismatched shoes. How do you handle it?", from: "Brief laugh and self-deprecating quip", to: "Claiming it's Parisian haute couture" },
+      { id: 82, category: "Work", prompt: "What do you do when the office printer jams for the fifth time today?", from: "Open tray and follow instructions", to: "Office Space baseball bat treatment" },
+      { id: 83, category: "Work", prompt: "Your company tries to replace bonuses with a mandatory pizza party. How do you respond?", from: "Take two slices quietly", to: "Flinging pepperoni at the HR director" },
+      { id: 84, category: "Work", prompt: "You get elected Class President. What is your first executive order?", from: "Better snacks in the vending machine", to: "Abolishing homework punishable by detention" },
+      { id: 85, category: "Work", prompt: "How do you react when someone takes your favorite assigned seat on the first day of class?", from: "Quietly find another desk", to: "Staring them down without blinking for 50 minutes" },
+      { id: 86, category: "Work", prompt: "What is your response to the question: 'What is your greatest weakness?'", from: "'I care too much about perfection'", to: "'Uncontrollable bouts of kleptomania'" },
+      { id: 87, category: "Work", prompt: "You accidentally print a resume on the company printer. How do you retrieve it before your boss sees?", from: "Quick sprint across the room", to: "Pulling the building circuit breakers" },
+      { id: 88, category: "Work", prompt: "How do you handle a student who keeps interrupting the lecture?", from: "Polite reminder to raise hands", to: "Muting them with duct tape" },
+      { id: 89, category: "Work", prompt: "You are asked to give an impromptu speech to 200 colleagues. What is your opening line?", from: "'Thank you all for being here today'", to: "'Most of you will not survive this year'" },
+      { id: 90, category: "Work", prompt: "Your team fails an important quarterly goal. How do you explain it to the board?", from: "Data-driven honest analysis", to: "Blaming solar flares and mercury retrograde" },
+
+      // --- SOUNDS & PERFORMANCE ---
+      { id: 91, category: "Performance", prompt: "Make the sound of a human sneeze.", from: "Tiny kitten squeak", to: "Earthquake-inducing sonic explosion" },
+      { id: 92, category: "Performance", prompt: "Imitate an evil villain laugh.", from: "Subtle mischievous chuckle", to: "Unhinged conqueror of dimensions" },
+      { id: 93, category: "Performance", prompt: "Make the noise of someone stubbing their toe on solid concrete.", from: "Quiet wince and hiss", to: "Operatic aria of agony" },
+      { id: 94, category: "Performance", prompt: "Imitate an emergency vehicle siren.", from: "Gentle toy ambulance", to: "Air-raid apocalyptic siren" },
+      { id: 95, category: "Performance", prompt: "Deliver a terrifying battle cry before charging into combat.", from: "Polite sports cheer", to: "Bloodcurdling primal roar" },
+      { id: 96, category: "Performance", prompt: "Make the sound of an angry house cat.", from: "Gentle annoyed meow", to: "Demonic exorcism growl" },
+      { id: 97, category: "Performance", prompt: "Act out receiving devastating news over the phone.", from: "Quiet sigh and 'Understood'", to: "Collapsing to knees tearing shirt" },
+      { id: 98, category: "Performance", prompt: "Perform a yawn.", from: "Polite hand-covered yawn", to: "Jaw-unhinging grizzly bear roar" },
+      { id: 99, category: "Performance", prompt: "Make the sound of an accelerating sports car.", from: "Quiet electric hum", to: "Ear-splitting Formula 1 drag race" },
+      { id: 100, category: "Performance", prompt: "How do you say 'I love you'?", from: "Gentle, shy whisper", to: "Booming cultic declaration" },
+      { id: 101, category: "Performance", prompt: "Make the sound of a spooky ghost haunting a house.", from: "Soft little 'boo'", to: "Horrifying banshee wail" },
+      { id: 102, category: "Performance", prompt: "Give a round of applause for a terrible presentation.", from: "Three limp golf claps", to: "Standing ovation with tears streaming" },
+      { id: 103, category: "Performance", prompt: "Imitate a grandfather clock striking midnight.", from: "Soft little chime", to: "Big Ben shaking the walls" },
+      { id: 104, category: "Performance", prompt: "Deliver an enthusiastic greeting to an old best friend.", from: "Casual head nod and 'sup'", to: "Tackling them to the floor with tears" },
+      { id: 105, category: "Performance", prompt: "Make the sound of a deflating balloon.", from: "Tiny squeaky wheeze", to: "Violent jet engine fart" },
+      { id: 106, category: "Performance", prompt: "Show how you react to tasting something unbearably spicy.", from: "Subtle throat clear", to: "Breathing fire and frantic table slapping" },
+      { id: 107, category: "Performance", prompt: "Imitate an alien trying to communicate with humans.", from: "Polite beep-boop noises", to: "Guttural eldritch frequency modulation" },
+      { id: 108, category: "Performance", prompt: "Make the sound of a squeaky door opening slowly in a horror movie.", from: "Tiny rusty hinge creak", to: "Screeching fingernails on chalkboard" },
+      { id: 109, category: "Performance", prompt: "Demonstrate your celebration dance after winning a board game.", from: "Subtle fist pump under the table", to: "Full salsa routine on top of the table" },
+      { id: 110, category: "Performance", prompt: "How do you whisper a top secret to the person next to you?", from: "Inaudible gentle whisper", to: "Stage whisper heard across the street" },
+      { id: 111, category: "Performance", prompt: "Make the sound of a chicken laying an egg.", from: "Subtle cluck", to: "Traumatized raptor screech" },
+      { id: 112, category: "Performance", prompt: "Give a motivational coach speech to an athlete down by 20 points.", from: "Gentle 'You can do your best'", to: "Any Given Sunday vein-popping scream" },
+      { id: 113, category: "Performance", prompt: "Imitate the sound of heavy raindrops on a tin roof.", from: "Gentle peaceful tapping", to: "Catastrophic monsoon barrage" },
+      { id: 114, category: "Performance", prompt: "How do you laugh at a joke told by your boss that wasn't funny?", from: "Polite deadpan smirk", to: "Hysterical snorting guffaw" },
+      { id: 115, category: "Performance", prompt: "Act out finding a spider on your shoulder.", from: "Calmly brushing it off", to: "Full-body thrashing and shedding clothes" },
+
+      // --- SURVIVAL & HIGH STAKES ---
+      { id: 116, category: "Survival", prompt: "You spot a grizzly bear 25 yards away on a hiking trail. What do you do?", from: "Slowly back away while making noise", to: "Challenging it to bare-knuckle wrestling" },
+      { id: 117, category: "Survival", prompt: "The zombie apocalypse just began. What is your chosen weapon?", from: "A wooden rolling pin", to: "A tactical nuclear leafblower" },
+      { id: 118, category: "Survival", prompt: "Your cruise ship begins slowly sinking. What do you grab first?", from: "Passport and phone", to: "The ship captain's formal hat" },
+      { id: 119, category: "Survival", prompt: "You are trapped in an elevator with 4 strangers for 6 hours. How do you maintain order?", from: "Organize quiet conversation", to: "Establish a brutal tribal hierarchy" },
+      { id: 120, category: "Survival", prompt: "You are marooned on an uninhabited desert island. What is your first priority?", from: "Gather fresh drinking water", to: "Crown yourself Sovereign of the Coconuts" },
+      { id: 121, category: "Survival", prompt: "A burglar breaks into your house at night. How do you defend your home?", from: "Lock the bedroom door and call 911", to: "Home Alone blowtorch booby traps" },
+      { id: 122, category: "Survival", prompt: "You are being interrogated by foreign spies. What do you say?", from: "'I demand my lawyer'", to: "Reciting cookie recipes as missile codes" },
+      { id: 123, category: "Survival", prompt: "You discover a live grenade with the pin pulled on the floor. What do you do?", from: "Dive behind a thick couch", to: "Catch it and try to throw a strike" },
+      { id: 124, category: "Survival", prompt: "An asteroid is set to hit Earth in 24 hours. What are your final plans?", from: "Quiet dinner with family", to: "Stealing an exotic sports car to jump a canyon" },
+      { id: 125, category: "Survival", prompt: "You run out of fuel in the middle of Death Valley. What is your survival tactic?", from: "Stay with the car in the shade", to: "Befriending scorpions for moisture" },
+      { id: 126, category: "Survival", prompt: "Your airplane experiences violent turbulence. How do you behave in your seat?", from: "Fasten seatbelt and breathe deep", to: "Confessing all your sins to the entire row" },
+      { id: 127, category: "Survival", prompt: "You are surrounded by a pack of wild wolves in the winter forest.", from: "Climb the nearest sturdy tree", to: "Howling back to establish dominance" },
+      { id: 128, category: "Survival", prompt: "You are lost in an IKEA showroom after closing hours. How do you escape?", from: "Follow the illuminated exit signs", to: "Building a fort in the BILLY bookcase section" },
+      { id: 129, category: "Survival", prompt: "A bank robbery takes place while you are in the lobby. What do you do?", from: "Lie flat on the floor with hands up", to: "Offer financial investment advice to the robbers" },
+      { id: 130, category: "Survival", prompt: "You are bitten by what might be a venomous snake in the wild.", from: "Take a picture and walk to a hospital", to: "Attempting to suck the venom out with a vacuum" },
+      { id: 131, category: "Survival", prompt: "You are selected for a battle royale arena. What is your survival strategy?", from: "Hide in a bush until the end", to: "Perform an interpretive dance in the center" },
+      { id: 132, category: "Survival", prompt: "A shark circles your tiny kayak in the open ocean.", from: "Paddle slowly and smoothly to shore", to: "Booping its nose and offering a fist-bump" },
+      { id: 133, category: "Survival", prompt: "Your parachute fails to deploy on your first skydive. What do you do?", from: "Pull the reserve emergency chute", to: "Attempting to flap arms like a hawk" },
+      { id: 134, category: "Survival", prompt: "A swarm of killer bees heads directly toward your picnic.", from: "Calmly walk indoors", to: "Diving into a cooler of potato salad" },
+      { id: 135, category: "Survival", prompt: "You are trapped in a snowstorm cabin with zero food for 3 days.", from: "Rationing melted snow water", to: "Eyeing your leather boots as stew meat" },
+      { id: 136, category: "Survival", prompt: "Your submarine develops a small leak in deep ocean waters.", from: "Sound alarm and seal watertight door", to: "Plugging the leak with chewing gum" },
+      { id: 137, category: "Survival", prompt: "A super-intelligent AI attempts to take over your home appliances.", from: "Unplug the WiFi router", to: "Challenging the refrigerator to a rap battle" },
+      { id: 138, category: "Survival", prompt: "You are cornered by a tyrannosaurus rex that only senses movement.", from: "Stand completely frozen like a statue", to: "Hit the Macarena at full speed" },
+      { id: 139, category: "Survival", prompt: "Your car brakes fail going downhill on a mountain pass.", from: "Pump emergency handbrake smoothly", to: "Leaping out into a pile of autumn leaves" },
+      { id: 140, category: "Survival", prompt: "You get lost in a massive ancient underground labyrinth.", from: "Always follow the left-hand wall", to: "Carving your face into every statue" },
+      { id: 141, category: "Survival", prompt: "You realize you've been poisoned at a royal banquet. What do you do?", from: "Drink plenty of milk and alert doctors", to: "Pouring the soup into the king's lap" },
+      { id: 142, category: "Survival", prompt: "You fall into quicksand up to your waist.", from: "Lie back slowly to distribute weight", to: "Frantic thrashing while doing backflips" },
+      { id: 143, category: "Survival", prompt: "An aggressive wild ostrich blocks your path to the car.", from: "Hold a stick over your head to look taller", to: "Challenge the bird to an arm-wrestling contest" },
+      { id: 144, category: "Survival", prompt: "A blackout hits the entire metropolis for 72 hours. How do you prepare?", from: "Stock flashlights and canned beans", to: "Start a post-apocalyptic barter gang" },
+      { id: 145, category: "Survival", prompt: "You suspect your new roommate is an international fugitive.", from: "Quietly report to anonymous tip line", to: "Ask if they need help smuggling diamonds" },
+      { id: 146, category: "Survival", prompt: "Your small boat engine dies 5 miles off the coastline.", from: "Deploy sea anchor and call coast guard", to: "Fashioning sails out of your socks" },
+      { id: 147, category: "Survival", prompt: "You wake up handcuffed to a radiator in an abandoned warehouse.", from: "Search for a hairpin or paperclip", to: "Attempting to rip the radiator out of the wall" },
+      { id: 148, category: "Survival", prompt: "A flash flood warning sounds in your mountain village.", from: "Move swiftly to designated high ground", to: "Inflating pool flamingos for an expedition" },
+      { id: 149, category: "Survival", prompt: "You are stuck on a chairlift 50 feet in the air during a blizzard.", from: "Huddle together and conserve heat", to: "Aim for a soft snowbank and jump" },
+      { id: 150, category: "Survival", prompt: "A venomous tarantula crawls onto your bare chest while you're lying down.", from: "Stay motionless until it crawls away", to: "Setting the bed on fire immediately" },
+      { id: 151, category: "Survival", prompt: "A volcanic eruption begins 10 miles away from your hotel.", from: "Evacuate promptly via car", to: "Roasting marshmallows on the lava flow" },
+      { id: 152, category: "Survival", prompt: "You wake up in a field with crop circles and missing 4 hours of memory.", from: "Visit a doctor for blood work", to: "Building an antenna out of tin foil to contact base" },
+
+      // --- CINEMA & DRAMA (NEW) ---
+      { id: 153, category: "Cinema", prompt: "Act out a dramatic Indian TV soap opera shock reaction (Saas-Bahu style) after hearing shocking gossip.", from: "Slight eyebrow raise and gentle gasp", to: "Thunder clash, 3x camera zooms, glass shattering, fainting" },
+      { id: 154, category: "Cinema", prompt: "A hero walks in slow-motion away from an explosion in a South Indian / Rohit Shetty action flick.", from: "Casual fast walk putting sunglasses on", to: "Flipping 3 Scorpios in mid-air while lighting a beedi" },
+      { id: 155, category: "Cinema", prompt: "Deliver a classic Bollywood villain punchline right before the final fight.", from: "'Your time is up, my friend'", to: "'Mogambo khush hua with nuclear launch codes!'" },
+      { id: 156, category: "Cinema", prompt: "You run towards a moving train to catch your lover's outstretched hand like in DDLJ.", from: "A light jog reaching comfortably", to: "Doing gymnastics off platform luggage while screaming poetry" },
+      { id: 157, category: "Cinema", prompt: "Your friend sings a high-pitch heartbroken Arijit Singh melody after getting rejected.", from: "A soft sad hum in the shower", to: "Weeping in the rain while smashing imaginary sitars" },
+      { id: 158, category: "Cinema", prompt: "A lawyer in a Hindi courtroom scene shouts an objection to the judge.", from: "Polite 'Objection, your honor'", to: "'Tarikh pe tarikh!' while breaking the defense wooden podium" },
+      { id: 159, category: "Cinema", prompt: "Imitate an intense Bigg Boss reality show fight over morning breakfast rotis.", from: "'Please don't touch my plate'", to: "'Tumhari aukat kya hai?!' throwing steel plates across the lounge" },
+      { id: 160, category: "Cinema", prompt: "A Bollywood mom applies 'Kala Teeka' (black spot) behind your ear to protect you from evil eyes.", from: "Tiny dot behind ear with kajal", to: "Covering your whole forehead with charcoal soot" },
+      { id: 161, category: "Cinema", prompt: "Act out a 90s film hero dancing in the pouring monsoon rain for love.", from: "Gentle two-step spin with an umbrella", to: "Sliding on mud across 40 feet while ruining leather boots" },
+      { id: 162, category: "Cinema", prompt: "How does a typical action movie police inspector interrogate a criminal?", from: "Showing evidence calmly on paper", to: "Slamming a heavy wooden table and screaming about duty" },
+      { id: 163, category: "Cinema", prompt: "A dramatic reunion between twin brothers separated at the Kumbh Mela 20 years ago.", from: "Awkward handshake and identity check", to: "Tearful wailing showing identical birthmarks under lightning" },
+      { id: 164, category: "Cinema", prompt: "Deliver a cheesy romantic line while looking deep into someone's eyes.", from: "'You look really nice tonight'", to: "'Tumhe dekh ke meri saansein ruk jaati hain aur sitare girte hain'" },
+      { id: 165, category: "Cinema", prompt: "React to an unexpected movie plot twist where the butler was actually the billionaire father all along.", from: "Soft murmur 'I suspected that'", to: "Gasping so hard your popcorn bucket flips onto the aisle" },
+      { id: 166, category: "Cinema", prompt: "Give an acceptance speech for winning 'Best Dramatic Actor' of the decade.", from: "Quick humble thanks to the cast", to: "Ten-minute sobbing breakdown thanking childhood pets" },
+      { id: 167, category: "Cinema", prompt: "Deliver a classic horror film screech when the power cuts out and candles flicker.", from: "Tiny squeak: 'Did you see that?'", to: "Bloodcurdling shriek shattering window glass" },
+      { id: 168, category: "Cinema", prompt: "How does the main character enter the college campus on the first day of class in a teen movie?", from: "Walking quietly with a backpack", to: "Riding a red sports bike into the hallway with back-up dancers" },
+      { id: 169, category: "Cinema", prompt: "You are the cricket commentator during the final ball of the World Cup needing 4 runs to win.", from: "Calm professional play-by-play", to: "Voice cracking into hysterical wailing as the stadium roars" },
+      { id: 170, category: "Cinema", prompt: "Act out a gangster mafia don answering his gold-plated rotary phone.", from: "'Yeah, what's the report?'", to: "'Bhai ko phone lagaya toh khandan ka intezaam samajh!'" },
+      { id: 171, category: "Cinema", prompt: "A side character gets shot in an old action movie and gives a 3-minute dying speech.", from: "Quick gasp and collapse", to: "Poetic monologues about motherland while dodging 14 bullets" },
+      { id: 172, category: "Cinema", prompt: "Re-enact a wedding scene where someone shouts 'Stop this wedding!' right before vows.", from: "Speaking up quietly from back row", to: "Kicking double doors open riding a white horse" },
+      { id: 173, category: "Cinema", prompt: "Deliver a dialogue in the style of Amitabh Bachchan's famous baritone voice.", from: "Slightly deepened voice", to: "'Rishte mein toh hum tumhare baap lagte hain, naam hai Shahenshah!'" },
+      { id: 174, category: "Cinema", prompt: "How do you challenge the evil landlord who is seizing the village harvest?", from: "Submitting a petition to local court", to: "Lifting the village temple bell with bare hands in defiance" },
+      { id: 175, category: "Cinema", prompt: "The hero gets punched in the face in an over-the-top regional masala movie.", from: "Stumbles back two steps", to: "Spins in the air 8 times, knocks down three streetlamp poles" },
+
+      // --- FRIENDS & PETTY WARS (NEW) ---
+      { id: 176, category: "Friendship", prompt: "Planning the annual Goa trip with friends in the WhatsApp group chat. How does it end?", from: "Polite discussion of flight dates", to: "Chat dissolves with personal insults and 4 people exiting" },
+      { id: 177, category: "Friendship", prompt: "Your friend texts: 'Bro I'm 5 minutes away' when you know they just woke up in bed.", from: "Send a laughing thumbs-up", to: "Show up at their bedside with a megaphone" },
+      { id: 178, category: "Friendship", prompt: "Your friend borrowed your favorite shirt 6 months ago and is wearing it to today's hangout.", from: "Compliment them sarcastically", to: "Demanding they take it off right in the cafe" },
+      { id: 179, category: "Friendship", prompt: "Splitting an unequal restaurant bill on Splitwise / Google Pay with the squad.", from: "Even split rounded up", to: "Calculating tax on individual french fries eaten" },
+      { id: 180, category: "Friendship", prompt: "Your friend leaves you on 'Read' for 18 hours but posts 7 Instagram stories.", from: "Shrug and text again later", to: "Calling their parents to check if they're held hostage" },
+      { id: 181, category: "Friendship", prompt: "Your best friend cancels plans 15 minutes before you are supposed to meet.", from: "'No worries, rest up!'", to: "Sending an invoice for emotional damages and grooming time" },
+      { id: 182, category: "Friendship", prompt: "Your gaming duo teammate throws the match in the final circle.", from: "Sigh: 'Unlucky, good game'", to: "Deleting the game and questioning 10 years of friendship" },
+      { id: 183, category: "Friendship", prompt: "Your friend takes an ugly photo of you and posts it on social media for your birthday.", from: "Playful 'Delete this right now lol'", to: "Leaking their middle-school audition tape on Twitter" },
+      { id: 184, category: "Friendship", prompt: "You catch your friend secretly hanging out with your ex.", from: "Calm private chat about boundaries", to: "Declaring psychological trench warfare on both" },
+      { id: 185, category: "Friendship", prompt: "Your friend eats the very last slice of pizza without offering it to anyone.", from: "Disappointed headshake", to: "Slapping the crust out of their hand into the wall" },
+      { id: 186, category: "Friendship", prompt: "You beat your friend in Monopoly or UNO and want to celebrate in their face.", from: "Gentle smirk and 'Good game'", to: "Flipping the board and doing laps around their house singing" },
+      { id: 187, category: "Friendship", prompt: "Your friend constantly 'borrows' your French fries without asking.", from: "Slide the basket closer to them", to: "Licking every single remaining fry right in front of them" },
+      { id: 188, category: "Friendship", prompt: "Your friend gives you terrible advice that ruins your romantic date.", from: "'Well, that didn't work out'", to: "Barring them from ever speaking on relationships again" },
+      { id: 189, category: "Friendship", prompt: "Your friend shows up to your casual sweatpants movie night dressed in full designer glam.", from: "'Wow, you look fancy!'", to: "Refusing to open the door until they wear old pajamas" },
+      { id: 190, category: "Friendship", prompt: "How do you wake up your heavily sleeping friend who turned off 6 alarms?", from: "Gentle nudge on shoulder", to: "Pouring an ice water bucket while blasting bhangra drums" },
+      { id: 191, category: "Friendship", prompt: "Your friend plays their terrible music playlist on aux cord during a 4-hour road trip.", from: "Polite request to skip a song", to: "Tossing their phone out of the car window onto the highway" },
+      { id: 192, category: "Friendship", prompt: "Your friend tells the group an embarrassing secret you whispered in strict confidence.", from: "Sharp kick under the table", to: "Immediate live rebuttal exposing their deepest insecurities" },
+      { id: 193, category: "Friendship", prompt: "You lend your friend money and they buy expensive luxury sneakers before paying you back.", from: "Gentle text asking for status", to: "Confiscating the left shoe until payment clears" },
+      { id: 194, category: "Friendship", prompt: "Your best friend starts dating someone who is universally insufferable.", from: "Being cordial at group dinners", to: "Staging a full theatrical intervention with PowerPoint slides" },
+      { id: 195, category: "Friendship", prompt: "Your friend returns your car with the fuel tank running on empty fumes.", from: "Mentioning it casually next time", to: "Siphoning petrol out of their lawnmower in retribution" },
+      { id: 196, category: "Friendship", prompt: "Your friend promises to pick you up at the airport and falls asleep.", from: "Taking a cab with slight annoyance", to: "Ringing their doorbell continuously until sunrise" },
+      { id: 197, category: "Friendship", prompt: "Your friend brings their laptop to a night out at the pub to finish work.", from: "Letting them type quietly", to: "Closing the lid and hiding the charger in a plant" },
+      { id: 198, category: "Friendship", prompt: "How do you confront a friend who never offers to drive or pay for parking?", from: "Suggest taking turns driving", to: "Dropping them off 2 miles from home and speeding away" },
+
+      // --- STREET & FOOD LIFE (NEW) ---
+      { id: 199, category: "Street", prompt: "Asking the Golgappa / Pani Puri bhaiya for the complimentary 'Sukha Puri' at the end.", from: "Polite smile: 'Bhaiya, ek sukha puri dena'", to: "Throwing a full dramatic tantrum demanding extra masala aloo" },
+      { id: 200, category: "Street", prompt: "An auto-rickshaw driver refuses to turn on the meter and demands double fare.", from: "Polite negotiation: 'Bhaiya thoda kam karo'", to: "Sitting in the front seat refusing to leave until he uses the meter" },
+      { id: 201, category: "Street", prompt: "Crashing a lavish Indian wedding party where you don't know the bride or the groom.", from: "Discreetly grab a plate and stay quiet", to: "Giving a 10-minute speech on stage and dancing with the uncle" },
+      { id: 202, category: "Street", prompt: "A nosy neighborhood colony Aunty asks: 'Aur beta, shaadi kab kar rahe ho / kya chal raha hai aaj kal?'", from: "Polite smile: 'Bas chal raha hai aunty'", to: "'Aunty aapke bete ki report card dikhaun pehle?'" },
+      { id: 203, category: "Street", prompt: "You bite into street momos with the legendary spicy red chutney.", from: "Mild sniffle and sip of water", to: "Sweating from ears, begging for dairy, seeing your ancestors" },
+      { id: 204, category: "Street", prompt: "Bargaining with a street flea-market shopkeeper for a t-shirt quoted at 1000 rupees.", from: "Asking if 800 is possible", to: "Offering 50 rupees, walking away 5 times, threatening to leave town" },
+      { id: 205, category: "Street", prompt: "Dealing with intense honking in an unmoving bumper-to-bumper traffic jam.", from: "Turning up the car AC and radio", to: "Getting out and conducting traffic with a wooden cricket bat" },
+      { id: 206, category: "Street", prompt: "A roadside cow refuses to move from the middle of a narrow street lane.", from: "Gentle horn beep and waiting", to: "Offering it your lunch while having a heartfelt negotiation" },
+      { id: 207, category: "Street", prompt: "Standing in line for the wedding buffet dinner when someone cuts in front with 3 plates.", from: "Passive-aggressive throat clear", to: "Accidentally spilling hot dal makhani on their shoes" },
+      { id: 208, category: "Street", prompt: "You accidentally eat a whole green chili hidden inside vegetable biryani.", from: "Quiet eye watery cough", to: "Dunking your head directly into the raita bowl" },
+      { id: 209, category: "Street", prompt: "How do you navigate crossing an 8-lane chaotic Indian city intersection with no signals?", from: "Waiting for a big group of pedestrians", to: "Holding hand out like Doctor Strange stopping all oncoming buses" },
+      { id: 210, category: "Street", prompt: "The chaiwala gives you tea that has 90% ginger and zero sugar.", from: "Sip it slowly for digestion", to: "Spitting it out shouting 'Ginger juice banaya hai kya?!'" },
+      { id: 211, category: "Street", prompt: "A monkey at a tourist hill-station steals your sunglasses right off your head.", from: "Throw a banana to trade back", to: "Challenging the alpha monkey to mortal combat on the roof" },
+      { id: 212, category: "Street", prompt: "Your train is departing platform 4 in 2 minutes and you are stuck at the luggage scanner.", from: "Fast hurried jog with bags", to: "Olympian sprint vaulting over station chai stalls like Milkha Singh" },
+      { id: 213, category: "Street", prompt: "How do you respond when the street vendor says 'Sir, pure cotton imported fabric' for a 150 rupee shirt?", from: "Nod and feel the fabric casually", to: "Bringing out a magnifying glass and burning a thread to test pure silk" },
+      { id: 214, category: "Street", prompt: "You get invited to a family function where 40 relatives you haven't seen in 8 years want life updates.", from: "Standard polite updates about studies", to: "Claiming to be in an international undercover espionage unit" },
+      { id: 215, category: "Street", prompt: "How do you order spicy street Maggi at 2 AM from a midnight dhaba stall?", from: "'Bhaiya, normal masala bana do'", to: "'Extra butter, 4 cheese slices, and chili that will make me weep!'" },
+      { id: 216, category: "Street", prompt: "The barber starts giving you an unrequested aggressive head and neck massage at the end of a haircut.", from: "Tensing up and letting it finish", to: "Wrestling the barber to the floor to protect your neck bones" },
+      { id: 217, category: "Street", prompt: "Someone takes your reserved lower berth seat on an Indian Railways sleeper train.", from: "Politely show your printed ticket", to: "Threatening to pull the emergency chain until TTE arrives" },
+      { id: 218, category: "Street", prompt: "Trying to fit 6 friends into one standard city auto-rickshaw.", from: "Suggest taking two cabs", to: "Hanging two people off the sides like stunt actors in Dhoom" },
+      { id: 219, category: "Street", prompt: "You are having street chaat and the vendor drops a spoon on the floor, wipes it on his apron, and hands it to you.", from: "Subtly ask for a fresh spoon", to: "Sanitizing it with a lighter blowtorch flame" },
+      { id: 220, category: "Street", prompt: "How do you celebrate when India beats their biggest cricket rival on the last ball?", from: "Clap happily on the couch", to: "Running down the street with a flag, bursting fireworks, and feeding sweets to strangers" }
+    ];
+
+    /* =========================================================
+       APP STATE & CONTROLLER
+       ========================================================= */
+    let currentCategory = "all";
+    let activeDeck = [];
+    let currentCardIndex = -1;
+    let cardHistory = [];
+    let isHintOpen = false;
+
+    // DOM Elements
+    const cardElement = document.getElementById("cardElement");
+    const cardCategory = document.getElementById("cardCategory");
+    const deckCounter = document.getElementById("deckCounter");
+    const cardPrompt = document.getElementById("cardPrompt");
+    const hintToggleBtn = document.getElementById("hintToggleBtn");
+    const hintDrawer = document.getElementById("hintDrawer");
+    const hintFrom = document.getElementById("hintFrom");
+    const hintTo = document.getElementById("hintTo");
+    const drawBtn = document.getElementById("drawBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const reshuffleBtn = document.getElementById("reshuffleBtn");
+    const filterContainer = document.getElementById("filterContainer");
+
+    // Modal Elements
+    const infoBtn = document.getElementById("infoBtn");
+    const rulesModal = document.getElementById("rulesModal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const gotItBtn = document.getElementById("gotItBtn");
+
+    // Fisher-Yates Shuffle
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Reset Hint UI to collapsed
+    function closeHintDrawer() {
+      isHintOpen = false;
+      hintDrawer.classList.remove("visible");
+      hintToggleBtn.classList.remove("open");
+      hintToggleBtn.setAttribute("aria-expanded", "false");
+      hintToggleBtn.innerHTML = `<span>💡</span> Need a hint for this card?`;
+    }
+
+    // Toggle Hint UI
+    function toggleHintDrawer() {
+      isHintOpen = !isHintOpen;
+      if (isHintOpen) {
+        hintDrawer.classList.add("visible");
+        hintToggleBtn.classList.add("open");
+        hintToggleBtn.setAttribute("aria-expanded", "true");
+        hintToggleBtn.innerHTML = `<span>💡</span> Hide hint`;
+      } else {
+        closeHintDrawer();
+      }
+    }
+
+    // Initialize or Reset Deck based on category
+    function initDeck(filter = "all") {
+      let filtered = CARDS;
+      if (filter !== "all") {
+        filtered = CARDS.filter(c => c.category === filter);
+      }
+      activeDeck = shuffleArray(filtered);
+      currentCardIndex = -1;
+      cardHistory = [];
+      updateCounter();
+      prevBtn.disabled = true;
+    }
+
+    // Render Card with clean animation & auto-reset hint
+    function renderCard(card) {
+      cardElement.classList.add("animating");
+      
+      // Auto collapse the hint whenever a card renders
+      closeHintDrawer();
+
+      setTimeout(() => {
+        cardCategory.textContent = getCategoryDisplay(card.category);
+        cardPrompt.textContent = card.prompt;
+        hintFrom.textContent = card.from;
+        hintTo.textContent = card.to;
+        updateCounter();
+
+        cardElement.classList.remove("animating");
+      }, 140);
+    }
+
+    function getCategoryDisplay(cat) {
+      switch (cat) {
+        case "Social": return "💬 Social";
+        case "Absurd": return "🌀 Absurd";
+        case "Work": return "💼 Work & School";
+        case "Performance": return "🎭 Sounds & Action";
+        case "Survival": return "🏕️ Survival";
+        case "Cinema": return "🎬 Cinema & Drama";
+        case "Friendship": return "🤝 Squad & Petty Wars";
+        case "Street": return "🍛 Street & Food";
+        default: return "⚡ Party";
+      }
+    }
+
+    function updateCounter() {
+      const total = activeDeck.length;
+      const current = currentCardIndex >= 0 ? currentCardIndex + 1 : 0;
+      deckCounter.textContent = `Card ${current} of ${total}`;
+    }
+
+    // Draw Next Card
+    function drawNextCard() {
+      if (currentCardIndex < activeDeck.length - 1) {
+        currentCardIndex++;
+        const card = activeDeck[currentCardIndex];
+        cardHistory.push(card);
+        renderCard(card);
+        prevBtn.disabled = currentCardIndex <= 0;
+      } else {
+        alert("You've gone through all the cards in this category! Reshuffling deck...");
+        initDeck(currentCategory);
+        drawNextCard();
+      }
+    }
+
+    // Go to Previous Card
+    function showPreviousCard() {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        const card = activeDeck[currentCardIndex];
+        renderCard(card);
+        prevBtn.disabled = currentCardIndex <= 0;
+      }
+    }
+
+    // Event Listeners
+    drawBtn.addEventListener("click", drawNextCard);
+    prevBtn.addEventListener("click", showPreviousCard);
+    hintToggleBtn.addEventListener("click", toggleHintDrawer);
+    
+    reshuffleBtn.addEventListener("click", () => {
+      initDeck(currentCategory);
+      drawNextCard();
+    });
+
+    // Category Filter clicks
+    filterContainer.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("filter-btn")) return;
+      
+      document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+      e.target.classList.add("active");
+
+      currentCategory = e.target.getAttribute("data-category");
+      initDeck(currentCategory);
+      drawNextCard();
+    });
+
+    // Modal controls
+    function toggleModal(open) {
+      if (open) {
+        rulesModal.classList.add("open");
+      } else {
+        rulesModal.classList.remove("open");
+      }
+    }
+
+    infoBtn.addEventListener("click", () => toggleModal(true));
+    closeModalBtn.addEventListener("click", () => toggleModal(false));
+    gotItBtn.addEventListener("click", () => toggleModal(false));
+    
+    rulesModal.addEventListener("click", (e) => {
+      if (e.target === rulesModal) toggleModal(false);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") toggleModal(false);
+      if (e.key === " " && document.activeElement.tagName !== "BUTTON") {
+        e.preventDefault();
+        drawNextCard();
+      }
+    });
+
+    // Initial setup
+    initDeck("all");
+    drawNextCard();
+  </script>
+</body>
+</html>

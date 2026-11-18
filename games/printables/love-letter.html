@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Letter (21-Card Edition) - Printable A4 Deck</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=IM+Fell+English:ital@0;1&family=Montserrat:wght@600;700&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #e5e5e5;
+    font-family: 'IM Fell English', Georgia, serif;
+    color: #000;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 10mm 9mm 10mm 9mm;
+  }
+
+  .sheet {
+    width: 190.5mm;
+    height: 266.7mm;
+    margin: 15mm auto;
+    background: #fff;
+    display: grid;
+    grid-template-columns: repeat(3, 63.5mm);
+    grid-template-rows: repeat(3, 88.9mm);
+    page-break-after: always;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+
+  @media print {
+    body { background: none; }
+    .sheet {
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+  }
+
+  /* CARD STRUCTURE (Standard Poker Size: 63.5mm x 88.9mm) */
+  .card {
+    width: 63.5mm;
+    height: 88.9mm;
+    padding: 2.2mm;
+    position: relative;
+    border: 0.25mm dashed #888;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    border: 1.2pt solid #000;
+    border-radius: 2.5mm;
+    padding: 1.5mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    background: #fff;
+  }
+
+  .card-frame {
+    position: absolute;
+    top: 0.8mm; left: 0.8mm; right: 0.8mm; bottom: 0.8mm;
+    border: 0.5pt solid #222;
+    border-radius: 2mm;
+    pointer-events: none;
+  }
+
+  /* TOP BAR: VALUE & NAME */
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1mm;
+    border-bottom: 0.8pt solid #000;
+    padding-bottom: 1mm;
+    position: relative;
+    z-index: 2;
+  }
+
+  .value-box {
+    width: 5.8mm;
+    height: 5.8mm;
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 11pt;
+    line-height: 1;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 8.5pt;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    text-align: center;
+    flex-grow: 1;
+  }
+
+  .deck-count {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 6pt;
+    font-weight: 700;
+    border: 0.6pt solid #000;
+    border-radius: 1mm;
+    padding: 0.4mm 1mm;
+    line-height: 1;
+  }
+
+  /* ART CONTAINER */
+  .art-box {
+    width: 100%;
+    height: 38mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1mm 0;
+    border-radius: 1.5mm;
+    border: 0.6pt solid #333;
+    background: #fafafa;
+    overflow: hidden;
+  }
+
+  .art-box svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ABILITY TEXT BOX */
+  .card-body {
+    border-top: 0.8pt solid #000;
+    padding-top: 1mm;
+    min-height: 25mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding-left: 1.2mm;
+    padding-right: 1.2mm;
+    position: relative;
+  }
+
+  .card-desc {
+    font-size: 6.8pt;
+    line-height: 1.25;
+    font-weight: 500;
+  }
+
+  .card-desc strong {
+    font-family: 'Cinzel', serif;
+    font-size: 6.9pt;
+  }
+
+  /* BOTTOM-RIGHT FANNING VALUE */
+  .fanning-val {
+    position: absolute;
+    bottom: 0.8mm;
+    right: 1mm;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 8pt;
+    color: #444;
+  }
+
+  /* PLAYER REFERENCE CARDS (PAGE 3) */
+  .ref-card {
+    background: #fff;
+    padding: 1.5mm;
+  }
+  .ref-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 7.5pt;
+    text-align: center;
+    border-bottom: 1pt double #000;
+    padding-bottom: 0.8mm;
+    margin-bottom: 1mm;
+    letter-spacing: 0.5px;
+  }
+  .ref-table {
+    width: 100%;
+    font-size: 5.3pt;
+    line-height: 1.15;
+    border-collapse: collapse;
+  }
+  .ref-table td {
+    padding: 0.35mm 0.2mm;
+    vertical-align: top;
+  }
+  .ref-val {
+    font-weight: 900;
+    font-family: 'Cinzel', serif;
+    width: 3.5mm;
+    text-align: center;
+  }
+  .ref-name {
+    font-weight: bold;
+    white-space: nowrap;
+    width: 14mm;
+  }
+  .ref-qty {
+    color: #444;
+    font-size: 4.8pt;
+    width: 4.5mm;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 (9 CARDS) ================= -->
+<div class="sheet">
+
+  <!-- 1. SPY (1/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">0</div>
+        <div class="card-title">Spy</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5" stroke-dasharray="2 1"/>
+          <!-- Hood & Mask -->
+          <path d="M 25 88 C 25 50, 32 20, 50 20 C 68 20, 75 50, 75 88 Z" fill="#222" stroke="#000" stroke-width="2"/>
+          <path d="M 32 50 C 35 44, 45 42, 50 42 C 55 42, 65 44, 68 50 C 65 62, 58 64, 50 64 C 42 64, 35 62, 32 50 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Fierce Eyes -->
+          <polygon points="38,49 46,52 45,47" fill="#000"/>
+          <polygon points="62,49 54,52 55,47" fill="#000"/>
+          <!-- Dagger -->
+          <line x1="50" y1="68" x2="50" y2="86" stroke="#fff" stroke-width="2"/>
+          <polygon points="50,64 47,69 53,69" fill="#fff"/>
+          <line x1="44" y1="72" x2="56" y2="72" stroke="#fff" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">At the end of the round, if you are the only player still in who played or discarded a <strong>Spy</strong>, gain <strong>1 Favor Token</strong>.</div>
+        <div class="fanning-val">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SPY (2/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">0</div>
+        <div class="card-title">Spy</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5" stroke-dasharray="2 1"/>
+          <path d="M 25 88 C 25 50, 32 20, 50 20 C 68 20, 75 50, 75 88 Z" fill="#222" stroke="#000" stroke-width="2"/>
+          <path d="M 32 50 C 35 44, 45 42, 50 42 C 55 42, 65 44, 68 50 C 65 62, 58 64, 50 64 C 42 64, 35 62, 32 50 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <polygon points="38,49 46,52 45,47" fill="#000"/>
+          <polygon points="62,49 54,52 55,47" fill="#000"/>
+          <line x1="50" y1="68" x2="50" y2="86" stroke="#fff" stroke-width="2"/>
+          <polygon points="50,64 47,69 53,69" fill="#fff"/>
+          <line x1="44" y1="72" x2="56" y2="72" stroke="#fff" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">At the end of the round, if you are the only player still in who played or discarded a <strong>Spy</strong>, gain <strong>1 Favor Token</strong>.</div>
+        <div class="fanning-val">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. GUARD (1/6) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">1</div>
+        <div class="card-title">Guard</div>
+        <div class="deck-count">x6</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Helmet & Halberd -->
+          <line x1="72" y1="15" x2="72" y2="88" stroke="#000" stroke-width="2"/>
+          <polygon points="72,12 66,22 72,18 78,22" fill="#000"/>
+          <path d="M 30 88 L 30 65 Q 50 70 70 65 L 70 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 33 55 C 33 30, 40 24, 50 24 C 60 24, 67 30, 67 55 Z" fill="#444" stroke="#000" stroke-width="2"/>
+          <!-- Helmet Plume & Visor slit -->
+          <path d="M 50 14 C 47 20, 48 24, 50 24 C 52 24, 53 20, 50 14 Z" fill="#000"/>
+          <rect x="40" y="42" width="20" height="3" fill="#fff"/>
+          <line x1="50" y1="42" x2="50" y2="56" stroke="#000" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Name a non-Guard card and choose another player. If they have that card, they are <strong>out of the round</strong>.</div>
+        <div class="fanning-val">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. GUARD (2/6) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">1</div>
+        <div class="card-title">Guard</div>
+        <div class="deck-count">x6</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="72" y1="15" x2="72" y2="88" stroke="#000" stroke-width="2"/>
+          <polygon points="72,12 66,22 72,18 78,22" fill="#000"/>
+          <path d="M 30 88 L 30 65 Q 50 70 70 65 L 70 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 33 55 C 33 30, 40 24, 50 24 C 60 24, 67 30, 67 55 Z" fill="#444" stroke="#000" stroke-width="2"/>
+          <path d="M 50 14 C 47 20, 48 24, 50 24 C 52 24, 53 20, 50 14 Z" fill="#000"/>
+          <rect x="40" y="42" width="20" height="3" fill="#fff"/>
+          <line x1="50" y1="42" x2="50" y2="56" stroke="#000" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Name a non-Guard card and choose another player. If they have that card, they are <strong>out of the round</strong>.</div>
+        <div class="fanning-val">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. GUARD (3/6) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">1</div>
+        <div class="card-title">Guard</div>
+        <div class="deck-count">x6</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="72" y1="15" x2="72" y2="88" stroke="#000" stroke-width="2"/>
+          <polygon points="72,12 66,22 72,18 78,22" fill="#000"/>
+          <path d="M 30 88 L 30 65 Q 50 70 70 65 L 70 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 33 55 C 33 30, 40 24, 50 24 C 60 24, 67 30, 67 55 Z" fill="#444" stroke="#000" stroke-width="2"/>
+          <path d="M 50 14 C 47 20, 48 24, 50 24 C 52 24, 53 20, 50 14 Z" fill="#000"/>
+          <rect x="40" y="42" width="20" height="3" fill="#fff"/>
+          <line x1="50" y1="42" x2="50" y2="56" stroke="#000" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Name a non-Guard card and choose another player. If they have that card, they are <strong>out of the round</strong>.</div>
+        <div class="fanning-val">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. GUARD (4/6) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">1</div>
+        <div class="card-title">Guard</div>
+        <div class="deck-count">x6</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="72" y1="15" x2="72" y2="88" stroke="#000" stroke-width="2"/>
+          <polygon points="72,12 66,22 72,18 78,22" fill="#000"/>
+          <path d="M 30 88 L 30 65 Q 50 70 70 65 L 70 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 33 55 C 33 30, 40 24, 50 24 C 60 24, 67 30, 67 55 Z" fill="#444" stroke="#000" stroke-width="2"/>
+          <path d="M 50 14 C 47 20, 48 24, 50 24 C 52 24, 53 20, 50 14 Z" fill="#000"/>
+          <rect x="40" y="42" width="20" height="3" fill="#fff"/>
+          <line x1="50" y1="42" x2="50" y2="56" stroke="#000" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Name a non-Guard card and choose another player. If they have that card, they are <strong>out of the round</strong>.</div>
+        <div class="fanning-val">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. GUARD (5/6) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">1</div>
+        <div class="card-title">Guard</div>
+        <div class="deck-count">x6</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="72" y1="15" x2="72" y2="88" stroke="#000" stroke-width="2"/>
+          <polygon points="72,12 66,22 72,18 78,22" fill="#000"/>
+          <path d="M 30 88 L 30 65 Q 50 70 70 65 L 70 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 33 55 C 33 30, 40 24, 50 24 C 60 24, 67 30, 67 55 Z" fill="#444" stroke="#000" stroke-width="2"/>
+          <path d="M 50 14 C 47 20, 48 24, 50 24 C 52 24, 53 20, 50 14 Z" fill="#000"/>
+          <rect x="40" y="42" width="20" height="3" fill="#fff"/>
+          <line x1="50" y1="42" x2="50" y2="56" stroke="#000" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Name a non-Guard card and choose another player. If they have that card, they are <strong>out of the round</strong>.</div>
+        <div class="fanning-val">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. GUARD (6/6) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">1</div>
+        <div class="card-title">Guard</div>
+        <div class="deck-count">x6</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="72" y1="15" x2="72" y2="88" stroke="#000" stroke-width="2"/>
+          <polygon points="72,12 66,22 72,18 78,22" fill="#000"/>
+          <path d="M 30 88 L 30 65 Q 50 70 70 65 L 70 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 33 55 C 33 30, 40 24, 50 24 C 60 24, 67 30, 67 55 Z" fill="#444" stroke="#000" stroke-width="2"/>
+          <path d="M 50 14 C 47 20, 48 24, 50 24 C 52 24, 53 20, 50 14 Z" fill="#000"/>
+          <rect x="40" y="42" width="20" height="3" fill="#fff"/>
+          <line x1="50" y1="42" x2="50" y2="56" stroke="#000" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Name a non-Guard card and choose another player. If they have that card, they are <strong>out of the round</strong>.</div>
+        <div class="fanning-val">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. PRIEST (1/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">2</div>
+        <div class="card-title">Priest</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Monk Robe & Hood -->
+          <path d="M 28 88 C 28 65, 34 32, 50 32 C 66 32, 72 65, 72 88 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+          <path d="M 36 44 C 36 26, 44 20, 50 20 C 56 20, 64 26, 64 44 C 64 54, 50 56, 50 56 C 50 56, 36 54, 36 44 Z" fill="#222"/>
+          <!-- Peaceful Face & Holy Eye -->
+          <circle cx="50" cy="42" r="7" fill="#fff"/>
+          <path d="M 46 42 Q 50 38 54 42" stroke="#000" stroke-width="1" fill="none"/>
+          <!-- Scripture Scroll / Cross -->
+          <rect x="42" y="65" width="16" height="20" rx="1" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="50" y1="68" x2="50" y2="82" stroke="#000" stroke-width="1.5"/>
+          <line x1="45" y1="73" x2="55" y2="73" stroke="#000" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Choose another player and <strong>secretly look at their hand</strong>.</div>
+        <div class="fanning-val">2</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= PAGE 2 (9 CARDS) ================= -->
+<div class="sheet">
+
+  <!-- 10. PRIEST (2/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">2</div>
+        <div class="card-title">Priest</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 28 88 C 28 65, 34 32, 50 32 C 66 32, 72 65, 72 88 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+          <path d="M 36 44 C 36 26, 44 20, 50 20 C 56 20, 64 26, 64 44 C 64 54, 50 56, 50 56 C 50 56, 36 54, 36 44 Z" fill="#222"/>
+          <circle cx="50" cy="42" r="7" fill="#fff"/>
+          <path d="M 46 42 Q 50 38 54 42" stroke="#000" stroke-width="1" fill="none"/>
+          <rect x="42" y="65" width="16" height="20" rx="1" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="50" y1="68" x2="50" y2="82" stroke="#000" stroke-width="1.5"/>
+          <line x1="45" y1="73" x2="55" y2="73" stroke="#000" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Choose another player and <strong>secretly look at their hand</strong>.</div>
+        <div class="fanning-val">2</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. BARON (1/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">3</div>
+        <div class="card-title">Baron</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Feathered Hat -->
+          <ellipse cx="50" cy="32" rx="22" ry="7" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 38 32 C 38 18, 62 18, 62 32 Z" fill="#222"/>
+          <path d="M 58 24 Q 75 14 78 8" stroke="#000" stroke-width="2" fill="none"/>
+          <!-- Face & Moustache -->
+          <circle cx="50" cy="44" r="10" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 44 46 Q 50 48 56 46 Q 58 50 60 48 Q 50 52 40 48 Z" fill="#000"/>
+          <!-- Aristocrat Doublet & Rapier -->
+          <path d="M 28 88 L 34 60 L 66 60 L 72 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <line x1="68" y1="62" x2="80" y2="88" stroke="#000" stroke-width="2"/>
+          <circle cx="68" cy="62" r="3" fill="#fff" stroke="#000" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Choose another player and secretly compare hands. The player with the <strong>lower value is out</strong>.</div>
+        <div class="fanning-val">3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. BARON (2/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">3</div>
+        <div class="card-title">Baron</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <ellipse cx="50" cy="32" rx="22" ry="7" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 38 32 C 38 18, 62 18, 62 32 Z" fill="#222"/>
+          <path d="M 58 24 Q 75 14 78 8" stroke="#000" stroke-width="2" fill="none"/>
+          <circle cx="50" cy="44" r="10" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 44 46 Q 50 48 56 46 Q 58 50 60 48 Q 50 52 40 48 Z" fill="#000"/>
+          <path d="M 28 88 L 34 60 L 66 60 L 72 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <line x1="68" y1="62" x2="80" y2="88" stroke="#000" stroke-width="2"/>
+          <circle cx="68" cy="62" r="3" fill="#fff" stroke="#000" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Choose another player and secretly compare hands. The player with the <strong>lower value is out</strong>.</div>
+        <div class="fanning-val">3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. HANDMAID (1/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">4</div>
+        <div class="card-title">Handmaid</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Protective Aura Shield -->
+          <circle cx="50" cy="50" r="35" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+          <!-- Maiden Silhouette -->
+          <path d="M 32 88 C 32 60, 42 55, 50 55 C 58 55, 68 60, 68 88 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <circle cx="50" cy="38" r="10" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Bonnet & Braids -->
+          <path d="M 40 36 C 40 24, 60 24, 60 36 C 60 44, 40 44, 40 36 Z" fill="#222"/>
+          <!-- Candle / Ward -->
+          <polygon points="50,62 46,75 54,75" fill="#000"/>
+          <circle cx="50" cy="58" r="2" fill="#000"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Until your next turn, <strong>ignore all effects</strong> from other players' cards.</div>
+        <div class="fanning-val">4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. HANDMAID (2/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">4</div>
+        <div class="card-title">Handmaid</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <circle cx="50" cy="50" r="35" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+          <path d="M 32 88 C 32 60, 42 55, 50 55 C 58 55, 68 60, 68 88 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <circle cx="50" cy="38" r="10" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 40 36 C 40 24, 60 24, 60 36 C 60 44, 40 44, 40 36 Z" fill="#222"/>
+          <polygon points="50,62 46,75 54,75" fill="#000"/>
+          <circle cx="50" cy="58" r="2" fill="#000"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Until your next turn, <strong>ignore all effects</strong> from other players' cards.</div>
+        <div class="fanning-val">4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15. PRINCE (1/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">5</div>
+        <div class="card-title">Prince</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Regal Sash & Torso -->
+          <path d="M 28 88 L 35 55 L 65 55 L 72 88 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="36" y1="56" x2="68" y2="88" stroke="#222" stroke-width="5"/>
+          <!-- Head & Circlet -->
+          <circle cx="50" cy="40" r="11" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Small Crown/Circlet -->
+          <path d="M 42 32 L 44 26 L 50 30 L 56 26 L 58 32 Z" fill="#222" stroke="#000" stroke-width="1"/>
+          <!-- Noble Hair -->
+          <path d="M 40 36 Q 36 45 42 48" stroke="#000" stroke-width="1.5" fill="none"/>
+          <path d="M 60 36 Q 64 45 58 48" stroke="#000" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Choose any player (including yourself) to <strong>discard their hand</strong> and draw a new card.</div>
+        <div class="fanning-val">5</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16. PRINCE (2/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">5</div>
+        <div class="card-title">Prince</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 28 88 L 35 55 L 65 55 L 72 88 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="36" y1="56" x2="68" y2="88" stroke="#222" stroke-width="5"/>
+          <circle cx="50" cy="40" r="11" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 42 32 L 44 26 L 50 30 L 56 26 L 58 32 Z" fill="#222" stroke="#000" stroke-width="1"/>
+          <path d="M 40 36 Q 36 45 42 48" stroke="#000" stroke-width="1.5" fill="none"/>
+          <path d="M 60 36 Q 64 45 58 48" stroke="#000" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Choose any player (including yourself) to <strong>discard their hand</strong> and draw a new card.</div>
+        <div class="fanning-val">5</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. CHANCELLOR (1/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">6</div>
+        <div class="card-title">Chancellor</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Scholar Hat -->
+          <polygon points="50,18 74,26 50,34 26,26" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <!-- Face & Beard -->
+          <circle cx="50" cy="42" r="10" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 44 48 C 44 64, 56 64, 56 48 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Spectacles -->
+          <circle cx="46" cy="40" r="3" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="54" cy="40" r="3" fill="none" stroke="#000" stroke-width="1"/>
+          <line x1="49" y1="40" x2="51" y2="40" stroke="#000" stroke-width="1"/>
+          <!-- Robe & Double Scrolls -->
+          <path d="M 30 88 L 38 60 L 62 60 L 70 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <rect x="42" y="70" width="16" height="15" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="45" y1="74" x2="55" y2="74" stroke="#000" stroke-width="1"/>
+          <line x1="45" y1="78" x2="55" y2="78" stroke="#000" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Draw 2 cards from deck. Secretly keep 1 and return 2 to the <strong>bottom of the deck</strong> in any order.</div>
+        <div class="fanning-val">6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 18. CHANCELLOR (2/2) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">6</div>
+        <div class="card-title">Chancellor</div>
+        <div class="deck-count">x2</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <polygon points="50,18 74,26 50,34 26,26" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <circle cx="50" cy="42" r="10" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 44 48 C 44 64, 56 64, 56 48 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <circle cx="46" cy="40" r="3" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="54" cy="40" r="3" fill="none" stroke="#000" stroke-width="1"/>
+          <line x1="49" y1="40" x2="51" y2="40" stroke="#000" stroke-width="1"/>
+          <path d="M 30 88 L 38 60 L 62 60 L 70 88 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <rect x="42" y="70" width="16" height="15" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="45" y1="74" x2="55" y2="74" stroke="#000" stroke-width="1"/>
+          <line x1="45" y1="78" x2="55" y2="78" stroke="#000" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Draw 2 cards from deck. Secretly keep 1 and return 2 to the <strong>bottom of the deck</strong> in any order.</div>
+        <div class="fanning-val">6</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= PAGE 3 (3 CARDS + 6 PLAYER REFERENCE CARDS) ================= -->
+<div class="sheet">
+
+  <!-- 19. KING (1/1) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">7</div>
+        <div class="card-title">King</div>
+        <div class="deck-count">x1</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Great Crown -->
+          <path d="M 34 30 L 32 18 L 41 24 L 50 14 L 59 24 L 68 18 L 66 30 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <!-- Regal Head & Beard -->
+          <circle cx="50" cy="40" r="11" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 40 45 C 40 64, 60 64, 60 45 Z" fill="#000"/>
+          <!-- Ermine Collar Mantle & Scepter -->
+          <path d="M 26 88 C 26 62, 36 55, 50 55 C 64 55, 74 62, 74 88 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+          <line x1="72" y1="52" x2="72" y2="88" stroke="#000" stroke-width="2"/>
+          <circle cx="72" cy="50" r="3.5" fill="#222" stroke="#000" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Choose another player and <strong>trade hands</strong> with them.</div>
+        <div class="fanning-val">7</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 20. COUNTESS (1/1) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">8</div>
+        <div class="card-title">Countess</div>
+        <div class="deck-count">x1</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Elaborate High Coiffure -->
+          <path d="M 38 40 C 32 20, 42 12, 50 12 C 58 12, 68 20, 62 40 Z" fill="#222"/>
+          <!-- Elegant Head & Pearl Choker -->
+          <circle cx="50" cy="40" r="9" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="45" y1="49" x2="55" y2="49" stroke="#000" stroke-width="1.5" stroke-dasharray="1 1"/>
+          <!-- Ballgown & Folding Fan -->
+          <path d="M 30 88 C 30 65, 40 55, 50 55 C 60 55, 70 65, 70 88 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <path d="M 50 64 Q 68 56 64 74 Z" fill="#222" stroke="#000" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">If you have this card and the <strong>King (7)</strong> or <strong>Prince (5)</strong> in your hand, you <strong>must discard this card</strong>.</div>
+        <div class="fanning-val">8</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 21. PRINCESS (1/1) -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="card-header">
+        <div class="value-box">9</div>
+        <div class="card-title">Princess</div>
+        <div class="deck-count">x1</div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Royal Tiara -->
+          <polygon points="42,27 46,20 50,24 54,20 58,27" fill="#222"/>
+          <!-- Graceful Locks -->
+          <path d="M 36 40 C 32 55, 34 68, 38 72" stroke="#000" stroke-width="2" fill="none"/>
+          <path d="M 64 40 C 68 55, 66 68, 62 72" stroke="#000" stroke-width="2" fill="none"/>
+          <circle cx="50" cy="38" r="10" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Love Letter with Wax Seal Heart -->
+          <path d="M 30 88 C 30 65, 42 56, 50 56 C 58 56, 70 65, 70 88 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <rect x="42" y="65" width="16" height="11" rx="1" fill="#fff" stroke="#000" stroke-width="1.2"/>
+          <polygon points="42,65 50,71 58,65" fill="none" stroke="#000" stroke-width="1"/>
+          <circle cx="50" cy="71" r="1.5" fill="#000"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">If you discard this card for any reason, you are immediately <strong>out of the round</strong>.</div>
+        <div class="fanning-val">9</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAYER REFERENCE 1 -->
+  <div class="card ref-card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="ref-title">Reference Aid</div>
+      <table class="ref-table">
+        <tr><td class="ref-val">9</td><td class="ref-name">Princess</td><td class="ref-qty">x1</td><td>Out if discarded</td></tr>
+        <tr><td class="ref-val">8</td><td class="ref-name">Countess</td><td class="ref-qty">x1</td><td>Must discard if w/ King/Prince</td></tr>
+        <tr><td class="ref-val">7</td><td class="ref-name">King</td><td class="ref-qty">x1</td><td>Trade hands with another player</td></tr>
+        <tr><td class="ref-val">6</td><td class="ref-name">Chancellor</td><td class="ref-qty">x2</td><td>Draw 2, keep 1, 2 to deck bottom</td></tr>
+        <tr><td class="ref-val">5</td><td class="ref-name">Prince</td><td class="ref-qty">x2</td><td>Choose a player to discard & draw</td></tr>
+        <tr><td class="ref-val">4</td><td class="ref-name">Handmaid</td><td class="ref-qty">x2</td><td>Immune until your next turn</td></tr>
+        <tr><td class="ref-val">3</td><td class="ref-name">Baron</td><td class="ref-qty">x2</td><td>Compare hands; lower is out</td></tr>
+        <tr><td class="ref-val">2</td><td class="ref-name">Priest</td><td class="ref-qty">x2</td><td>Look at a player's hand</td></tr>
+        <tr><td class="ref-val">1</td><td class="ref-name">Guard</td><td class="ref-qty">x6</td><td>Guess non-Guard hand; out if right</td></tr>
+        <tr><td class="ref-val">0</td><td class="ref-name">Spy</td><td class="ref-qty">x2</td><td>+1 token if only spy played/discarded</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PLAYER REFERENCE 2 -->
+  <div class="card ref-card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="ref-title">Reference Aid</div>
+      <table class="ref-table">
+        <tr><td class="ref-val">9</td><td class="ref-name">Princess</td><td class="ref-qty">x1</td><td>Out if discarded</td></tr>
+        <tr><td class="ref-val">8</td><td class="ref-name">Countess</td><td class="ref-qty">x1</td><td>Must discard if w/ King/Prince</td></tr>
+        <tr><td class="ref-val">7</td><td class="ref-name">King</td><td class="ref-qty">x1</td><td>Trade hands with another player</td></tr>
+        <tr><td class="ref-val">6</td><td class="ref-name">Chancellor</td><td class="ref-qty">x2</td><td>Draw 2, keep 1, 2 to deck bottom</td></tr>
+        <tr><td class="ref-val">5</td><td class="ref-name">Prince</td><td class="ref-qty">x2</td><td>Choose a player to discard & draw</td></tr>
+        <tr><td class="ref-val">4</td><td class="ref-name">Handmaid</td><td class="ref-qty">x2</td><td>Immune until your next turn</td></tr>
+        <tr><td class="ref-val">3</td><td class="ref-name">Baron</td><td class="ref-qty">x2</td><td>Compare hands; lower is out</td></tr>
+        <tr><td class="ref-val">2</td><td class="ref-name">Priest</td><td class="ref-qty">x2</td><td>Look at a player's hand</td></tr>
+        <tr><td class="ref-val">1</td><td class="ref-name">Guard</td><td class="ref-qty">x6</td><td>Guess non-Guard hand; out if right</td></tr>
+        <tr><td class="ref-val">0</td><td class="ref-name">Spy</td><td class="ref-qty">x2</td><td>+1 token if only spy played/discarded</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PLAYER REFERENCE 3 -->
+  <div class="card ref-card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="ref-title">Reference Aid</div>
+      <table class="ref-table">
+        <tr><td class="ref-val">9</td><td class="ref-name">Princess</td><td class="ref-qty">x1</td><td>Out if discarded</td></tr>
+        <tr><td class="ref-val">8</td><td class="ref-name">Countess</td><td class="ref-qty">x1</td><td>Must discard if w/ King/Prince</td></tr>
+        <tr><td class="ref-val">7</td><td class="ref-name">King</td><td class="ref-qty">x1</td><td>Trade hands with another player</td></tr>
+        <tr><td class="ref-val">6</td><td class="ref-name">Chancellor</td><td class="ref-qty">x2</td><td>Draw 2, keep 1, 2 to deck bottom</td></tr>
+        <tr><td class="ref-val">5</td><td class="ref-name">Prince</td><td class="ref-qty">x2</td><td>Choose a player to discard & draw</td></tr>
+        <tr><td class="ref-val">4</td><td class="ref-name">Handmaid</td><td class="ref-qty">x2</td><td>Immune until your next turn</td></tr>
+        <tr><td class="ref-val">3</td><td class="ref-name">Baron</td><td class="ref-qty">x2</td><td>Compare hands; lower is out</td></tr>
+        <tr><td class="ref-val">2</td><td class="ref-name">Priest</td><td class="ref-qty">x2</td><td>Look at a player's hand</td></tr>
+        <tr><td class="ref-val">1</td><td class="ref-name">Guard</td><td class="ref-qty">x6</td><td>Guess non-Guard hand; out if right</td></tr>
+        <tr><td class="ref-val">0</td><td class="ref-name">Spy</td><td class="ref-qty">x2</td><td>+1 token if only spy played/discarded</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PLAYER REFERENCE 4 -->
+  <div class="card ref-card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="ref-title">Reference Aid</div>
+      <table class="ref-table">
+        <tr><td class="ref-val">9</td><td class="ref-name">Princess</td><td class="ref-qty">x1</td><td>Out if discarded</td></tr>
+        <tr><td class="ref-val">8</td><td class="ref-name">Countess</td><td class="ref-qty">x1</td><td>Must discard if w/ King/Prince</td></tr>
+        <tr><td class="ref-val">7</td><td class="ref-name">King</td><td class="ref-qty">x1</td><td>Trade hands with another player</td></tr>
+        <tr><td class="ref-val">6</td><td class="ref-name">Chancellor</td><td class="ref-qty">x2</td><td>Draw 2, keep 1, 2 to deck bottom</td></tr>
+        <tr><td class="ref-val">5</td><td class="ref-name">Prince</td><td class="ref-qty">x2</td><td>Choose a player to discard & draw</td></tr>
+        <tr><td class="ref-val">4</td><td class="ref-name">Handmaid</td><td class="ref-qty">x2</td><td>Immune until your next turn</td></tr>
+        <tr><td class="ref-val">3</td><td class="ref-name">Baron</td><td class="ref-qty">x2</td><td>Compare hands; lower is out</td></tr>
+        <tr><td class="ref-val">2</td><td class="ref-name">Priest</td><td class="ref-qty">x2</td><td>Look at a player's hand</td></tr>
+        <tr><td class="ref-val">1</td><td class="ref-name">Guard</td><td class="ref-qty">x6</td><td>Guess non-Guard hand; out if right</td></tr>
+        <tr><td class="ref-val">0</td><td class="ref-name">Spy</td><td class="ref-qty">x2</td><td>+1 token if only spy played/discarded</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PLAYER REFERENCE 5 -->
+  <div class="card ref-card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="ref-title">Reference Aid</div>
+      <table class="ref-table">
+        <tr><td class="ref-val">9</td><td class="ref-name">Princess</td><td class="ref-qty">x1</td><td>Out if discarded</td></tr>
+        <tr><td class="ref-val">8</td><td class="ref-name">Countess</td><td class="ref-qty">x1</td><td>Must discard if w/ King/Prince</td></tr>
+        <tr><td class="ref-val">7</td><td class="ref-name">King</td><td class="ref-qty">x1</td><td>Trade hands with another player</td></tr>
+        <tr><td class="ref-val">6</td><td class="ref-name">Chancellor</td><td class="ref-qty">x2</td><td>Draw 2, keep 1, 2 to deck bottom</td></tr>
+        <tr><td class="ref-val">5</td><td class="ref-name">Prince</td><td class="ref-qty">x2</td><td>Choose a player to discard & draw</td></tr>
+        <tr><td class="ref-val">4</td><td class="ref-name">Handmaid</td><td class="ref-qty">x2</td><td>Immune until your next turn</td></tr>
+        <tr><td class="ref-val">3</td><td class="ref-name">Baron</td><td class="ref-qty">x2</td><td>Compare hands; lower is out</td></tr>
+        <tr><td class="ref-val">2</td><td class="ref-name">Priest</td><td class="ref-qty">x2</td><td>Look at a player's hand</td></tr>
+        <tr><td class="ref-val">1</td><td class="ref-name">Guard</td><td class="ref-qty">x6</td><td>Guess non-Guard hand; out if right</td></tr>
+        <tr><td class="ref-val">0</td><td class="ref-name">Spy</td><td class="ref-qty">x2</td><td>+1 token if only spy played/discarded</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PLAYER REFERENCE 6 -->
+  <div class="card ref-card">
+    <div class="card-inner">
+      <div class="card-frame"></div>
+      <div class="ref-title">Reference Aid</div>
+      <table class="ref-table">
+        <tr><td class="ref-val">9</td><td class="ref-name">Princess</td><td class="ref-qty">x1</td><td>Out if discarded</td></tr>
+        <tr><td class="ref-val">8</td><td class="ref-name">Countess</td><td class="ref-qty">x1</td><td>Must discard if w/ King/Prince</td></tr>
+        <tr><td class="ref-val">7</td><td class="ref-name">King</td><td class="ref-qty">x1</td><td>Trade hands with another player</td></tr>
+        <tr><td class="ref-val">6</td><td class="ref-name">Chancellor</td><td class="ref-qty">x2</td><td>Draw 2, keep 1, 2 to deck bottom</td></tr>
+        <tr><td class="ref-val">5</td><td class="ref-name">Prince</td><td class="ref-qty">x2</td><td>Choose a player to discard & draw</td></tr>
+        <tr><td class="ref-val">4</td><td class="ref-name">Handmaid</td><td class="ref-qty">x2</td><td>Immune until your next turn</td></tr>
+        <tr><td class="ref-val">3</td><td class="ref-name">Baron</td><td class="ref-qty">x2</td><td>Compare hands; lower is out</td></tr>
+        <tr><td class="ref-val">2</td><td class="ref-name">Priest</td><td class="ref-qty">x2</td><td>Look at a player's hand</td></tr>
+        <tr><td class="ref-val">1</td><td class="ref-name">Guard</td><td class="ref-qty">x6</td><td>Guess non-Guard hand; out if right</td></tr>
+        <tr><td class="ref-val">0</td><td class="ref-name">Spy</td><td class="ref-qty">x2</td><td>+1 token if only spy played/discarded</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

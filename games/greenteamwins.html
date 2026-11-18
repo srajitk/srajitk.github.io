@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Green Team Wins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fbf6ec;
+    --green:#2f8f52;
+    --green-deep:#1f5f38;
+    --green-bright:#4cb374;
+    --orange:#e0812f;
+    --orange-deep:#b8601c;
+    --orange-bright:#f2a25c;
+    --ink:#233126;
+    --muted:#7a8a7f;
+    --card:#ffffff;
+    --shadow:rgba(35,49,38,0.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    min-height:100vh;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    overflow-x:hidden;
+  }
+
+  /* ---------- background blobs ---------- */
+  .bg{
+    position:fixed; inset:0; z-index:0; overflow:hidden;
+  }
+  .bg span{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(2px);
+    opacity:0.16;
+  }
+  .bg .b1{ width:420px; height:420px; background:var(--green); top:-140px; left:-120px; }
+  .bg .b2{ width:360px; height:360px; background:var(--orange); bottom:-120px; right:-100px; }
+  .bg .b3{ width:260px; height:260px; background:var(--green-bright); bottom:10%; left:-80px; }
+  .bg .b4{ width:220px; height:220px; background:var(--orange-bright); top:20%; right:-60px; }
+
+  main{
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:36px 18px 50px;
+    gap:28px;
+  }
+
+  .masthead{ text-align:center; max-width:600px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:clamp(2.1rem, 8vw, 3.4rem);
+    margin:0;
+    line-height:1;
+  }
+  h1 .g{ color:var(--green); }
+  h1 .t{ color:var(--orange); }
+  .tagline{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:clamp(0.9rem, 2.2vw, 1rem);
+    color:var(--muted);
+    margin:12px 0 0;
+  }
+
+  button.generate{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:clamp(1rem, 2.6vw, 1.2rem);
+    letter-spacing:0.02em;
+    padding:16px 38px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    color:#fff;
+    background:linear-gradient(135deg, var(--green-bright), var(--green));
+    box-shadow:0 8px 0 var(--green-deep), 0 14px 26px var(--shadow);
+    transition:transform 0.08s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  button.generate:active{ transform:translateY(5px); box-shadow:0 3px 0 var(--green-deep); }
+  button.generate:focus-visible{ outline:2px solid var(--green-deep); outline-offset:4px; }
+
+  .grid{
+    width:100%;
+    max-width:920px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+  }
+  @media (min-width:640px){
+    .grid{ grid-template-columns:repeat(4, 1fr); }
+  }
+  @media (min-width:860px){
+    .grid{ grid-template-columns:repeat(5, 1fr); }
+  }
+
+  .card-slot{
+    aspect-ratio:3/4;
+  }
+  .card{
+    position:relative;
+    width:100%; height:100%;
+    cursor:pointer;
+    border-radius:12px;
+    overflow:hidden;
+    background:linear-gradient(135deg, var(--green) 50%, var(--orange) 50%);
+    box-shadow:0 6px 16px var(--shadow), inset 0 0 0 3px rgba(255,255,255,0.55);
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card:hover{ transform:translateY(-3px); box-shadow:0 10px 20px var(--shadow), inset 0 0 0 3px rgba(255,255,255,0.6); }
+  .card:active{ transform:translateY(0) scale(0.97); }
+  .card::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:repeating-linear-gradient(135deg, rgba(255,255,255,0.07) 0px, rgba(255,255,255,0.07) 2px, transparent 2px, transparent 10px);
+    pointer-events:none;
+  }
+  .seal{
+    position:relative;
+    width:64%;
+    filter:drop-shadow(0 3px 6px rgba(0,0,0,0.25));
+  }
+  .seal .q{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    fill:var(--ink);
+  }
+  .ribbon{
+    position:absolute;
+    bottom:-9%;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:3px;
+    z-index:0;
+  }
+  .ribbon i{
+    width:16px; height:34px;
+    display:block;
+  }
+  .ribbon i:first-child{
+    background:var(--green-deep);
+    clip-path:polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+    transform:rotate(-8deg);
+  }
+  .ribbon i:last-child{
+    background:var(--orange-deep);
+    clip-path:polygon(0 0, 100% 0, 100% 78%, 50% 100%, 0 78%);
+    transform:rotate(8deg);
+  }
+
+  .card.seen{ opacity:0.55; }
+  .card.seen::after{
+    content:"✓";
+    position:absolute;
+    top:6px; right:6px;
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--card);
+    color:var(--green-deep);
+    font-size:12px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.25);
+    z-index:2;
+  }
+
+  /* ---------- card reveal modal ---------- */
+  .card-overlay{
+    position:fixed; inset:0; z-index:35;
+    background:rgba(35,49,38,0.6);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+  }
+  .card-overlay.show{ opacity:1; pointer-events:auto; }
+
+  .card-modal{
+    position:relative;
+    width:100%; max-width:420px;
+    background:var(--card);
+    border-radius:20px;
+    padding:30px 26px 24px;
+    text-align:center;
+    box-shadow:0 30px 60px rgba(0,0,0,0.4);
+    transform:translateY(14px) scale(0.95);
+    transition:transform 0.25s cubic-bezier(.2,.8,.2,1);
+  }
+  .card-overlay.show .card-modal{ transform:translateY(0) scale(1); }
+
+  .card-modal .cat{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:600;
+    padding:5px 14px;
+    border-radius:999px;
+    color:#fff;
+    margin-bottom:18px;
+  }
+  .card-modal .cat.fill{ background:var(--green); }
+  .card-modal .cat.this{ background:var(--orange); }
+  .card-modal .cat.best{ background:var(--green-deep); }
+
+  .card-modal .modal-content{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:clamp(1.4rem, 6vw, 1.9rem);
+    line-height:1.3;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .card-modal .modal-vs{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--orange-deep);
+    letter-spacing:0.1em;
+    margin:6px 0;
+  }
+  .card-modal .modal-options{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:clamp(0.95rem, 3vw, 1.05rem);
+    color:var(--muted);
+    margin-top:6px;
+  }
+
+  .modal-close{
+    margin-top:22px;
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:none;
+    background:var(--green);
+    color:#fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    cursor:pointer;
+  }
+
+  .empty-hint{
+    text-align:center;
+    color:var(--muted);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.9rem;
+    max-width:360px;
+    margin:0;
+  }
+
+  /* ---------- info button + modal ---------- */
+  .info-btn{
+    position:fixed;
+    top:16px;
+    right:16px;
+    z-index:20;
+    width:38px; height:38px;
+    border-radius:50%;
+    background:var(--card);
+    border:2px solid var(--green);
+    color:var(--green-deep);
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 10px var(--shadow);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .info-btn:hover{ background:var(--green); color:#fff; }
+
+  .info-overlay{
+    position:fixed; inset:0; z-index:30;
+    background:rgba(35,49,38,0.55);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+  }
+  .info-overlay.show{ opacity:1; pointer-events:auto; }
+
+  .info-card{
+    width:100%; max-width:380px;
+    background:var(--card);
+    border-radius:16px;
+    padding:24px 24px 20px;
+    box-shadow:0 24px 50px rgba(0,0,0,0.35);
+    transform:translateY(10px) scale(0.97);
+    transition:transform 0.25s cubic-bezier(.2,.8,.2,1);
+  }
+  .info-overlay.show .info-card{ transform:translateY(0) scale(1); }
+
+  .info-card h3{
+    font-family:'Baloo 2', sans-serif;
+    font-size:1.3rem;
+    margin:0 0 4px;
+    color:var(--green-deep);
+  }
+  .info-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:0.05em;
+    margin:0 0 14px;
+  }
+  .info-card ul{
+    margin:0 0 18px;
+    padding-left:18px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.9rem;
+    line-height:1.55;
+    color:var(--ink);
+  }
+  .info-card li{ margin-bottom:8px; }
+  .info-card li b{ color:var(--green-deep); }
+  .info-card li b.orange{ color:var(--orange-deep); }
+
+  .info-close{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    background:var(--green);
+    color:#fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg">
+  <span class="b1"></span><span class="b2"></span><span class="b3"></span><span class="b4"></span>
+</div>
+
+<button class="info-btn" id="infoBtn" type="button" aria-label="How to play">i</button>
+
+<main>
+  <div class="masthead">
+    <p class="eyebrow">// think like the table</p>
+    <h1><span class="g">GREEN</span> TEAM <span class="t">WINS</span></h1>
+    <p class="tagline">Tap Generate, then flip each card to reveal the round's question.</p>
+  </div>
+
+  <button class="generate" id="generateBtn" type="button">Generate Questions</button>
+
+  <div class="grid" id="grid"></div>
+  <p class="empty-hint" id="emptyHint">Hit generate to deal 15 cards — 5 Fill in the Blank, 5 This or That, and 5 Best of Three.</p>
+</main>
+
+<div class="info-overlay" id="infoOverlay">
+  <div class="info-card">
+    <h3>How to Play</h3>
+    <p class="info-meta">3–12 players · ~15 minutes</p>
+    <ul>
+      <li>Everyone starts on the <b class="orange">Orange Team</b>.</li>
+      <li>Reveal one question. Everyone secretly writes their own answer at the same time.</li>
+      <li>Don't write the smartest answer — write what you think <b>most people</b> at the table will write.</li>
+      <li>Reveal all answers together. Whoever matches the majority joins (or stays on) the <b>Green Team</b>.</li>
+      <li>Scoring: staying <b>Green→Green</b> = 2 points, moving <b class="orange">Orange→Green</b> = 1 point, anyone left on Orange = 0.</li>
+      <li>If there's a tie for most popular answer, the whole table joins Green and scores 2. If everyone writes something different, everyone goes Orange.</li>
+      <li>Play all 15 cards — highest score wins.</li>
+    </ul>
+    <button class="info-close" id="infoClose" type="button">Got it</button>
+  </div>
+</div>
+
+<div class="card-overlay" id="cardOverlay">
+  <div class="card-modal" id="cardModal">
+    <span class="cat" id="modalCat"></span>
+    <div id="modalBody"></div>
+    <button class="modal-close" id="modalClose" type="button">Close</button>
+  </div>
+</div>
+
+<script>
+const fillBlank = [
+"___ Night","___ Party","___ Day","Fire ___","___ House","Movie ___","___ Movie","Birthday ___","___ Cake","Ice Cream ___",
+"___ Bar","Coffee ___","___ Shop","Road ___","___ Trip","Beach ___","___ Vacation","Summer ___","___ Break","Winter ___",
+"___ Wonderland","School ___","___ Bus","Homework ___","___ Project","Office ___","___ Meeting","Work ___","___ Life","Family ___",
+"___ Reunion","Board Game ___","Video ___","___ Console","Sports ___","___ Team","Football ___","___ Fan","Basketball ___","___ Court",
+"Music ___","___ Festival","Dance ___","___ Floor","Wedding ___","___ Dress","Honeymoon ___","___ Ring","Love ___","___ Story",
+"Heart ___","___ Breakup","Best ___","___ Friend","Worst ___","___ Enemy","Secret ___","___ Agent","Spy ___","___ Mission",
+"Superhero ___","___ Cape","Villain ___","___ Lair","Monster ___","___ Truck","Zombie ___","___ Apocalypse","Ghost ___","Haunted ___",
+"Scary ___","Horror ___","Comedy ___","___ Show","Reality ___","___ TV","Talk ___","___ Radio","Podcast ___","___ Episode",
+"Season ___","___ Finale","Series ___","___ Marathon","Binge ___","___ Watching","Weekend ___","___ Plans","Morning ___","___ Routine",
+"Bedtime ___","Nap ___","___ Time","Lunch ___","Snack ___","___ Attack","Midnight ___","___ Snack","Late Night ___","___ Cravings",
+"Fast ___","Junk ___","___ Diet","Healthy ___","___ Lifestyle","Gym ___","___ Membership","Workout ___","Fitness ___","___ Goals",
+"New Year ___","___ Resolution","Selfie ___","___ Caption","Group ___","___ Chat","Wifi ___","___ Password","Phone ___","___ Charger",
+"Bollywood ___","Big Fat Indian ___","___ Curry","Chai ___","___ Masala","Diwali ___","___ Rangoli","Holi ___","___ Sari","Cricket ___",
+"___ Stadium","Monsoon ___","___ Season","Auto ___","___ Rickshaw","Indian Street ___","___ Biryani","Filmy ___","___ Dialogue","Desi ___",
+"___ Swag","Mumbai ___","___ Local","Bhangra ___","___ Beat","Temple ___","___ Aarti","Republic ___","___ Parade","Ganpati ___"
+];
+
+const thisOrThat = [
+["Coffee","Tea"],["Sweet","Salty"],["Beach","Mountains"],["Cats","Dogs"],["Summer","Winter"],
+["Morning Person","Night Owl"],["Books","Movies"],["Pizza","Burgers"],["Chocolate","Vanilla"],["Introvert","Extrovert"],
+["City Life","Country Life"],["Texting","Calling"],["Netflix","YouTube"],["Camping","Hotel"],["Rain","Snow"],
+["Comedy","Horror"],["Window Seat","Aisle Seat"],["Early Bird","Late Sleeper"],["Instagram","Twitter"],["Burgers","Tacos"],
+["Sushi","Steak"],["Board Games","Video Games"],["Karaoke","Dance Floor"],["Concerts","Movies"],["Road Trip","Flight"],
+["Backpacking","Luxury Travel"],["Spicy Food","Mild Food"],["Fruit","Vegetables"],["Running","Swimming"],["Basketball","Football"],
+["Soccer","Baseball"],["Winter Olympics","Summer Olympics"],["Rock Music","Pop Music"],["Hip Hop","Country Music"],["Fiction","Non-Fiction"],
+["Superhero Movies","Sci-Fi Movies"],["Cake","Pie"],["Ice Cream","Frozen Yogurt"],["Cooking at Home","Eating Out"],["Fast Food","Home Cooked Meal"],
+["Text Messages","Voice Notes"],["Emails","Phone Calls"],["Apple","Android"],["Mac","PC"],["Console Gaming","PC Gaming"],
+["Shopping Online","Shopping In Store"],["Cash","Card"],["Morning Workout","Evening Workout"],["Yoga","Weightlifting"],["Hiking","Biking"],
+["Lake","Ocean"],["Forest","Desert"],["Winter Holidays","Summer Holidays"],["Christmas","Halloween"],["Fireworks","Bonfire"],
+["Board Game Night","Movie Night"],["Solo Travel","Group Travel"],["Window Shopping","Actual Shopping"],["Museums","Amusement Parks"],["Zoo","Aquarium"],
+["Big Dogs","Small Dogs"],["Indoor Cats","Outdoor Cats"],["Sunrise","Sunset"],["City Skyline","Countryside View"],["Formal Wear","Casual Wear"],
+["Sneakers","Dress Shoes"],["Long Hair","Short Hair"],["Glasses","Contacts"],["Tattoos","No Tattoos"],["Beard","Clean Shaven"],
+["Coffee Shop Study","Library Study"],["Group Projects","Solo Projects"],["Written Exams","Oral Exams"],["Public Speaking","Written Reports"],["Being Famous","Being Rich"],
+["Time Travel to Past","Time Travel to Future"],["Flying","Invisibility"],["Reading Minds","Teleporting"],["No Music","No Movies"],["No Internet","No TV"],
+["Silence","Background Noise"],["Working From Home","Working From Office"],["Early Shift Job","Night Shift Job"],["Being the Boss","Being the Employee"],["Startup Job","Corporate Job"],
+["Freelancing","Full-Time Job"],["Big Wedding","Small Wedding"],["Destination Wedding","Local Wedding"],["Surprise Party","Planned Party"],["Gift Cards","Actual Gifts"],
+["Birthday Cake","Birthday Ice Cream"],["Candles","Fireworks"],["Balloons","Confetti"],["Board Games","Card Games"],["Chess","Checkers"],
+["Poker","Blackjack"],["Monopoly","Scrabble"],["Jigsaw Puzzle","Sudoku"],["Crossword","Word Search"],["Action Movies","Romance Movies"],
+["Thrillers","Documentaries"],["Animated Movies","Live Action Movies"],["Subtitles","Dubbed"],["Theatre","Home Screening"],["Sweet Popcorn","Salty Popcorn"],
+["Soda","Juice"],["Milkshake","Smoothie"],["Burger with Fries","Burger with Salad"],["Grilled","Fried"],["Breakfast for Dinner","Dinner for Breakfast"],
+["Early Dinner","Late Dinner"],["Buffet","A La Carte"],["Street Food","Restaurant Food"],["Homemade","Takeout"],["Spontaneous Plans","Planned Schedule"],
+["Adventure Sports","Relaxing Vacation"],["Mountains in Winter","Mountains in Summer"],["Road Trip Playlist","Road Trip Podcast"],["Windows Down","AC On"],["Manual Car","Automatic Car"],
+["Chai","Coffee"],["North Indian Food","South Indian Food"],["Cricket","Kabaddi"],["Diwali","Holi"],["Bollywood","Hollywood"],
+["Samosa","Kachori"],["Idli","Dosa"],["Roti","Rice"],["Mumbai","Delhi"],["Auto Rickshaw","Cab"],
+["Train","Flight"],["Ganga Aarti","Beach Sunset"],["Rajasthan","Kerala"],["Hill Station","Beach Destination"],["Street Chaat","Restaurant Thali"],
+["Mango","Litchi"],["Paneer","Chicken"],["Filter Coffee","Masala Chai"],["Bhangra","Garba"],["Classical Music","Bollywood Music"],
+["Saree","Lehenga"],["Kurta","Western Wear"],["IPL","International Cricket"],["Joint Family","Nuclear Family"],["Arranged Marriage Movies","Love Story Movies"],
+["Rickshaw Ride","Metro Ride"],["Ladoo","Jalebi"],["Pani Puri","Bhel Puri"],["Republic Day Parade","Independence Day Speech"],["North Indian Hill Stations","South Indian Hill Stations"]
+];
+
+const bestOfThree = [
+["Best pizza topping","Pepperoni","Mushroom","Sausage"],
+["Best ice cream flavor","Chocolate","Vanilla","Strawberry"],
+["Best superhero power","Flight","Invisibility","Super Strength"],
+["Best vacation spot","Beach","Mountains","City"],
+["Best pet","Dog","Cat","Bird"],
+["Best breakfast","Pancakes","Waffles","Cereal"],
+["Best season","Summer","Winter","Spring"],
+["Best fast food chain","McDonald's","Burger King","KFC"],
+["Best social media app","Instagram","TikTok","Twitter"],
+["Best classic board game","Monopoly","Scrabble","Chess"],
+["Best genre of movie","Comedy","Horror","Action"],
+["Best type of vacation","Adventure","Relaxing","Cultural"],
+["Best sandwich filling","Cheese","Turkey","Ham"],
+["Best type of music","Pop","Rock","Hip Hop"],
+["Best superhero","Batman","Superman","Spider-Man"],
+["Best fictional wizard school house","Gryffindor","Slytherin","Ravenclaw"],
+["Best coffee order","Latte","Cappuccino","Espresso"],
+["Best dessert","Cake","Pie","Cookies"],
+["Best road trip snack","Chips","Candy","Trail Mix"],
+["Best sport to watch","Football","Basketball","Soccer"],
+["Best sport to play","Tennis","Basketball","Swimming"],
+["Best day of the week","Friday","Saturday","Sunday"],
+["Best holiday","Christmas","Halloween","Thanksgiving"],
+["Best time of day","Morning","Afternoon","Night"],
+["Best way to travel","Car","Train","Plane"],
+["Best kind of pet trick","Fetch","Roll Over","Play Dead"],
+["Best cartoon character","Mickey Mouse","Bugs Bunny","SpongeBob"],
+["Best fictional monster","Dracula","Frankenstein","Werewolf"],
+["Best kind of cake","Chocolate","Red Velvet","Cheesecake"],
+["Best kitchen appliance","Microwave","Blender","Toaster"],
+["Best pizza crust","Thin","Thick","Stuffed"],
+["Best type of cheese","Cheddar","Mozzarella","Swiss"],
+["Best condiment","Ketchup","Mustard","Mayo"],
+["Best chip flavor","Plain Salted","Barbecue","Sour Cream & Onion"],
+["Best cereal","Corn Flakes","Frosted Flakes","Cheerios"],
+["Best late night snack","Popcorn","Chips","Ice Cream"],
+["Best vacation activity","Sightseeing","Shopping","Relaxing at the Beach"],
+["Best mode of exercise","Running","Weightlifting","Yoga"],
+["Best type of dance","Hip Hop","Ballet","Salsa"],
+["Best amusement park ride","Roller Coaster","Ferris Wheel","Bumper Cars"],
+["Best fictional pet","Dragon","Unicorn","Talking Parrot"],
+["Best superhero team","Avengers","Justice League","X-Men"],
+["Best video game genre","Action","Puzzle","Sports"],
+["Best board game night snack","Popcorn","Pretzels","Nachos"],
+["Best way to relax","Reading","Watching TV","Taking a Nap"],
+["Best type of vacation home","Beach House","Cabin","City Apartment"],
+["Best kind of weather","Sunny","Rainy","Snowy"],
+["Best fictional villain","Joker","Darth Vader","Voldemort"],
+["Best kind of soup","Tomato","Chicken Noodle","Vegetable"],
+["Best salad topping","Croutons","Nuts","Cheese"],
+["Best type of bread","White","Whole Wheat","Sourdough"],
+["Best breakfast drink","Orange Juice","Coffee","Milk"],
+["Best way to spend a Sunday","Sleeping In","Brunch with Friends","Outdoor Activity"],
+["Best fictional detective","Sherlock Holmes","Batman","Nancy Drew"],
+["Best type of comedy","Slapstick","Sarcastic","Dark Humor"],
+["Best animal at the zoo","Lion","Elephant","Giraffe"],
+["Best dessert topping","Whipped Cream","Sprinkles","Chocolate Sauce"],
+["Best fictional car","Batmobile","DeLorean","Herbie"],
+["Best way to travel around a city","Walking","Biking","Public Transit"],
+["Best kind of party","House Party","Beach Party","Costume Party"],
+["Best type of shoe","Sneakers","Sandals","Boots"],
+["Best kind of jacket","Denim","Leather","Bomber"],
+["Best kind of vacation companion","Family","Friends","Solo"],
+["Best way to wake up","Alarm Clock","Sunlight","Someone Waking You Up"],
+["Best fictional superhero sidekick","Robin","Bucky Barnes","Samwise Gamgee"],
+["Best kind of home decor style","Modern","Rustic","Minimalist"],
+["Best board game category","Strategy","Trivia","Party Games"],
+["Best way to celebrate a win","Dancing","Toasting","Taking Photos"],
+["Best kind of holiday destination","Historical City","Tropical Island","Mountain Retreat"],
+["Best fictional talking animal","Winnie the Pooh","Shrek's Donkey","Simba"],
+["Best snack at the movies","Popcorn","Nachos","Candy"],
+["Best sandwich bread choice","Bagel","Baguette","Sliced Bread"],
+["Best kind of shoes for running","Sneakers","Trail Shoes","Barefoot Shoes"],
+["Best kind of transportation for a city tour","Bus","Bike","Walking Tour"],
+["Best fictional pirate","Jack Sparrow","Long John Silver","Captain Hook"],
+["Best kind of camping","Tent Camping","RV Camping","Glamping"],
+["Best kind of holiday gift","Experience","Cash","Physical Gift"],
+["Best way to learn a new skill","Online Course","Book","Hands-On Practice"],
+["Best fictional superhero costume color","Red","Blue","Black"],
+["Best kind of coffee shop drink","Iced Coffee","Hot Coffee","Cold Brew"],
+["Best kind of workout buddy","Friend","Personal Trainer","Solo Workout"],
+["Best fictional school","Hogwarts","Xavier's School","Degrassi"],
+["Best type of puzzle","Jigsaw","Crossword","Sudoku"],
+["Best kind of vacation photo","Landscape","Selfie","Candid"],
+["Best fictional spaceship","Millennium Falcon","USS Enterprise","TARDIS"],
+["Best kind of birthday celebration","Big Party","Quiet Dinner","Weekend Trip"],
+["Best type of home cooked meal","Pasta","Curry","Stir Fry"],
+["Best way to spend a rainy day","Watching Movies","Reading","Baking"],
+["Best fictional teacher","Dumbledore","Mr. Miyagi","Professor X"],
+["Best kind of family game night activity","Board Games","Charades","Card Games"],
+["Best kind of holiday tradition","Gift Exchange","Big Dinner","Family Game Night"],
+["Best fictional robot","R2-D2","WALL-E","Baymax"],
+["Best kind of workout music","Pop","Hip Hop","Electronic"],
+["Best kind of cafe seating","Window Seat","Outdoor Patio","Cozy Corner"],
+["Best kind of adventure activity","Skydiving","Scuba Diving","Bungee Jumping"],
+["Best fictional wizard","Gandalf","Dumbledore","Merlin"],
+["Best kind of holiday drink","Hot Chocolate","Eggnog","Mulled Wine"],
+["Best kind of dessert to share","Brownies","Cookies","Ice Cream Sundae"],
+["Best kind of app to relax","Music App","Meditation App","Games App"],
+["Best fictional car chase movie","Fast and Furious","Mad Max","Baby Driver"],
+["Best way to end a busy day","Hot Shower","TV Show","Good Book"],
+["Best fictional sport in a movie","Quidditch","Podracing","Blitzball"],
+["Best kind of team sport","Soccer","Basketball","Volleyball"],
+["Best kind of individual sport","Tennis","Swimming","Golf"],
+["Best kind of holiday meal","Turkey Dinner","BBQ","Potluck"],
+["Best fictional hero's weapon","Lightsaber","Excalibur","Mjolnir"],
+["Best kind of cafe drink","Cappuccino","Chai Latte","Hot Chocolate"],
+["Best kind of weekend getaway","Beach","Mountains","City Break"],
+["Best fictional dog","Lassie","Scooby-Doo","Beethoven"],
+["Best kind of party game","Charades","Trivia","Musical Chairs"],
+["Best fictional cat","Garfield","Tom","Puss in Boots"],
+["Best kind of holiday outfit","Ugly Sweater","Formal Wear","Costume"],
+["Best fictional superhero origin","Radioactive Spider Bite","Alien Planet","Billionaire with Gadgets"],
+["Best kind of camping food","Marshmallows","Hot Dogs","Trail Mix"],
+["Best kind of birthday cake flavor","Chocolate","Vanilla","Red Velvet"],
+["Best fictional time machine","DeLorean","TARDIS","Hot Tub"],
+["Best kind of holiday movie","Christmas Movie","Halloween Movie","Summer Blockbuster"],
+["Best kind of study spot","Library","Coffee Shop","Bedroom"],
+["Best fictional superhero base","Batcave","Avengers Tower","Fortress of Solitude"],
+["Best kind of team building activity","Escape Room","Sports Day","Trivia Night"],
+["Best Indian street food","Pani Puri","Vada Pav","Chaat"],
+["Best Bollywood actor","Shah Rukh Khan","Aamir Khan","Salman Khan"],
+["Best Indian festival","Diwali","Holi","Eid"],
+["Best Indian breakfast","Idli","Poha","Paratha"],
+["Best Indian city to visit","Mumbai","Jaipur","Goa"],
+["Best Indian sweet","Gulab Jamun","Rasgulla","Jalebi"],
+["Best Indian spice","Cumin","Turmeric","Cardamom"],
+["Best cricket format","Test Cricket","ODI","T20"],
+["Best Indian classical dance","Bharatanatyam","Kathak","Odissi"],
+["Best Indian hill station","Shimla","Manali","Ooty"],
+["Best type of biryani","Hyderabadi","Lucknowi","Kolkata"],
+["Best Indian curry","Butter Chicken","Paneer Tikka Masala","Rajma"],
+["Best regional cuisine","Punjabi","South Indian","Bengali"],
+["Best mode of transport in India","Auto Rickshaw","Local Train","Metro"],
+["Best Bollywood movie genre","Romance","Action","Comedy"],
+["Best Indian beverage","Masala Chai","Lassi","Nimbu Pani"],
+["Best Indian wedding tradition","Sangeet","Mehendi","Baraat"],
+["Best Indian state for a beach vacation","Goa","Kerala","Andaman"],
+["Best cricket player role","Batsman","Bowler","All-Rounder"],
+["Best Indian street snack","Bhel Puri","Dahi Puri","Sev Puri"],
+["Best Indian monument to visit","Taj Mahal","Red Fort","Qutub Minar"],
+["Best Indian instrument","Sitar","Tabla","Flute"],
+["Best Diwali activity","Bursting Crackers","Rangoli Making","Sweets Distribution"],
+["Best type of Indian bread","Naan","Roti","Paratha"],
+["Best regional film industry","Bollywood","Tollywood","Kollywood"],
+["Best Indian wedding dessert","Kaju Katli","Motichoor Ladoo","Rasmalai"],
+["Best Indian train journey","Palace on Wheels","Konkan Railway","Darjeeling Toy Train"],
+["Best Indian outdoor game","Kabaddi","Gilli Danda","Kho Kho"],
+["Best time to visit India","Winter","Monsoon","Summer"],
+["Best Indian pickle","Mango","Lime","Mixed Vegetable"]
+];
+
+const grid = document.getElementById('grid');
+const emptyHint = document.getElementById('emptyHint');
+const generateBtn = document.getElementById('generateBtn');
+
+function pickN(pool, n){
+  const copy = pool.slice();
+  const chosen = [];
+  for(let i=0;i<n;i++){
+    const idx = Math.floor(Math.random()*copy.length);
+    chosen.push(copy[idx]);
+    copy.splice(idx,1);
+  }
+  return chosen;
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function buildCardContent(item){
+  if(item.type === 'fill'){
+    return {
+      catClass:'fill', catLabel:'Fill in the Blank',
+      html: '<div class="modal-content">' + item.data + '</div>'
+    };
+  }
+  if(item.type === 'this'){
+    return {
+      catClass:'this', catLabel:'This or That',
+      html: '<div class="modal-content">' + item.data[0] + '</div><div class="modal-vs">or</div><div class="modal-content">' + item.data[1] + '</div>'
+    };
+  }
+  // best of three
+  const [prompt, a, b, c] = item.data;
+  return {
+    catClass:'best', catLabel:'Best of Three',
+    html: '<div class="modal-content">' + prompt + '</div><div class="modal-options">' + a + ' &middot; ' + b + ' &middot; ' + c + '</div>'
+  };
+}
+
+const SEAL_POINTS = "50.0,4.0 56.1,11.5 64.2,6.3 67.7,15.3 77.0,12.8 77.6,22.4 87.2,23.0 84.7,32.3 93.7,35.8 88.5,43.9 96.0,50.0 88.5,56.1 93.7,64.2 84.7,67.7 87.2,77.0 77.6,77.6 77.0,87.2 67.7,84.7 64.2,93.7 56.1,88.5 50.0,96.0 43.9,88.5 35.8,93.7 32.3,84.7 23.0,87.2 22.4,77.6 12.8,77.0 15.3,67.7 6.3,64.2 11.5,56.1 4.0,50.0 11.5,43.9 6.3,35.8 15.3,32.3 12.8,23.0 22.4,22.4 23.0,12.8 32.3,15.3 35.8,6.3 43.9,11.5";
+
+function renderCards(items){
+  grid.innerHTML = '';
+  items.forEach((item) => {
+    const slot = document.createElement('div');
+    slot.className = 'card-slot';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      '<svg class="seal" viewBox="0 0 100 100">' +
+        '<polygon points="' + SEAL_POINTS + '" fill="var(--cream)"/>' +
+        '<circle cx="50" cy="50" r="34" fill="none" stroke="var(--ink)" stroke-opacity="0.12" stroke-width="1.5"/>' +
+        '<text x="50" y="60" text-anchor="middle" font-size="30" class="q">?</text>' +
+      '</svg>' +
+      '<div class="ribbon"><i></i><i></i></div>';
+
+    slot.appendChild(card);
+
+    card.addEventListener('click', () => {
+      const built = buildCardContent(item);
+      document.getElementById('modalCat').className = 'cat ' + built.catClass;
+      document.getElementById('modalCat').textContent = built.catLabel;
+      document.getElementById('modalBody').innerHTML = built.html;
+      cardOverlay.classList.add('show');
+      card.classList.add('seen');
+    });
+
+    grid.appendChild(slot);
+  });
+}
+
+generateBtn.addEventListener('click', () => {
+  const fillPicks = pickN(fillBlank, 5).map(d => ({type:'fill', data:d}));
+  const thisPicks = pickN(thisOrThat, 5).map(d => ({type:'this', data:d}));
+  const bestPicks = pickN(bestOfThree, 5).map(d => ({type:'best', data:d}));
+  const all = shuffle(fillPicks.concat(thisPicks, bestPicks));
+  renderCards(all);
+  emptyHint.style.display = 'none';
+});
+
+const infoBtn = document.getElementById('infoBtn');
+const infoOverlay = document.getElementById('infoOverlay');
+const infoClose = document.getElementById('infoClose');
+infoBtn.addEventListener('click', () => infoOverlay.classList.add('show'));
+infoClose.addEventListener('click', () => infoOverlay.classList.remove('show'));
+infoOverlay.addEventListener('click', (e) => { if(e.target === infoOverlay) infoOverlay.classList.remove('show'); });
+
+const cardOverlay = document.getElementById('cardOverlay');
+const modalClose = document.getElementById('modalClose');
+modalClose.addEventListener('click', () => cardOverlay.classList.remove('show'));
+cardOverlay.addEventListener('click', (e) => { if(e.target === cardOverlay) cardOverlay.classList.remove('show'); });
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape'){
+    cardOverlay.classList.remove('show');
+    infoOverlay.classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bohnanza - Complete Base Game Printable Deck</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=IM+Fell+English:ital@0;1&family=Montserrat:wght@600;800;900&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #dfdfdf;
+    font-family: 'IM Fell English', Georgia, serif;
+    color: #000;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* TOOLBAR FOR BROWSER PREVIEW */
+  .toolbar {
+    background: #1e293b;
+    color: #fff;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  .toolbar h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+  .toolbar-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .btn {
+    background: #f59e0b;
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .btn-secondary {
+    background: #334155;
+    color: #fff;
+  }
+  .btn:hover { opacity: 0.9; }
+
+  /* PAGE & GRID SETUP (3x3 Standard Poker Cards on A4) */
+  @page {
+    size: A4 portrait;
+    margin: 15mm 9.75mm 15mm 9.75mm;
+  }
+
+  .sheet {
+    width: 190.5mm;
+    height: 266.7mm;
+    margin: 15mm auto;
+    background: #fff;
+    display: grid;
+    grid-template-columns: repeat(3, 63.5mm);
+    grid-template-rows: repeat(3, 88.9mm);
+    page-break-after: always;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.18);
+  }
+
+  @media print {
+    body { background: none; }
+    .toolbar { display: none !important; }
+    .sheet {
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+  }
+
+  /* CARD STRUCTURE (63.5mm x 88.9mm) */
+  .card {
+    width: 63.5mm;
+    height: 88.9mm;
+    padding: 1.8mm;
+    border: 0.2mm dashed #999;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    border: 1.4pt solid #000;
+    border-radius: 2.5mm;
+    padding: 1.2mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    background: #fff;
+  }
+
+  .card-frame-line {
+    position: absolute;
+    top: 0.8mm; left: 0.8mm; right: 0.8mm; bottom: 0.8mm;
+    border: 0.5pt solid #222;
+    border-radius: 2mm;
+    pointer-events: none;
+  }
+
+  /* HEADER */
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.9pt solid #000;
+    padding-bottom: 0.8mm;
+    position: relative;
+    z-index: 2;
+  }
+
+  .freq-badge {
+    width: 6.2mm;
+    height: 6.2mm;
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 11pt;
+    line-height: 1;
+  }
+
+  .bean-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 7.2pt;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    text-align: center;
+    flex-grow: 1;
+    padding: 0 1mm;
+  }
+
+  /* ART SECTION */
+  .art-box {
+    width: 100%;
+    height: 40mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.8mm 0;
+    border-radius: 1.5mm;
+    border: 0.6pt solid #333;
+    background: #fafafa;
+    overflow: hidden;
+  }
+  .art-box svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* BEANOMETER (HARVEST COIN METER) */
+  .beanometer {
+    border-top: 1pt solid #000;
+    padding-top: 0.8mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+  }
+
+  .beanometer-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 4.8pt;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 0.4mm;
+  }
+
+  .meter-slots {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border: 0.7pt solid #000;
+    border-radius: 1.2mm;
+    background: #fdfdfd;
+    padding: 0.6mm 0.2mm;
+  }
+
+  .meter-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    border-right: 0.5pt dashed #aaa;
+  }
+  .meter-slot:last-child {
+    border-right: none;
+  }
+
+  .req-beans {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 7pt;
+    color: #000;
+    line-height: 1.1;
+  }
+
+  .arrow-down {
+    font-size: 5pt;
+    line-height: 0.9;
+    color: #444;
+  }
+
+  .coin-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.2mm;
+    height: 4.2mm;
+    border-radius: 50%;
+    border: 0.8pt solid #000;
+    background: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 5.5pt;
+    font-weight: 900;
+    margin-top: 0.3mm;
+  }
+
+  /* BOTTOM FANNING BADGE */
+  .fanning-badge {
+    position: absolute;
+    bottom: 0.8mm;
+    left: 1.2mm;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 8pt;
+    color: #666;
+  }
+
+  /* SPECIAL CARD: 3RD BEAN FIELD */
+  .field-card .card-inner {
+    border: 2pt solid #000;
+    background: #fafafa;
+    text-align: center;
+  }
+  .field-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 9.5pt;
+    letter-spacing: 1px;
+    padding: 1.5mm 0;
+    border-bottom: 1pt double #000;
+  }
+  .field-cost-box {
+    margin: 2mm auto;
+    width: 28mm;
+    border: 1pt solid #000;
+    border-radius: 1.5mm;
+    padding: 1.2mm;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7.5pt;
+    font-weight: 800;
+    background: #fff;
+  }
+  .field-desc {
+    font-size: 6.8pt;
+    line-height: 1.35;
+    padding: 0 1.5mm;
+  }
+
+  /* SPECIAL CARD: RULES & REFERENCE */
+  .ref-card .card-inner {
+    padding: 1.2mm;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .ref-title {
+    font-family: 'Cinzel', serif;
+    font-size: 7.5pt;
+    font-weight: 900;
+    text-align: center;
+    border-bottom: 1pt solid #000;
+    padding-bottom: 0.6mm;
+    margin-bottom: 0.8mm;
+  }
+  .rule-step {
+    margin-bottom: 0.8mm;
+    font-size: 5.5pt;
+    line-height: 1.2;
+  }
+  .rule-step strong {
+    font-family: 'Cinzel', serif;
+    font-size: 6pt;
+    color: #000;
+  }
+  .golden-rule {
+    border: 0.8pt dashed #000;
+    padding: 0.8mm;
+    font-size: 5.2pt;
+    text-align: center;
+    background: #f7f7f7;
+    margin-top: 0.6mm;
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div>
+    <h1>Bohnanza Printable Deck (162 Cards)</h1>
+    <div style="font-size: 11px; opacity: 0.8;">Full Base Game + 3rd Bean Fields + Rules Aid</div>
+  </div>
+  <div class="toolbar-actions">
+    <button class="btn btn-secondary" onclick="renderSampler()">Master Sampler (2 Pages)</button>
+    <button class="btn btn-secondary" onclick="renderFullDeck()">Full 162-Card Deck (18 Pages)</button>
+    <button class="btn" onclick="window.print()">Print To A4 PDF</button>
+  </div>
+</div>
+
+<div id="deck-container"></div>
+
+<script>
+// BEAN DEFINITIONS & RULES-ACCURATE BEANOMETERS
+const BEANS = {
+  coffee: {
+    name: "Coffee Bean",
+    freq: 24,
+    meter: [ { b: 4, c: 1 }, { b: 7, c: 2 }, { b: 10, c: 3 }, { b: 12, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5" stroke-dasharray="2 1"/>
+        <!-- Steam -->
+        <path d="M 44 14 Q 40 8 44 2 Q 48 8 44 14 Z" fill="none" stroke="#000" stroke-width="1"/>
+        <path d="M 54 14 Q 50 8 54 2 Q 58 8 54 14 Z" fill="none" stroke="#000" stroke-width="1"/>
+        <!-- Jittering Wide-eyed Bean -->
+        <path d="M 32 75 C 24 55, 28 32, 50 30 C 72 32, 76 55, 68 75 C 60 88, 40 88, 32 75 Z" fill="#222" stroke="#000" stroke-width="2"/>
+        <path d="M 48 32 Q 52 50 48 76" stroke="#fff" stroke-width="2" fill="none"/>
+        <!-- Wide sleepless pupils -->
+        <circle cx="40" cy="46" r="6" fill="#fff" stroke="#000" stroke-width="1"/>
+        <circle cx="40" cy="46" r="2.5" fill="#000"/>
+        <circle cx="60" cy="46" r="6" fill="#fff" stroke="#000" stroke-width="1"/>
+        <circle cx="60" cy="46" r="2.5" fill="#000"/>
+        <!-- Shaking Coffee Cup -->
+        <rect x="42" y="66" width="16" height="12" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <path d="M 58 69 C 62 69, 62 75, 58 75" fill="none" stroke="#000" stroke-width="1.5"/>
+        <!-- Vibrating motion lines -->
+        <line x1="22" y1="42" x2="26" y2="45" stroke="#000" stroke-width="1.5"/>
+        <line x1="20" y1="56" x2="25" y2="57" stroke="#000" stroke-width="1.5"/>
+        <line x1="78" y1="42" x2="74" y2="45" stroke="#000" stroke-width="1.5"/>
+        <line x1="80" y1="56" x2="75" y2="57" stroke="#000" stroke-width="1.5"/>
+      </svg>`
+  },
+  wax: {
+    name: "Wax Bean",
+    freq: 22,
+    meter: [ { b: 4, c: 1 }, { b: 7, c: 2 }, { b: 9, c: 3 }, { b: 11, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Candle Wick & Flame -->
+        <path d="M 50 14 Q 44 24 50 28 Q 56 24 50 14 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+        <line x1="50" y1="28" x2="50" y2="34" stroke="#000" stroke-width="2"/>
+        <!-- Dapper Wax Bean with Melting Drips -->
+        <path d="M 32 80 C 26 55, 32 34, 50 34 C 68 34, 74 55, 68 80 C 62 86, 38 86, 32 80 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Wax Drip Lines -->
+        <path d="M 34 50 Q 38 60 38 52" stroke="#000" stroke-width="1.5" fill="none"/>
+        <path d="M 66 48 Q 62 58 62 50" stroke="#000" stroke-width="1.5" fill="none"/>
+        <!-- Monocle & Suave Smile -->
+        <circle cx="42" cy="48" r="4.5" fill="none" stroke="#000" stroke-width="1.5"/>
+        <line x1="46.5" y1="48" x2="56" y2="58" stroke="#000" stroke-width="0.8"/>
+        <circle cx="58" cy="48" r="2.5" fill="#000"/>
+        <path d="M 46 62 Q 52 66 56 62" stroke="#000" stroke-width="1.5" fill="none"/>
+        <!-- Bow Tie -->
+        <polygon points="44,72 56,72 50,76" fill="#000"/>
+        <polygon points="44,80 56,80 50,76" fill="#000"/>
+      </svg>`
+  },
+  blue: {
+    name: "Blue Bean",
+    freq: 20,
+    meter: [ { b: 4, c: 1 }, { b: 6, c: 2 }, { b: 8, c: 3 }, { b: 10, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Winter Beanie / Pompom -->
+        <circle cx="50" cy="20" r="4" fill="#000"/>
+        <path d="M 34 35 C 34 24, 66 24, 66 35 Z" fill="#222"/>
+        <!-- Melancholic Sad Bean -->
+        <path d="M 32 78 C 24 55, 28 35, 50 35 C 72 35, 76 55, 68 78 C 60 88, 40 88, 32 78 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Sad Slanted Eyes & Big Teardrop -->
+        <line x1="38" y1="46" x2="45" y2="50" stroke="#000" stroke-width="2"/>
+        <line x1="62" y1="46" x2="55" y2="50" stroke="#000" stroke-width="2"/>
+        <path d="M 40 56 Q 37 62 40 64 Q 43 62 40 56 Z" fill="#000"/>
+        <!-- Frown -->
+        <path d="M 45 68 Q 50 63 55 68" stroke="#000" stroke-width="1.5" fill="none"/>
+        <!-- Knitted Scarf -->
+        <rect x="30" y="74" width="40" height="9" rx="3" fill="#222" stroke="#000" stroke-width="1"/>
+        <line x1="58" y1="83" x2="58" y2="92" stroke="#222" stroke-width="5"/>
+      </svg>`
+  },
+  chili: {
+    name: "Chili Bean",
+    freq: 18,
+    meter: [ { b: 3, c: 1 }, { b: 6, c: 2 }, { b: 8, c: 3 }, { b: 9, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Fire / Flames from head -->
+        <path d="M 42 25 Q 50 10 50 20 Q 56 6 60 22 Q 52 24 42 25 Z" fill="#000"/>
+        <!-- Fiery Curved Bean -->
+        <path d="M 32 80 C 26 55, 34 26, 50 26 C 68 26, 76 52, 66 82 C 54 88, 38 88, 32 80 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Angry Fire Eyebrows & Eyes -->
+        <line x1="36" y1="42" x2="46" y2="46" stroke="#000" stroke-width="2.5"/>
+        <line x1="64" y1="42" x2="54" y2="46" stroke="#000" stroke-width="2.5"/>
+        <circle cx="42" cy="49" r="2.5" fill="#000"/>
+        <circle cx="58" cy="49" r="2.5" fill="#000"/>
+        <!-- Breathing Fire / Open mouth -->
+        <ellipse cx="50" cy="62" rx="6" ry="4" fill="#000"/>
+        <path d="M 52 64 Q 68 64 64 54 Q 74 60 70 68 Z" fill="#000"/>
+        <!-- Heat sweat beads -->
+        <circle cx="28" cy="48" r="1.5" fill="#000"/>
+        <circle cx="72" cy="46" r="1.5" fill="#000"/>
+      </svg>`
+  },
+  stink: {
+    name: "Stink Bean",
+    freq: 16,
+    meter: [ { b: 3, c: 1 }, { b: 5, c: 2 }, { b: 7, c: 3 }, { b: 8, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Clothespin on Top/Nose -->
+        <rect x="47" y="24" width="6" height="18" fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="50" cy="30" r="1.5" fill="#fff"/>
+        <!-- Stinky Wavy Gas Lines -->
+        <path d="M 22 45 Q 26 38 22 30 Q 18 22 24 16" fill="none" stroke="#000" stroke-width="1.2"/>
+        <path d="M 76 45 Q 72 38 76 30 Q 80 22 74 16" fill="none" stroke="#000" stroke-width="1.2"/>
+        <!-- Chubby Stink Bean -->
+        <path d="M 30 78 C 22 55, 30 38, 50 38 C 70 38, 78 55, 70 78 C 62 88, 38 88, 30 78 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Crossed or cheeky eyes -->
+        <circle cx="42" cy="52" r="3.5" fill="#000"/>
+        <circle cx="58" cy="52" r="3.5" fill="#000"/>
+        <!-- Smug crooked smirk -->
+        <path d="M 44 64 Q 50 70 58 63" stroke="#000" stroke-width="1.8" fill="none"/>
+        <!-- Buzzing Flies -->
+        <circle cx="28" cy="28" r="1.8" fill="#000"/>
+        <line x1="26" y1="26" x2="30" y2="30" stroke="#000" stroke-width="0.8"/>
+        <circle cx="72" cy="25" r="1.8" fill="#000"/>
+        <line x1="70" y1="23" x2="74" y2="27" stroke="#000" stroke-width="0.8"/>
+      </svg>`
+  },
+  green: {
+    name: "Green Bean",
+    freq: 14,
+    meter: [ { b: 3, c: 1 }, { b: 5, c: 2 }, { b: 6, c: 3 }, { b: 7, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Sprout Leaf on Head -->
+        <path d="M 50 24 C 44 14, 34 18, 42 24 C 48 28, 50 24, 50 24 Z" fill="#222"/>
+        <path d="M 50 24 C 56 14, 66 18, 58 24 C 52 28, 50 24, 50 24 Z" fill="#222"/>
+        <!-- Athletic Headband -->
+        <rect x="30" y="32" width="40" height="6" fill="#000"/>
+        <!-- Energetic Slim Bean -->
+        <path d="M 34 80 C 28 55, 32 34, 50 34 C 68 34, 72 55, 66 80 C 60 88, 40 88, 34 80 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Big Enthusiastic Eyes -->
+        <ellipse cx="42" cy="46" rx="4" ry="5" fill="#000"/>
+        <ellipse cx="58" cy="46" rx="4" ry="5" fill="#000"/>
+        <circle cx="43" cy="44" r="1.5" fill="#fff"/>
+        <circle cx="59" cy="44" r="1.5" fill="#fff"/>
+        <!-- Wide grin -->
+        <path d="M 42 60 Q 50 68 58 60 Z" fill="#000"/>
+        <!-- Flexing Runner Arm / Thumb up -->
+        <path d="M 32 58 Q 22 55 24 64" stroke="#000" stroke-width="2.5" fill="none"/>
+        <path d="M 68 58 Q 78 55 76 64" stroke="#000" stroke-width="2.5" fill="none"/>
+      </svg>`
+  },
+  soy: {
+    name: "Soy Bean",
+    freq: 12,
+    meter: [ { b: 2, c: 1 }, { b: 4, c: 2 }, { b: 6, c: 3 }, { b: 7, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Round Zen Scholar Bean -->
+        <circle cx="50" cy="52" r="28" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Cute Little Sprout Topknot -->
+        <path d="M 50 24 Q 46 16 50 14 Q 54 16 50 24 Z" fill="#000"/>
+        <!-- Round Scholar Spectacles -->
+        <circle cx="42" cy="46" r="6" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <circle cx="58" cy="46" r="6" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <line x1="48" y1="46" x2="52" y2="46" stroke="#000" stroke-width="1.5"/>
+        <circle cx="42" cy="46" r="2" fill="#000"/>
+        <circle cx="58" cy="46" r="2" fill="#000"/>
+        <!-- Serene gentle smile -->
+        <path d="M 46 62 Q 50 66 54 62" stroke="#000" stroke-width="1.5" fill="none"/>
+        <!-- Traditional Kimono / Robe Collar -->
+        <line x1="38" y1="72" x2="50" y2="80" stroke="#000" stroke-width="1.5"/>
+        <line x1="62" y1="72" x2="50" y2="80" stroke="#000" stroke-width="1.5"/>
+      </svg>`
+  },
+  blackeyed: {
+    name: "Black-Eyed Bean",
+    freq: 10,
+    meter: [ { b: 2, c: 1 }, { b: 4, c: 2 }, { b: 5, c: 3 }, { b: 6, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Pirate Bandana / Tied Knot -->
+        <path d="M 28 36 C 28 22, 72 22, 72 36 Z" fill="#222"/>
+        <circle cx="74" cy="38" r="3" fill="#222"/>
+        <!-- Tough Boxer/Pirate Bean -->
+        <path d="M 32 80 C 24 55, 30 36, 50 36 C 70 36, 76 55, 68 80 C 60 88, 40 88, 32 80 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Literal Huge Black Eye / Patch -->
+        <circle cx="40" cy="50" r="7" fill="#000"/>
+        <line x1="30" y1="42" x2="48" y2="58" stroke="#000" stroke-width="1.5"/>
+        <!-- Other Fierce Eye -->
+        <circle cx="60" cy="50" r="3" fill="#000"/>
+        <!-- Bandage on cheek -->
+        <rect x="54" y="64" width="10" height="4" transform="rotate(-15 54 64)" fill="#fff" stroke="#000" stroke-width="1"/>
+        <!-- Tough smirk with tooth gap -->
+        <path d="M 42 66 Q 50 70 56 64" stroke="#000" stroke-width="2" fill="none"/>
+      </svg>`
+  },
+  red: {
+    name: "Red Bean",
+    freq: 8,
+    meter: [ { b: 2, c: 1 }, { b: 3, c: 2 }, { b: 4, c: 3 }, { b: 5, c: 4 } ],
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Floating Romantic Hearts -->
+        <path d="M 50 14 C 47 8, 41 8, 41 14 C 41 19, 50 24, 50 24 C 50 24, 59 19, 59 14 C 59 8, 53 8, 50 14 Z" fill="#000"/>
+        <!-- Kidney-Shaped Romantic Bean -->
+        <path d="M 36 82 C 24 64, 26 34, 46 28 C 66 22, 78 40, 72 62 C 68 76, 58 74, 50 82 C 44 88, 38 86, 36 82 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Big Loving Anime Eyes -->
+        <ellipse cx="42" cy="46" rx="4.5" ry="6" fill="#000"/>
+        <ellipse cx="60" cy="48" rx="4.5" ry="6" fill="#000"/>
+        <circle cx="43" cy="44" r="1.8" fill="#fff"/>
+        <circle cx="61" cy="46" r="1.8" fill="#fff"/>
+        <!-- Blushing Cross-Hatch Cheeks -->
+        <line x1="33" y1="56" x2="38" y2="52" stroke="#000" stroke-width="1"/>
+        <line x1="36" y1="58" x2="41" y2="54" stroke="#000" stroke-width="1"/>
+        <line x1="63" y1="58" x2="68" y2="54" stroke="#000" stroke-width="1"/>
+        <line x1="66" y1="60" x2="71" y2="56" stroke="#000" stroke-width="1"/>
+        <!-- Sweet shy smile -->
+        <path d="M 48 64 Q 52 68 56 64" stroke="#000" stroke-width="1.5" fill="none"/>
+      </svg>`
+  },
+  garden: {
+    name: "Garden Bean",
+    freq: 6,
+    meter: [ { b: 2, c: 2 }, { b: 3, c: 3 } ], // Garden Bean rule: only 2 & 3 coins!
+    art: `
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <!-- Farmer Straw Hat -->
+        <ellipse cx="50" cy="28" rx="28" ry="7" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <path d="M 36 28 C 36 16, 64 16, 64 28 Z" fill="#222"/>
+        <!-- Plump Aristocrat / Royal Garden Bean -->
+        <circle cx="50" cy="58" r="26" fill="#fff" stroke="#000" stroke-width="2"/>
+        <!-- Contented Sleepy Eyes -->
+        <path d="M 38 48 Q 43 44 48 48" stroke="#000" stroke-width="2" fill="none"/>
+        <path d="M 54 48 Q 59 44 64 48" stroke="#000" stroke-width="2" fill="none"/>
+        <!-- Jolly smile & double chin -->
+        <path d="M 46 62 Q 51 68 56 62" stroke="#000" stroke-width="1.5" fill="none"/>
+        <path d="M 48 69 Q 51 72 54 69" stroke="#000" stroke-width="1" fill="none"/>
+        <!-- Garden Spade / Pitchfork in hand -->
+        <line x1="72" y1="40" x2="78" y2="82" stroke="#000" stroke-width="2"/>
+        <polygon points="76,38 70,34 74,44" fill="#000"/>
+      </svg>`
+  }
+};
+
+// FUNCTION TO BUILD BEAN CARD HTML
+function createBeanCard(type) {
+  const bean = BEANS[type];
+  const slotsHtml = bean.meter.map(m => `
+    <div class="meter-slot">
+      <div class="req-beans">${m.b}</div>
+      <div class="arrow-down">▼</div>
+      <div class="coin-badge">${m.c}</div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-frame-line"></div>
+        <div class="card-header">
+          <div class="freq-badge">${bean.freq}</div>
+          <div class="bean-title">${bean.name}</div>
+          <div class="freq-badge" style="font-size: 8pt; width: 5mm; height: 5mm;">${bean.freq}</div>
+        </div>
+        <div class="art-box">${bean.art}</div>
+        <div class="beanometer">
+          <div class="beanometer-label">Beanometer</div>
+          <div class="meter-slots">${slotsHtml}</div>
+        </div>
+        <div class="fanning-badge">${bean.freq}</div>
+      </div>
+    </div>
+  `;
+}
+
+// 3RD BEAN FIELD CARD HTML
+function createFieldCard() {
+  return `
+    <div class="card field-card">
+      <div class="card-inner">
+        <div class="card-frame-line"></div>
+        <div class="field-title">3rd Bean Field</div>
+        <div class="art-box" style="height: 34mm;">
+          <svg viewBox="0 0 100 100">
+            <rect x="15" y="20" width="70" height="50" rx="3" fill="#fff" stroke="#000" stroke-width="2"/>
+            <line x1="15" y1="36" x2="85" y2="36" stroke="#000" stroke-width="1.5"/>
+            <!-- Plowed Field Furrows -->
+            <path d="M 25 55 Q 35 45 50 55 Q 65 65 75 55" fill="none" stroke="#000" stroke-width="1.5"/>
+            <path d="M 25 63 Q 35 53 50 63 Q 65 73 75 63" fill="none" stroke="#000" stroke-width="1.5"/>
+            <!-- Sprouts -->
+            <polygon points="35,46 38,40 41,46" fill="#000"/>
+            <polygon points="50,46 53,40 56,46" fill="#000"/>
+            <polygon points="65,46 68,40 71,46" fill="#000"/>
+            <!-- Wooden Signpost -->
+            <line x1="50" y1="70" x2="50" y2="92" stroke="#000" stroke-width="4"/>
+          </svg>
+        </div>
+        <div class="field-cost-box">COST: 3 GOLD COINS</div>
+        <div class="field-desc">
+          Pay 3 gold coins from your harvested earnings to turn this card face-up. You may now plant beans in a <strong>third field</strong> for the rest of the game!
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// RULES / PLAYER AID CARD HTML
+function createRuleCard() {
+  return `
+    <div class="card ref-card">
+      <div class="card-inner">
+        <div class="card-frame-line"></div>
+        <div class="ref-title">Bohnanza Turn Order</div>
+        <div class="rule-step"><strong>1. Plant Hand Beans:</strong> You MUST plant the 1st card from your hand into a field. You MAY also plant the 2nd card.</div>
+        <div class="rule-step"><strong>2. Draw & Trade:</strong> Draw 2 cards face-up. Trade or donate them (and cards from your hand) with anyone. NEVER put traded cards in your hand!</div>
+        <div class="rule-step"><strong>3. Plant Traded Beans:</strong> All players must plant beans they received in trades.</div>
+        <div class="rule-step"><strong>4. Draw New Cards:</strong> Draw 3 cards, one at a time, to the <em>BACK</em> of your hand.</div>
+        <div class="golden-rule">
+          <strong>THE GOLDEN RULE:</strong><br>
+          NEVER change the order of cards in your hand! Always play from the front, draw to the back.
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// RENDER FUNCTION INTO 9-CARD SHEETS
+function renderCards(cardsArray) {
+  const container = document.getElementById('deck-container');
+  container.innerHTML = '';
+  
+  const totalSheets = Math.ceil(cardsArray.length / 9);
+  for (let s = 0; s < totalSheets; s++) {
+    const sheetDiv = document.createElement('div');
+    sheetDiv.className = 'sheet';
+    const pageCards = cardsArray.slice(s * 9, (s + 1) * 9);
+    sheetDiv.innerHTML = pageCards.join('');
+    container.appendChild(sheetDiv);
+  }
+}
+
+// BUILD FULL 162-CARD DECK (18 Pages)
+function renderFullDeck() {
+  const deck = [];
+  
+  // 150 Standard Bean Cards:
+  // Coffee (24), Wax (22), Blue (20), Chili (18), Stink (16), Green (14), Soy (12), Black-eyed (10), Red (8), Garden (6)
+  const counts = [
+    { type: 'coffee', n: 24 },
+    { type: 'wax', n: 22 },
+    { type: 'blue', n: 20 },
+    { type: 'chili', n: 18 },
+    { type: 'stink', n: 16 },
+    { type: 'green', n: 14 },
+    { type: 'soy', n: 12 },
+    { type: 'blackeyed', n: 10 },
+    { type: 'red', n: 8 },
+    { type: 'garden', n: 6 }
+  ];
+
+  counts.forEach(item => {
+    for (let i = 0; i < item.n; i++) {
+      deck.push(createBeanCard(item.type));
+    }
+  });
+
+  // 7 3rd Bean Field Cards
+  for (let i = 0; i < 7; i++) {
+    deck.push(createFieldCard());
+  }
+
+  // 5 Player Aid / Rules Reference Cards (completes exactly 162 cards = 18 full pages)
+  for (let i = 0; i < 5; i++) {
+    deck.push(createRuleCard());
+  }
+
+  renderCards(deck);
+}
+
+// BUILD MASTER SAMPLER (2 Pages: 1 of each bean, field, and rules)
+function renderSampler() {
+  const sampler = [
+    createBeanCard('coffee'),
+    createBeanCard('wax'),
+    createBeanCard('blue'),
+    createBeanCard('chili'),
+    createBeanCard('stink'),
+    createBeanCard('green'),
+    createBeanCard('soy'),
+    createBeanCard('blackeyed'),
+    createBeanCard('red'),
+    createBeanCard('garden'),
+    createFieldCard(),
+    createRuleCard()
+  ];
+  renderCards(sampler);
+}
+
+// Default on load: Full 18-Page Deck
+window.onload = renderFullDeck;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Air, Land, and Sea: Spies, Lies & Supplies - Printable Deck</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Montserrat:ital,wght@0,500;0,700;0,900;1,700&family=Oswald:wght@600;700&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #d8d8d8;
+    font-family: 'Montserrat', sans-serif;
+    color: #000;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* BROWSER TOOLBAR */
+  .toolbar {
+    background: #111827;
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+  .toolbar h1 {
+    font-family: 'Black Ops One', cursive;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+  }
+  .btn-print {
+    background: #e11d48;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn-print:hover { background: #be123c; }
+
+  /* A4 PAGE SETUP (3x3 Poker Cards) */
+  @page {
+    size: A4 portrait;
+    margin: 15mm 9.75mm 15mm 9.75mm;
+  }
+
+  .sheet {
+    width: 190.5mm;
+    height: 266.7mm;
+    margin: 15mm auto;
+    background: #fff;
+    display: grid;
+    grid-template-columns: repeat(3, 63.5mm);
+    grid-template-rows: repeat(3, 88.9mm);
+    page-break-after: always;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  }
+
+  @media print {
+    body { background: none; }
+    .toolbar { display: none !important; }
+    .sheet {
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+  }
+
+  /* CARD STRUCTURE (Standard 63.5mm x 88.9mm) */
+  .card {
+    width: 63.5mm;
+    height: 88.9mm;
+    padding: 1.8mm;
+    border: 0.25mm dashed #888;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    border: 1.5pt solid #000;
+    border-radius: 2mm;
+    padding: 1.2mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    background: #fff;
+  }
+
+  .card-border-stencil {
+    position: absolute;
+    top: 0.7mm; left: 0.7mm; right: 0.7mm; bottom: 0.7mm;
+    border: 0.6pt solid #333;
+    border-radius: 1.6mm;
+    pointer-events: none;
+  }
+
+  /* HEADER */
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1.2pt solid #000;
+    padding-bottom: 0.8mm;
+    position: relative;
+    z-index: 2;
+  }
+
+  .strength-badge {
+    width: 7mm;
+    height: 7mm;
+    background: #000;
+    color: #fff;
+    border-radius: 1.5mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Black Ops One', cursive;
+    font-size: 13pt;
+    line-height: 1;
+  }
+
+  .title-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    padding: 0 1mm;
+  }
+
+  .theater-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 5.5pt;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .card-name {
+    font-family: 'Black Ops One', cursive;
+    font-size: 7.2pt;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .theater-icon-box {
+    width: 7mm;
+    height: 7mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .theater-icon-box svg {
+    width: 6mm;
+    height: 6mm;
+  }
+
+  /* ART BOX */
+  .art-box {
+    width: 100%;
+    height: 36.5mm;
+    border: 0.8pt solid #000;
+    border-radius: 1.2mm;
+    margin: 0.8mm 0;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .art-box svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ABILITY SECTION */
+  .ability-box {
+    border-top: 1pt solid #000;
+    padding-top: 0.8mm;
+    display: flex;
+    flex-direction: column;
+    min-height: 25mm;
+    background: #fff;
+    position: relative;
+  }
+
+  .type-badge {
+    align-self: flex-start;
+    font-family: 'Oswald', sans-serif;
+    font-size: 5.5pt;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 0.4mm 1.5mm;
+    border-radius: 0.8mm;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 0.8mm;
+    display: flex;
+    align-items: center;
+    gap: 0.8mm;
+  }
+  .type-tactical {
+    background: #000;
+    color: #fff;
+  }
+  .type-ongoing {
+    background: #fff;
+    color: #000;
+    border: 0.8pt solid #000;
+  }
+  .type-none {
+    background: #e5e5e5;
+    color: #555;
+    border: 0.5pt solid #888;
+  }
+
+  .ability-desc {
+    font-size: 6.2pt;
+    line-height: 1.22;
+    font-weight: 500;
+    color: #111;
+  }
+  .ability-desc strong {
+    font-weight: 800;
+    color: #000;
+  }
+
+  /* BOTTOM CORNER FANNING INDICES */
+  .fanning-corner {
+    position: absolute;
+    bottom: 0.6mm;
+    right: 0.8mm;
+    display: flex;
+    align-items: center;
+    gap: 0.8mm;
+    font-family: 'Black Ops One', cursive;
+    font-size: 9pt;
+    color: #444;
+  }
+
+  /* THEATER PLACARDS (PAGE 3) */
+  .theater-card .card-inner {
+    border: 2.2pt solid #000;
+    background: #fafafa;
+    text-align: center;
+    justify-content: space-between;
+  }
+  .theater-card-title {
+    font-family: 'Black Ops One', cursive;
+    font-size: 11pt;
+    letter-spacing: 1.2px;
+    padding: 1.2mm 0;
+    border-bottom: 1.5pt solid #000;
+    text-transform: uppercase;
+  }
+  .theater-banner-sub {
+    font-family: 'Oswald', sans-serif;
+    font-size: 6pt;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-top: 0.5mm;
+  }
+  .theater-card-desc {
+    font-size: 6.5pt;
+    line-height: 1.35;
+    padding: 1.5mm 1mm;
+    border-top: 1pt solid #000;
+    font-weight: 600;
+  }
+
+  /* REFERENCE & COMMANDER CARDS */
+  .aid-card .card-inner {
+    padding: 1.2mm;
+    font-size: 5.6pt;
+    line-height: 1.18;
+  }
+  .aid-title {
+    font-family: 'Black Ops One', cursive;
+    font-size: 7.2pt;
+    text-align: center;
+    border-bottom: 1.2pt solid #000;
+    padding-bottom: 0.8mm;
+    margin-bottom: 0.8mm;
+    letter-spacing: 0.5px;
+  }
+  .aid-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8mm 0;
+  }
+  .aid-table th, .aid-table td {
+    border: 0.6pt solid #000;
+    padding: 0.6mm 0.8mm;
+    text-align: center;
+  }
+  .aid-table th {
+    background: #000;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 5.5pt;
+  }
+  .aid-box-note {
+    border: 0.7pt dashed #000;
+    padding: 0.8mm;
+    margin-top: 0.8mm;
+    background: #f7f7f7;
+    font-size: 5.2pt;
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div>
+    <h1>Air, Land, and Sea: Spies, Lies & Supplies</h1>
+    <div style="font-size: 11px; opacity: 0.85;">Standard 27-Card Complete Print & Play Set (3 A4 Pages)</div>
+  </div>
+  <button class="btn-print" onclick="window.print()">Print To A4 PDF</button>
+</div>
+
+<!-- ================= PAGE 1: AIR (1-6) + LAND (1-3) ================= -->
+<div class="sheet">
+
+  <!-- 1. AIR 1: DECOY -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">1</div>
+        <div class="title-group">
+          <div class="theater-label">Air Theater</div>
+          <div class="card-name">Decoy</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5" stroke-dasharray="2 1"/>
+          <!-- Inflatable Rubber Glider / Decoy Plane with Stitching -->
+          <path d="M 20 54 Q 50 48 80 54 Q 72 40 50 42 Q 28 40 20 54 Z" fill="#222" stroke="#000" stroke-width="2"/>
+          <line x1="26" y1="48" x2="30" y2="52" stroke="#fff" stroke-width="1"/>
+          <line x1="42" y1="46" x2="46" y2="50" stroke="#fff" stroke-width="1"/>
+          <line x1="58" y1="46" x2="62" y2="50" stroke="#fff" stroke-width="1"/>
+          <line x1="70" y1="48" x2="74" y2="52" stroke="#fff" stroke-width="1"/>
+          <!-- Radar Dish & Mirage Wave -->
+          <ellipse cx="50" cy="28" rx="14" ry="5" fill="none" stroke="#000" stroke-width="1.5"/>
+          <path d="M 50 28 L 50 40" stroke="#000" stroke-width="2"/>
+          <path d="M 36 20 Q 50 12 64 20" fill="none" stroke="#000" stroke-width="1.2" stroke-dasharray="2 1"/>
+          <circle cx="50" cy="22" r="2" fill="#000"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-ongoing"><span>∞</span> Ongoing</div>
+        <div class="ability-desc">All face-down cards on your side in this theater have a strength of <strong>4</strong> instead of 2.</div>
+        <div class="fanning-corner">1 <span style="font-size:7pt">AIR</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. AIR 2: RECONNAISSANCE -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">2</div>
+        <div class="title-group">
+          <div class="theater-label">Air Theater</div>
+          <div class="card-name">Recon</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- High-Altitude Spy Plane -->
+          <polygon points="50,15 54,45 88,60 54,64 50,85 46,64 12,60 46,45" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <!-- Camera Aperture Target Ring -->
+          <circle cx="50" cy="50" r="28" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+          <line x1="50" y1="18" x2="50" y2="82" stroke="#000" stroke-width="0.8"/>
+          <line x1="18" y1="50" x2="82" y2="50" stroke="#000" stroke-width="0.8"/>
+          <circle cx="50" cy="50" r="5" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Secretly look at <strong>1 face-down card</strong> anywhere in play, OR look at the top card of the deck.</div>
+        <div class="fanning-corner">2 <span style="font-size:7pt">AIR</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. AIR 3: COVERT DROP -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">3</div>
+        <div class="title-group">
+          <div class="theater-label">Air Theater</div>
+          <div class="card-name">Covert Drop</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Parachute Canopy -->
+          <path d="M 22 42 C 22 18, 78 18, 78 42 Z" fill="#222" stroke="#000" stroke-width="2"/>
+          <line x1="24" y1="42" x2="48" y2="70" stroke="#000" stroke-width="1"/>
+          <line x1="38" y1="42" x2="49" y2="70" stroke="#000" stroke-width="1"/>
+          <line x1="62" y1="42" x2="51" y2="70" stroke="#000" stroke-width="1"/>
+          <line x1="76" y1="42" x2="52" y2="70" stroke="#000" stroke-width="1"/>
+          <!-- Agent Silhouette Dropping -->
+          <circle cx="50" cy="71" r="3.5" fill="#000"/>
+          <polygon points="46,75 54,75 52,86 48,86" fill="#000"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Move <strong>1 face-down card</strong> from this theater to any other theater.</div>
+        <div class="fanning-corner">3 <span style="font-size:7pt">AIR</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. AIR 4: RADAR JAMMER -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">4</div>
+        <div class="title-group">
+          <div class="theater-label">Air Theater</div>
+          <div class="card-name">Radar Jammer</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Radio Tower with Jamming Rings -->
+          <polygon points="50,22 42,84 58,84" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <line x1="44" y1="50" x2="56" y2="50" stroke="#fff" stroke-width="1.5"/>
+          <line x1="43" y1="65" x2="57" y2="65" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="50" cy="20" r="3" fill="#000"/>
+          <!-- Signal Jamming Waves -->
+          <path d="M 38 18 Q 32 10 38 4" fill="none" stroke="#000" stroke-width="2"/>
+          <path d="M 62 18 Q 68 10 62 4" fill="none" stroke="#000" stroke-width="2"/>
+          <path d="M 28 22 Q 18 10 28 -2" fill="none" stroke="#000" stroke-width="1.5"/>
+          <path d="M 72 22 Q 82 10 72 -2" fill="none" stroke="#000" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-ongoing"><span>∞</span> Ongoing</div>
+        <div class="ability-desc">Your opponent cannot play cards <strong>face-down</strong> to this theater or an adjacent theater.</div>
+        <div class="fanning-corner">4 <span style="font-size:7pt">AIR</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. AIR 5: INTERCEPT -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">5</div>
+        <div class="title-group">
+          <div class="theater-label">Air Theater</div>
+          <div class="card-name">Intercept</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Twin Jet Fighters in Dogfight Dive -->
+          <polygon points="40,18 46,45 68,54 44,56 40,75 36,56 12,54 34,45" fill="#222" stroke="#000" stroke-width="1.2"/>
+          <polygon points="65,35 68,54 85,60 67,62 64,74 61,62 44,60 60,54" fill="#fff" stroke="#000" stroke-width="1.2"/>
+          <!-- Tracers -->
+          <line x1="38" y1="18" x2="30" y2="4" stroke="#000" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <line x1="42" y1="18" x2="50" y2="4" stroke="#000" stroke-width="1.5" stroke-dasharray="2 2"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">The next time your opponent plays a card to an adjacent theater, they must play it <strong>face-down</strong>.</div>
+        <div class="fanning-corner">5 <span style="font-size:7pt">AIR</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. AIR 6: FLYING FORTRESS -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">6</div>
+        <div class="title-group">
+          <div class="theater-label">Air Theater</div>
+          <div class="card-name">Fortress</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Massive Strategic Heavy Bomber -->
+          <path d="M 47 15 L 53 15 L 54 85 L 46 85 Z" fill="#222"/>
+          <path d="M 12 48 L 50 42 L 88 48 L 84 56 L 50 50 L 16 56 Z" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <!-- Engines -->
+          <rect x="25" y="44" width="4" height="12" fill="#000"/>
+          <rect x="35" y="44" width="4" height="12" fill="#000"/>
+          <rect x="61" y="44" width="4" height="12" fill="#000"/>
+          <rect x="71" y="44" width="4" height="12" fill="#000"/>
+          <!-- Rear Tail Fins -->
+          <path d="M 32 82 L 50 78 L 68 82 L 66 88 L 50 84 L 34 88 Z" fill="#222"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-none">No Ability</div>
+        <div class="ability-desc">This card has no ability. Its massive <strong>6 Strength</strong> commands total air supremacy.</div>
+        <div class="fanning-corner">6 <span style="font-size:7pt">AIR</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. LAND 1: DEEP COVER SPY -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">1</div>
+        <div class="title-group">
+          <div class="theater-label">Land Theater</div>
+          <div class="card-name">Deep Cover</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4 7.58 4 4 7.58 4 12H1l4 4 4-4H6z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5" stroke-dasharray="2 1"/>
+          <!-- Trenchcoat Silhouette & Fedora -->
+          <ellipse cx="50" cy="30" rx="24" ry="5" fill="#222"/>
+          <path d="M 38 30 C 38 18, 62 18, 62 30 Z" fill="#222"/>
+          <!-- Collared Coat & Glowing Clandestine Eyes -->
+          <polygon points="26,88 34,44 66,44 74,88" fill="#222"/>
+          <polygon points="40,44 50,60 60,44" fill="#fff"/>
+          <polygon points="48,46 52,46 50,65" fill="#000"/>
+          <!-- Hidden Briefcase / Classified File -->
+          <rect x="36" y="68" width="28" height="18" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="50" y1="68" x2="50" y2="86" stroke="#000" stroke-width="1.5"/>
+          <circle cx="50" cy="72" r="2" fill="#000"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Name a strength (1–6). Your opponent must reveal all cards of that strength in their hand.</div>
+        <div class="fanning-corner">1 <span style="font-size:7pt">LAND</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. LAND 2: SABOTEUR -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">2</div>
+        <div class="title-group">
+          <div class="theater-label">Land Theater</div>
+          <div class="card-name">Saboteur</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4 7.58 4 4 7.58 4 12H1l4 4 4-4H6z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Dynamite Sticks with Ticking Clock Timer -->
+          <rect x="36" y="32" width="8" height="42" fill="#222" stroke="#000" stroke-width="1.2"/>
+          <rect x="46" y="32" width="8" height="42" fill="#222" stroke="#000" stroke-width="1.2"/>
+          <rect x="56" y="32" width="8" height="42" fill="#222" stroke="#000" stroke-width="1.2"/>
+          <!-- Bundling bands -->
+          <rect x="34" y="40" width="32" height="4" fill="#fff" stroke="#000" stroke-width="1"/>
+          <rect x="34" y="62" width="32" height="4" fill="#fff" stroke="#000" stroke-width="1"/>
+          <!-- Alarm Clock -->
+          <circle cx="50" cy="53" r="9" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="50" y1="53" x2="50" y2="48" stroke="#000" stroke-width="1.5"/>
+          <line x1="50" y1="53" x2="55" y2="53" stroke="#000" stroke-width="1.5"/>
+          <!-- Sparking fuse -->
+          <path d="M 50 32 Q 54 20 62 16" fill="none" stroke="#000" stroke-width="1.5"/>
+          <polygon points="62,16 66,12 66,18" fill="#000"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Flip <strong>1 face-up card</strong> in this theater face-down. (It now has a base strength of 2).</div>
+        <div class="fanning-corner">2 <span style="font-size:7pt">LAND</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. LAND 3: SUPPLY CONVOY -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">3</div>
+        <div class="title-group">
+          <div class="theater-label">Land Theater</div>
+          <div class="card-name">Supply Convoy</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4 7.58 4 4 7.58 4 12H1l4 4 4-4H6z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Heavy Military 6x6 Truck -->
+          <rect x="20" y="44" width="40" height="24" rx="2" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <path d="M 60 52 L 78 52 L 78 68 L 60 68 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <polygon points="62,54 74,54 70,62 62,62" fill="#222"/>
+          <!-- Heavy Tread Wheels -->
+          <circle cx="28" cy="72" r="7" fill="#fff" stroke="#000" stroke-width="2"/>
+          <circle cx="28" cy="72" r="2" fill="#000"/>
+          <circle cx="46" cy="72" r="7" fill="#fff" stroke="#000" stroke-width="2"/>
+          <circle cx="46" cy="72" r="2" fill="#000"/>
+          <circle cx="70" cy="72" r="7" fill="#fff" stroke="#000" stroke-width="2"/>
+          <circle cx="70" cy="72" r="2" fill="#000"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Draw <strong>1 card</strong> from the deck. Then play 1 card from your hand face-down into any theater.</div>
+        <div class="fanning-corner">3 <span style="font-size:7pt">LAND</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= PAGE 2: LAND (4-6) + SEA (1-6) ================= -->
+<div class="sheet">
+
+  <!-- 10. LAND 4: FORTIFICATION -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">4</div>
+        <div class="title-group">
+          <div class="theater-label">Land Theater</div>
+          <div class="card-name">Fortification</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4 7.58 4 4 7.58 4 12H1l4 4 4-4H6z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Armored Concrete Bunker Pillbox -->
+          <path d="M 20 76 L 26 48 L 74 48 L 80 76 Z" fill="#222" stroke="#000" stroke-width="2"/>
+          <!-- Vision / Gun Slit -->
+          <rect x="34" y="55" width="32" height="6" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Sandbag wall -->
+          <ellipse cx="32" cy="77" rx="9" ry="4" fill="#fff" stroke="#000" stroke-width="1"/>
+          <ellipse cx="50" cy="77" rx="9" ry="4" fill="#fff" stroke="#000" stroke-width="1"/>
+          <ellipse cx="68" cy="77" rx="9" ry="4" fill="#fff" stroke="#000" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-ongoing"><span>∞</span> Ongoing</div>
+        <div class="ability-desc">Cards on your side in this theater cannot be flipped face-down or moved by your opponent.</div>
+        <div class="fanning-corner">4 <span style="font-size:7pt">LAND</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. LAND 5: AMBUSH -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">5</div>
+        <div class="title-group">
+          <div class="theater-label">Land Theater</div>
+          <div class="card-name">Ambush</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4 7.58 4 4 7.58 4 12H1l4 4 4-4H6z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Commando Sniper with Ghillie Camouflage in foliage -->
+          <path d="M 25 76 Q 35 48 50 54 Q 65 48 75 76 Z" fill="#222" stroke="#000" stroke-width="2"/>
+          <line x1="42" y1="48" x2="84" y2="40" stroke="#000" stroke-width="3"/>
+          <rect x="52" y="38" width="12" height="4" fill="#000"/>
+          <!-- Crosshairs -->
+          <circle cx="50" cy="50" r="26" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+          <line x1="50" y1="20" x2="50" y2="80" stroke="#000" stroke-width="0.8"/>
+          <line x1="20" y1="50" x2="80" y2="50" stroke="#000" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Reveal <strong>1 enemy face-down card</strong>. If its printed strength is 3 or less, discard it immediately.</div>
+        <div class="fanning-corner">5 <span style="font-size:7pt">LAND</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. LAND 6: HEAVY TANK -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">6</div>
+        <div class="title-group">
+          <div class="theater-label">Land Theater</div>
+          <div class="card-name">Heavy Tank</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4 7.58 4 4 7.58 4 12H1l4 4 4-4H6z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Huge Heavy Battle Tank -->
+          <rect x="22" y="58" width="56" height="18" rx="6" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <!-- Tread Wheels -->
+          <circle cx="30" cy="67" r="4.5" fill="#fff" stroke="#000" stroke-width="1"/>
+          <circle cx="43" cy="67" r="4.5" fill="#fff" stroke="#000" stroke-width="1"/>
+          <circle cx="56" cy="67" r="4.5" fill="#fff" stroke="#000" stroke-width="1"/>
+          <circle cx="69" cy="67" r="4.5" fill="#fff" stroke="#000" stroke-width="1"/>
+          <!-- Turret and Long 120mm Gun -->
+          <polygon points="32,58 38,44 62,44 66,58" fill="#222"/>
+          <line x1="60" y1="49" x2="88" y2="49" stroke="#000" stroke-width="4"/>
+          <rect x="86" y="47" width="3" height="4" fill="#000"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-none">No Ability</div>
+        <div class="ability-desc">This card has no ability. Its devastating <strong>6 Strength</strong> crushes enemy frontlines.</div>
+        <div class="fanning-corner">6 <span style="font-size:7pt">LAND</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. SEA 1: SONAR BUOY -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">1</div>
+        <div class="title-group">
+          <div class="theater-label">Sea Theater</div>
+          <div class="card-name">Sonar Buoy</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5" stroke-dasharray="2 1"/>
+          <!-- Floating Hydrophone Listening Buoy -->
+          <line x1="50" y1="18" x2="50" y2="52" stroke="#000" stroke-width="2"/>
+          <polygon points="46,18 54,18 50,12" fill="#000"/>
+          <ellipse cx="50" cy="52" rx="16" ry="7" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <rect x="44" y="59" width="12" height="18" fill="#222"/>
+          <!-- Underwater Sonar Rings -->
+          <path d="M 32 75 Q 50 85 68 75" fill="none" stroke="#000" stroke-width="1.5"/>
+          <path d="M 24 82 Q 50 96 76 82" fill="none" stroke="#000" stroke-width="1.5" stroke-dasharray="2 2"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Choose an opponent. Look at their <strong>entire hand</strong> of cards.</div>
+        <div class="fanning-corner">1 <span style="font-size:7pt">SEA</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. SEA 2: BLOCKADE -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">2</div>
+        <div class="title-group">
+          <div class="theater-label">Sea Theater</div>
+          <div class="card-name">Blockade</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Floating Spiked Naval Mines & Sea Barrier -->
+          <circle cx="50" cy="46" r="14" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <!-- Mine Spikes -->
+          <line x1="50" y1="26" x2="50" y2="32" stroke="#000" stroke-width="3"/>
+          <line x1="50" y1="60" x2="50" y2="66" stroke="#000" stroke-width="3"/>
+          <line x1="30" y1="46" x2="36" y2="46" stroke="#000" stroke-width="3"/>
+          <line x1="64" y1="46" x2="70" y2="46" stroke="#000" stroke-width="3"/>
+          <line x1="36" y1="32" x2="41" y2="37" stroke="#000" stroke-width="2.5"/>
+          <line x1="64" y1="32" x2="59" y2="37" stroke="#000" stroke-width="2.5"/>
+          <!-- Mooring chain -->
+          <line x1="50" y1="66" x2="50" y2="86" stroke="#000" stroke-width="2" stroke-dasharray="3 2"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-ongoing"><span>∞</span> Ongoing</div>
+        <div class="ability-desc">Neither player can play any cards to this theater unless it is their <strong>last legal theater</strong>.</div>
+        <div class="fanning-corner">2 <span style="font-size:7pt">SEA</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15. SEA 3: SUBMARINE -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">3</div>
+        <div class="title-group">
+          <div class="theater-label">Sea Theater</div>
+          <div class="card-name">Submarine</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Submerged Attack Submarine Hull -->
+          <ellipse cx="50" cy="56" rx="34" ry="12" fill="#222" stroke="#000" stroke-width="2"/>
+          <!-- Conning Tower & Periscope -->
+          <rect x="44" y="36" width="12" height="12" fill="#222"/>
+          <line x1="48" y1="36" x2="48" y2="24" stroke="#000" stroke-width="2"/>
+          <line x1="48" y1="24" x2="53" y2="24" stroke="#000" stroke-width="2"/>
+          <!-- Torpedo Wake Bubbles -->
+          <circle cx="22" cy="74" r="2.5" fill="none" stroke="#000" stroke-width="1.2"/>
+          <circle cx="15" cy="77" r="1.8" fill="none" stroke="#000" stroke-width="1.2"/>
+          <line x1="28" y1="74" x2="76" y2="74" stroke="#000" stroke-width="2" stroke-dasharray="4 2"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Flip <strong>1 face-up enemy card</strong> with printed strength 3 or less face-down.</div>
+        <div class="fanning-corner">3 <span style="font-size:7pt">SEA</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16. SEA 4: FLEET CARRIER -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">4</div>
+        <div class="title-group">
+          <div class="theater-label">Sea Theater</div>
+          <div class="card-name">Fleet Carrier</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Huge Angled Flight Deck -->
+          <polygon points="18,65 24,40 76,40 82,65" fill="#222" stroke="#000" stroke-width="2"/>
+          <line x1="24" y1="52" x2="76" y2="52" stroke="#fff" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <!-- Island superstructure -->
+          <rect x="62" y="30" width="8" height="10" fill="#000"/>
+          <!-- Miniature Carrier Fighter taking off -->
+          <polygon points="32,46 36,46 34,42" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-ongoing"><span>∞</span> Ongoing</div>
+        <div class="ability-desc">You may play <strong>Air cards</strong> face-up or face-down to this theater as if it were an Air theater.</div>
+        <div class="fanning-corner">4 <span style="font-size:7pt">SEA</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. SEA 5: TORPEDO STRIKE -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">5</div>
+        <div class="title-group">
+          <div class="theater-label">Sea Theater</div>
+          <div class="card-name">Torpedo Strike</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Torpedo Rushing Forward with Propeller and Wake -->
+          <path d="M 22 50 C 22 45, 68 44, 76 50 C 68 56, 22 55, 22 50 Z" fill="#222" stroke="#000" stroke-width="2"/>
+          <polygon points="76,46 82,50 76,54" fill="#000"/>
+          <!-- Rear Propeller Fins -->
+          <line x1="20" y1="42" x2="20" y2="58" stroke="#000" stroke-width="3"/>
+          <!-- Shockwave Explosion Rings in Water -->
+          <circle cx="82" cy="50" r="10" fill="none" stroke="#000" stroke-width="1.5" stroke-dasharray="2 2"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-tactical"><span>⚡</span> Tactical</div>
+        <div class="ability-desc">Destroy and <strong>discard 1 face-down enemy card</strong> in this theater.</div>
+        <div class="fanning-corner">5 <span style="font-size:7pt">SEA</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 18. SEA 6: DREADNOUGHT -->
+  <div class="card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="card-header">
+        <div class="strength-badge">6</div>
+        <div class="title-group">
+          <div class="theater-label">Sea Theater</div>
+          <div class="card-name">Dreadnought</div>
+        </div>
+        <div class="theater-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" fill="#000"/></svg>
+        </div>
+      </div>
+      <div class="art-box">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <!-- Massive Armored Battleship with Triple Gun Turrets -->
+          <polygon points="14,64 26,48 74,48 86,64" fill="#222" stroke="#000" stroke-width="2"/>
+          <!-- Turrets -->
+          <circle cx="34" cy="46" r="6" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="28" y1="46" x2="16" y2="44" stroke="#000" stroke-width="2.5"/>
+          <circle cx="66" cy="46" r="6" fill="#fff" stroke="#000" stroke-width="1.5"/>
+          <line x1="72" y1="46" x2="84" y2="44" stroke="#000" stroke-width="2.5"/>
+          <!-- Bridge Mast -->
+          <rect x="46" y="32" width="8" height="16" fill="#222"/>
+          <line x1="50" y1="32" x2="50" y2="20" stroke="#000" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="ability-box">
+        <div class="type-badge type-none">No Ability</div>
+        <div class="ability-desc">This card has no ability. Its formidable <strong>6 Strength</strong> pulverizes all coastal resistance.</div>
+        <div class="fanning-corner">6 <span style="font-size:7pt">SEA</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= PAGE 3: THEATERS (3) + AIDS (2) + TRACKERS (4) ================= -->
+<div class="sheet">
+
+  <!-- 19. AIR THEATER PLACARD -->
+  <div class="card theater-card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div>
+        <div class="theater-card-title">Air Theater</div>
+        <div class="theater-banner-sub">Battlefield Operational Zone</div>
+      </div>
+      <div class="art-box" style="height: 38mm;">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="2"/>
+          <!-- Dramatic Flak Clouds & Sky Horizon -->
+          <path d="M 20 60 Q 30 50 40 58 Q 50 48 60 56 Q 70 50 80 60 Z" fill="#222"/>
+          <!-- Winged Theater Insignia -->
+          <polygon points="50,22 55,42 84,48 56,54 50,78 44,54 16,48 45,42" fill="#222" stroke="#000" stroke-width="1.5"/>
+          <circle cx="50" cy="48" r="5" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="theater-card-desc">
+        Only <strong>Air cards</strong> may normally be played face-up here.<br>
+        Any card may be played face-down (Strength 2).
+      </div>
+    </div>
+  </div>
+
+  <!-- 20. LAND THEATER PLACARD -->
+  <div class="card theater-card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div>
+        <div class="theater-card-title">Land Theater</div>
+        <div class="theater-banner-sub">Battlefield Operational Zone</div>
+      </div>
+      <div class="art-box" style="height: 38mm;">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="2"/>
+          <!-- Crossed Sabres / Stencil Mountain -->
+          <polygon points="20,78 50,30 80,78" fill="#222"/>
+          <polygon points="38,78 50,56 62,78" fill="#fff"/>
+          <!-- Barbed Wire & Fortification Line -->
+          <line x1="14" y1="78" x2="86" y2="78" stroke="#000" stroke-width="3"/>
+          <circle cx="50" cy="42" r="5" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="theater-card-desc">
+        Only <strong>Land cards</strong> may normally be played face-up here.<br>
+        Any card may be played face-down (Strength 2).
+      </div>
+    </div>
+  </div>
+
+  <!-- 21. SEA THEATER PLACARD -->
+  <div class="card theater-card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div>
+        <div class="theater-card-title">Sea Theater</div>
+        <div class="theater-banner-sub">Battlefield Operational Zone</div>
+      </div>
+      <div class="art-box" style="height: 38mm;">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="#fff" stroke="#000" stroke-width="2"/>
+          <!-- Great Anchor Emblem -->
+          <circle cx="50" cy="28" r="6" fill="none" stroke="#000" stroke-width="3"/>
+          <line x1="50" y1="34" x2="50" y2="78" stroke="#000" stroke-width="4"/>
+          <line x1="34" y1="44" x2="66" y2="44" stroke="#000" stroke-width="4"/>
+          <!-- Curved Flukes -->
+          <path d="M 26 62 Q 50 88 74 62" fill="none" stroke="#000" stroke-width="4"/>
+          <polygon points="22,62 30,62 26,54" fill="#000"/>
+          <polygon points="70,62 78,62 74,54" fill="#000"/>
+        </svg>
+      </div>
+      <div class="theater-card-desc">
+        Only <strong>Sea cards</strong> may normally be played face-up here.<br>
+        Any card may be played face-down (Strength 2).
+      </div>
+    </div>
+  </div>
+
+  <!-- 22. SUPREME COMMANDER AID 1 -->
+  <div class="card aid-card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="aid-title">Supreme Commander (P1)</div>
+      <div style="font-weight:700; margin-bottom:0.5mm;">TURN SEQUENCE:</div>
+      <div>On your turn, perform exactly <strong>ONE</strong> action:</div>
+      <ol style="margin-left: 3.5mm; margin-bottom: 1mm;">
+        <li><strong>Deploy:</strong> Play 1 card from hand face-up into its matching theater.</li>
+        <li><strong>Improvise:</strong> Play 1 card from hand face-down into ANY theater (Strength = 2).</li>
+        <li><strong>Withdraw:</strong> Concede the battle to limit opponent's VP gain.</li>
+      </ol>
+      <table class="aid-table">
+        <tr><th>Cards in Hand</th><th>Opponent VP on Withdraw</th></tr>
+        <tr><td>4–6 Cards (Early)</td><td><strong>2 VP</strong></td></tr>
+        <tr><td>2–3 Cards (Mid)</td><td><strong>3 VP</strong></td></tr>
+        <tr><td>1 Card (Late)</td><td><strong>4 VP</strong></td></tr>
+        <tr><td>0 Cards (Full Fight)</td><td><strong>6 VP</strong> (Winner)</td></tr>
+      </table>
+      <div class="aid-box-note">
+        <strong>VICTORY:</strong> First player to reach <strong>12 Victory Points (VP)</strong> wins the war!
+      </div>
+    </div>
+  </div>
+
+  <!-- 23. SUPREME COMMANDER AID 2 -->
+  <div class="card aid-card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="aid-title">Supreme Commander (P2)</div>
+      <div style="font-weight:700; margin-bottom:0.5mm;">TURN SEQUENCE:</div>
+      <div>On your turn, perform exactly <strong>ONE</strong> action:</div>
+      <ol style="margin-left: 3.5mm; margin-bottom: 1mm;">
+        <li><strong>Deploy:</strong> Play 1 card from hand face-up into its matching theater.</li>
+        <li><strong>Improvise:</strong> Play 1 card from hand face-down into ANY theater (Strength = 2).</li>
+        <li><strong>Withdraw:</strong> Concede the battle to limit opponent's VP gain.</li>
+      </ol>
+      <table class="aid-table">
+        <tr><th>Cards in Hand</th><th>Opponent VP on Withdraw</th></tr>
+        <tr><td>4–6 Cards (Early)</td><td><strong>2 VP</strong></td></tr>
+        <tr><td>2–3 Cards (Mid)</td><td><strong>3 VP</strong></td></tr>
+        <tr><td>1 Card (Late)</td><td><strong>4 VP</strong></td></tr>
+        <tr><td>0 Cards (Full Fight)</td><td><strong>6 VP</strong> (Winner)</td></tr>
+      </table>
+      <div class="aid-box-note">
+        <strong>VICTORY:</strong> First player to reach <strong>12 Victory Points (VP)</strong> wins the war!
+      </div>
+    </div>
+  </div>
+
+  <!-- 24. RULES AID: FACE-DOWN CARDS & LIES -->
+  <div class="card aid-card">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="aid-title">Spies, Lies & Supplies Rules</div>
+      <div style="font-weight:700; margin-bottom:0.5mm;">FACE-DOWN CARDS (LIES):</div>
+      <ul style="margin-left: 3.5mm; margin-bottom: 1mm;">
+        <li>Base Strength is <strong>always 2</strong> (unless modified).</li>
+        <li>Have <strong>no abilities</strong> and <strong>no theater type</strong>.</li>
+        <li>Can be played into <strong>any theater</strong>.</li>
+        <li>If flipped face-up later, their <strong>Tactical ability does NOT trigger</strong>.</li>
+      </ul>
+      <div style="font-weight:700; margin-bottom:0.5mm;">ABILITY KEYWORDS:</div>
+      <div><strong>⚡ Tactical:</strong> Triggers immediately when played face-up from hand.</div>
+      <div><strong>∞ Ongoing:</strong> Continuous effect active as long as the card is face-up.</div>
+      <div class="aid-box-note">
+        <strong>TIE-BREAKER:</strong> If total strength in a theater is tied, the <strong>first player</strong> who played a card there wins the tie!
+      </div>
+    </div>
+  </div>
+
+  <!-- 25. SCORE TRACKER (1 & 2 VP) -->
+  <div class="card aid-card" style="text-align:center;">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="aid-title">VP Token Card (1 / 2 VP)</div>
+      <div style="display:flex; justify-content:space-around; align-items:center; height:32mm; margin:1mm 0;">
+        <div style="border:1.5pt solid #000; border-radius:50%; width:16mm; height:16mm; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="font-family:'Black Ops One'; font-size:16pt; line-height:1;">1</div>
+          <div style="font-size:5pt; font-weight:800;">POINT</div>
+        </div>
+        <div style="border:1.5pt solid #000; border-radius:50%; width:16mm; height:16mm; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="font-family:'Black Ops One'; font-size:16pt; line-height:1;">2</div>
+          <div style="font-size:5pt; font-weight:800;">POINTS</div>
+        </div>
+      </div>
+      <div class="aid-box-note">Cut or mark off to track Victory Points earned across rounds.</div>
+    </div>
+  </div>
+
+  <!-- 26. SCORE TRACKER (3 & 4 VP) -->
+  <div class="card aid-card" style="text-align:center;">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="aid-title">VP Token Card (3 / 4 VP)</div>
+      <div style="display:flex; justify-content:space-around; align-items:center; height:32mm; margin:1mm 0;">
+        <div style="border:1.5pt solid #000; border-radius:50%; width:16mm; height:16mm; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="font-family:'Black Ops One'; font-size:16pt; line-height:1;">3</div>
+          <div style="font-size:5pt; font-weight:800;">POINTS</div>
+        </div>
+        <div style="border:1.5pt solid #000; border-radius:50%; width:16mm; height:16mm; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="font-family:'Black Ops One'; font-size:16pt; line-height:1;">4</div>
+          <div style="font-size:5pt; font-weight:800;">POINTS</div>
+        </div>
+      </div>
+      <div class="aid-box-note">Cut or mark off to track Victory Points earned across rounds.</div>
+    </div>
+  </div>
+
+  <!-- 27. SCORE TRACKER (6 VP) & WAR VICTORY TOKEN -->
+  <div class="card aid-card" style="text-align:center;">
+    <div class="card-inner">
+      <div class="card-border-stencil"></div>
+      <div class="aid-title">VP Token Card (6 VP)</div>
+      <div style="display:flex; justify-content:space-around; align-items:center; height:32mm; margin:1mm 0;">
+        <div style="border:2pt double #000; border-radius:50%; width:18mm; height:18mm; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#000; color:#fff;">
+          <div style="font-family:'Black Ops One'; font-size:18pt; line-height:1;">6</div>
+          <div style="font-size:5pt; font-weight:800;">POINTS</div>
+        </div>
+      </div>
+      <div class="aid-box-note">Awarded to the winner when a battle is fought to the bitter end without withdrawal.</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

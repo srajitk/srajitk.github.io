@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>A Fake Artist Goes to New York - Studio Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #221e1b;
+      --bg-panel: #2d2723;
+      --bg-panel-light: #37302b;
+      --card-parchment: #f2ece1;
+      --card-deck-stack: #ded4c3;
+      --ink-dark: #1b1715;
+      --ink-muted: #82756a;
+      --ink-light: #d6ccc2;
+      --terracotta: #c85a32;
+      --terracotta-hover: #db683d;
+      --ochre: #d49b38;
+      --border-sepia: #413831;
+      --border-parchment: #25201d;
+      --shadow-heavy: 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 12%, rgba(212, 155, 56, 0.07) 0%, transparent 35%),
+        radial-gradient(circle at 90% 88%, rgba(200, 90, 50, 0.08) 0%, transparent 35%),
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255, 255, 255, 0.015) 39px, rgba(255, 255, 255, 0.015) 40px);
+      color: var(--ink-light);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1rem;
+    }
+
+    /* Studio Header */
+    header {
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border-sepia);
+      padding-bottom: 0.85rem;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-eyebrow {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--ochre);
+      font-weight: 700;
+    }
+
+    .brand-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #faf5ee;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title span {
+      color: var(--terracotta);
+      font-style: italic;
+    }
+
+    .icon-btn {
+      background: var(--bg-panel);
+      border: 1.5px solid var(--border-sepia);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #faf5ee;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .icon-btn:hover {
+      background: var(--bg-panel-light);
+      border-color: var(--ochre);
+      color: var(--ochre);
+      transform: translateY(-1px);
+    }
+
+    /* Screen Management */
+    .screen {
+      width: 100%;
+      max-width: 540px;
+      display: none;
+      flex-direction: column;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Dark Brown Studio Panel */
+    .panel {
+      background: var(--bg-panel);
+      border: 1.5px solid var(--border-sepia);
+      border-radius: 20px;
+      padding: 1.4rem;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      margin-bottom: 1.2rem;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--ink-muted);
+      margin-bottom: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Stepper Controls */
+    .stepper-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .stepper-card {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-sepia);
+      border-radius: 14px;
+      padding: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stepper-card h3 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .stepper-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .stepper-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border-sepia);
+      background: var(--bg-panel);
+      color: #faf5ee;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .stepper-btn:hover:not(:disabled) {
+      background: var(--bg-panel-light);
+      border-color: var(--ochre);
+      color: var(--ochre);
+    }
+
+    .stepper-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .stepper-num {
+      font-family: 'Fraunces', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      min-width: 32px;
+      text-align: center;
+      color: #faf5ee;
+    }
+
+    /* Category Grid */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.55rem;
+    }
+
+    .cat-btn {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-sepia);
+      border-radius: 12px;
+      padding: 0.75rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink-light);
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+      line-height: 1.2;
+    }
+
+    .cat-btn:hover {
+      background: var(--bg-panel-light);
+      border-color: #63574c;
+    }
+
+    .cat-btn.selected {
+      background: #3a2e26;
+      border-color: var(--ochre);
+      color: #fef08a;
+      box-shadow: inset 0 0 0 1px var(--ochre);
+    }
+
+    /* Primary Action Buttons */
+    .action-btn {
+      width: 100%;
+      background: var(--terracotta);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.05rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 18px rgba(200, 90, 50, 0.35);
+      transition: all 0.15s ease;
+    }
+
+    .action-btn:hover:not(:disabled) {
+      background: var(--terracotta-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(200, 90, 50, 0.45);
+    }
+
+    .action-btn:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    .action-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Pass Screen Elements */
+    .player-banner {
+      background: var(--bg-panel);
+      border: 1.5px solid var(--border-sepia);
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      text-align: center;
+      font-family: 'Fraunces', serif;
+      font-size: 1.35rem;
+      color: #faf5ee;
+      margin-bottom: 0.85rem;
+    }
+
+    .cooldown-banner {
+      background: rgba(200, 90, 50, 0.12);
+      border: 1px dashed var(--terracotta);
+      border-radius: 12px;
+      padding: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ff9d7d;
+      text-align: center;
+      margin-bottom: 0.85rem;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .cooldown-banner.active {
+      display: flex;
+    }
+
+    /* Physical Sketchbook Card (Parchment & Ink) */
+    .card-stage {
+      position: relative;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-deck-stack {
+      position: absolute;
+      top: 7px;
+      left: 7px;
+      right: -7px;
+      bottom: -7px;
+      background: var(--card-deck-stack);
+      border: 2px solid var(--border-parchment);
+      border-radius: 20px;
+      z-index: 1;
+    }
+
+    .sketch-card {
+      position: relative;
+      z-index: 2;
+      background: var(--card-parchment);
+      border: 2.5px solid var(--border-parchment);
+      border-radius: 20px;
+      box-shadow: var(--shadow-heavy);
+      min-height: 360px;
+      padding: 2rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      color: var(--ink-dark);
+    }
+
+    .card-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(27, 23, 21, 0.12);
+      padding-bottom: 0.75rem;
+    }
+
+    .card-category-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7a3a21;
+    }
+
+    .card-step-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #7c7267;
+    }
+
+    /* Hidden State inside Card */
+    .hidden-state {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .lock-stamp {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px dashed #998a7a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .lock-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.45rem;
+      color: var(--ink-dark);
+    }
+
+    .lock-desc {
+      font-size: 0.88rem;
+      color: #63574c;
+      max-width: 270px;
+      line-height: 1.4;
+    }
+
+    /* Revealed State inside Card (Minimal & Symmetrical) */
+    .revealed-state {
+      display: none;
+      margin: auto 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .role-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.35rem 1rem;
+      border-radius: 6px;
+      border: 1.5px solid var(--ink-dark);
+      background: transparent;
+      color: var(--ink-dark);
+    }
+
+    .main-word-box {
+      font-family: 'Fraunces', serif;
+      font-size: 2.15rem;
+      line-height: 1.2;
+      color: var(--ink-dark);
+      background: rgba(0, 0, 0, 0.035);
+      border: 1.5px solid rgba(27, 23, 21, 0.15);
+      border-radius: 14px;
+      padding: 1.5rem 1.2rem;
+      width: 100%;
+      word-break: break-word;
+    }
+
+    /* Hold to Reveal Button */
+    .hold-button {
+      width: 100%;
+      background: #332d27;
+      border: 1.5px solid var(--border-sepia);
+      border-radius: 16px;
+      padding: 1.1rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #faf5ee;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      transition: background 0.15s;
+      touch-action: none;
+    }
+
+    .hold-button:active, .hold-button.holding {
+      background: var(--terracotta);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Finish Screen */
+    .finish-box {
+      text-align: center;
+      padding: 2.2rem 1.6rem;
+    }
+
+    .finish-icon {
+      font-size: 3.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .finish-title {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      color: #faf5ee;
+      margin-bottom: 0.8rem;
+    }
+
+    .finish-steps {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-sepia);
+      border-radius: 14px;
+      padding: 1.2rem;
+      text-align: left;
+      margin: 1.2rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: var(--ink-light);
+    }
+
+    .finish-steps li {
+      margin-left: 1.2rem;
+    }
+
+    /* Rules Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 12, 10, 0.8);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      background: var(--bg-panel);
+      border: 1.5px solid var(--border-sepia);
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 1.8rem;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+      transform: translateY(16px);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-backdrop.open .modal-sheet {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border-sepia);
+      padding-bottom: 0.8rem;
+    }
+
+    .modal-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      color: #faf5ee;
+    }
+
+    .rules-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--ink-light);
+    }
+
+    .rules-body h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ochre);
+      margin-bottom: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .imposter-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.4rem;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-sepia);
+      font-size: 0.82rem;
+    }
+
+    .imposter-table th, .imposter-table td {
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+    }
+
+    .imposter-table th {
+      background: var(--bg-dark);
+      color: #faf5ee;
+      font-weight: 700;
+    }
+
+    .imposter-table td {
+      border-top: 1px solid var(--border-sepia);
+      color: var(--ink-light);
+    }
+
+    .imposter-table tr:nth-child(even) td {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-close-btn {
+      width: 100%;
+      background: var(--terracotta);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0.85rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 480px) {
+      .sketch-card {
+        min-height: 330px;
+        padding: 1.6rem 1.2rem;
+      }
+      .main-word-box {
+        font-size: 1.85rem;
+      }
+      .stepper-num {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Studio Header -->
+  <header>
+    <div class="brand">
+      <span class="brand-eyebrow">Social Deduction Game</span>
+      <h1 class="brand-title">A Fake Artist <span>NYC</span></h1>
+    </div>
+    <button class="icon-btn" id="openRulesBtn" aria-label="Game Rules">i</button>
+  </header>
+
+  <!-- SCREEN 1: Setup Screen -->
+  <main class="screen active" id="setupScreen">
+    <div class="panel">
+      <!-- Player & Imposter Steppers -->
+      <div class="stepper-row">
+        <div class="stepper-card">
+          <h3>Total Players</h3>
+          <div class="stepper-controls">
+            <button class="stepper-btn" id="decPlayersBtn">-</button>
+            <span class="stepper-num" id="playerCountVal">6</span>
+            <button class="stepper-btn" id="incPlayersBtn">+</button>
+          </div>
+        </div>
+        <div class="stepper-card">
+          <h3>Fake Artists</h3>
+          <div class="stepper-controls">
+            <button class="stepper-btn" id="decImpostersBtn">-</button>
+            <span class="stepper-num" id="imposterCountVal">1</span>
+            <button class="stepper-btn" id="incImpostersBtn">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories Selection -->
+      <div class="section-label">
+        <span>Select Category</span>
+        <span style="color: var(--ochre);">Choose 1 theme</span>
+      </div>
+
+      <div class="category-grid" id="categoryGrid">
+        <button class="cat-btn selected" data-cat="movies">🎬 Movies & Pop</button>
+        <button class="cat-btn" data-cat="food">🍕 Food & Snacks</button>
+        <button class="cat-btn" data-cat="animals">🦁 Animals</button>
+        <button class="cat-btn" data-cat="objects">🚗 Everyday Gear</button>
+        <button class="cat-btn" data-cat="places">🏰 Places & Icons</button>
+        <button class="cat-btn" data-cat="sports">⚽ Sports & Action</button>
+        <button class="cat-btn" data-cat="professions">👔 Professions</button>
+        <button class="cat-btn" data-cat="desi">🇮🇳 Desi Nostalgia</button>
+        <button class="cat-btn" data-cat="random" style="grid-column: span 2; justify-content: center; font-weight: 700; border-color: #634f40; color: #facc15;">🎲 Surprise Mix (Random)</button>
+      </div>
+    </div>
+
+    <button class="action-btn" id="startGameBtn">
+      Start & Deal Roles
+    </button>
+  </main>
+
+  <!-- SCREEN 2: Pass & Reveal Screen -->
+  <main class="screen" id="passScreen">
+    <div class="player-banner" id="playerTurnBanner">
+      Pass to Player 1
+    </div>
+
+    <!-- 5s Cooldown Warning Bar -->
+    <div class="cooldown-banner" id="cooldownBanner">
+      <span>⏳ Passing phone safely... Unlocking in <strong id="cooldownTimerVal">5</strong>s</span>
+    </div>
+
+    <div class="card-stage">
+      <div class="card-deck-stack"></div>
+      <div class="sketch-card" id="mainSketchCard">
+        <div class="card-header-line">
+          <span class="card-category-label" id="cardCategoryDisplay">🎬 Category</span>
+          <span class="card-step-label" id="playerStepTag">Player 1 of 6</span>
+        </div>
+
+        <!-- Hidden / Locked View -->
+        <div class="hidden-state" id="hiddenState">
+          <div class="lock-stamp">🔒</div>
+          <h2 class="lock-title">Role Concealed</h2>
+          <p class="lock-desc">
+            Ensure no other player can see your screen, then hold the button below.
+          </p>
+        </div>
+
+        <!-- Revealed View: Symmetrical, Clean, No Extra Statements -->
+        <div class="revealed-state" id="revealedState">
+          <span class="role-badge" id="roleBadge">Artist</span>
+          <div class="main-word-box" id="mainWordBox">BATMAN</div>
+        </div>
+
+        <div style="font-size: 0.72rem; color: #877a6d; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+          Release button to hide instantly
+        </div>
+      </div>
+    </div>
+
+    <!-- Hold to Reveal Button -->
+    <button class="hold-button" id="holdBtn">
+      <span>👁️</span> Press & Hold to Reveal
+    </button>
+
+    <!-- Pass to Next Button (Revealed after viewing) -->
+    <button class="action-btn" id="nextPlayerBtn" style="margin-top: 0.8rem; display: none;">
+      Pass to Next Player ➔
+    </button>
+  </main>
+
+  <!-- SCREEN 3: Ready to Play Screen -->
+  <main class="screen" id="finishScreen">
+    <div class="panel finish-box">
+      <div class="finish-icon">🎨</div>
+      <h2 class="finish-title">All Roles Assigned</h2>
+      <p style="color: var(--ink-muted); font-size: 0.92rem;">
+        Set the phone aside, grab your drawing paper and pens!
+      </p>
+
+      <ul class="finish-steps">
+        <li><strong>Step 1:</strong> Announce the chosen category out loud to everyone.</li>
+        <li><strong>Step 2:</strong> Players take turns adding exactly <strong>1 continuous stroke</strong> with their pen without lifting it.</li>
+        <li><strong>Step 3:</strong> Play <strong>2 complete rounds</strong> around the circle.</li>
+        <li><strong>Step 4:</strong> Count to three and point at who you suspect is the Fake Artist!</li>
+        <li><strong>Step 5:</strong> If caught, the Fake Artist can steal the win by correctly guessing the secret word!</li>
+      </ul>
+
+      <button class="action-btn" id="newGameBtn">
+        Start New Round
+      </button>
+    </div>
+  </main>
+
+  <!-- Rules Modal -->
+  <div class="modal-backdrop" id="rulesModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 class="modal-title">Rules & Setup</h3>
+        <button class="icon-btn" id="closeRulesBtn" style="width:34px; height:34px; font-size:0.95rem;">✕</button>
+      </div>
+      <div class="rules-body">
+        <div>
+          <h4>The Premise</h4>
+          <p>Real artists share a secret word and must draw it cooperatively. The Fake Artist knows only the category and must blend in without getting exposed.</p>
+        </div>
+
+        <div>
+          <h4>Player Count & Imposter Ratios</h4>
+          <p>Works best for <strong>5 to 10 players</strong>. Suggested imposter counts:</p>
+          <table class="imposter-table">
+            <thead>
+              <tr>
+                <th>Players</th>
+                <th>Recommended</th>
+                <th>Game Dynamic</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>4 – 6</strong></td>
+                <td>1 Imposter</td>
+                <td>Fast, tight social deduction</td>
+              </tr>
+              <tr>
+                <td><strong>7 – 9</strong></td>
+                <td>1 or 2 Imposters</td>
+                <td>2 creates paranoia & chaos</td>
+              </tr>
+              <tr>
+                <td><strong>10 – 12</strong></td>
+                <td>2 Imposters</td>
+                <td>Ideal for large party gatherings</td>
+              </tr>
+              <tr>
+                <td><strong>13+</strong></td>
+                <td>2 or 3 Imposters</td>
+                <td>Epic high-player showdown</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <h4>Drawing Rules</h4>
+          <p>• Each player gets a different color pen.<br>
+          • In clockwise order, draw <strong>one continuous line</strong> (no lifting the pen).<br>
+          • Complete 2 rounds total so each player draws two lines.<br>
+          • Vote simultaneously on the Fake Artist!</p>
+        </div>
+
+        <div>
+          <h4>Winning Conditions</h4>
+          <p>• If the Fake Artist is <strong>NOT caught</strong>, the Fake Artist wins!<br>
+          • If the Fake Artist <strong>IS caught</strong>, they can still win if they correctly name the secret word!</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="gotItRulesBtn">Ready to Play</button>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       256 CURATED WORD DATABASE (32 WORDS PER CATEGORY)
+       ========================================================= */
+    const WORD_BANK = {
+      movies: [
+        "Batman", "Harry Potter", "Spider-Man", "Lightsaber", "Pikachu", "Barbie", 
+        "Iron Man", "Shrek", "Mickey Mouse", "Jurassic Park", "Titanic", "Thanos", 
+        "Darth Vader", "Elsa", "Minion", "SpongeBob", "Sonic", "Captain America", 
+        "Groot", "Joker", "Voldemort", "Wednesday Addams", "Super Mario", "Ghostbusters", 
+        "Optimus Prime", "WALL-E", "Thor", "Buzz Lightyear", "Gollum", "Wonder Woman", 
+        "Godzilla", "King Kong"
+      ],
+      food: [
+        "Pizza", "Burger", "Ice Cream Cone", "Sushi Roll", "Taco", "Donut", 
+        "Popcorn", "French Fries", "Watermelon", "Hot Dog", "Croissant", "Cupcake", 
+        "Pancakes", "Pineapple", "Avocado", "Chocolate Bar", "Sandwich", "Strawberry", 
+        "Lollipop", "Cheese Wedge", "Spaghetti", "Banana", "Pretzel", "Fried Egg", 
+        "Muffin", "Boba Milk Tea", "Chocolate Cookie", "Waffle", "Red Apple", "Burrito", 
+        "Cherries", "Ramen Bowl"
+      ],
+      animals: [
+        "Elephant", "Giraffe", "Penguin", "Kangaroo", "Octopus", "Lion", 
+        "Dolphin", "Barn Owl", "Crocodile", "Giant Panda", "Flamingo", "Sea Turtle", 
+        "Great White Shark", "Zebra", "Butterfly", "Camel", "Garden Snail", "Tree Frog", 
+        "Chameleon", "Peacock", "Koala", "Rabbit", "Red Fox", "Honeybee", 
+        "Bat", "Squirrel", "Gorilla", "Hedgehog", "Rhinoceros", "Jellyfish", 
+        "Bengal Tiger", "Fire Dragon"
+      ],
+      objects: [
+        "Umbrella", "Wristwatch", "Sunglasses", "Backpack", "Bicycle", "Headphones", 
+        "Toothbrush", "Camera", "Light Bulb", "Scissors", "Acoustic Guitar", "Brass Key", 
+        "Teapot", "Microscope", "Skateboard", "Flashlight", "Ship Anchor", "Binoculars", 
+        "Telescope", "Pocket Compass", "Alarm Clock", "Paintbrush", "Padlock", "Flying Kite", 
+        "Megaphone", "Travel Suitcase", "Hourglass", "Claw Hammer", "Candle", "Golden Crown", 
+        "Horseshoe Magnet", "Office Stapler"
+      ],
+      places: [
+        "Eiffel Tower", "Pyramid of Giza", "Statue of Liberty", "Colosseum", "Taj Mahal", "Erupting Volcano", 
+        "Lighthouse", "Snowy Igloo", "Windmill", "Medieval Castle", "Ferris Wheel", "Desert Oasis", 
+        "Golden Gate Bridge", "Space Station", "Yellow Submarine", "Treehouse", "Ski Slope", "Airport Runway", 
+        "Haunted Mansion", "Hospital", "Cinema Theater", "Bowling Alley", "Ocean Aquarium", "Circus Tent", 
+        "Farm Red Barn", "Public Library", "Bank Vault", "Amusement Park", "Campfire", "Glass Skyscraper", 
+        "Cave", "Baseball Stadium"
+      ],
+      sports: [
+        "Soccer Ball", "Basketball Hoop", "Tennis Racket", "Scuba Diving", "Archery Bow", "Bowling Strike", 
+        "Surfing Wave", "Snow Skiing", "Boxing Glove", "Golf Club", "Skateboarding", "Ice Skating", 
+        "Fishing Rod", "Rock Climbing", "Yoga Pose", "Swimming Pool", "Karate Black Belt", "Heavy Dumbbell", 
+        "Gymnastics Ribbon", "Cricket Bat", "Badminton Racket", "Volleyball Net", "Horse Riding", "Skydiving Chute", 
+        "Snorkeling Mask", "Fencing Sword", "Table Tennis", "River Kayak", "Bungee Jumping", "Tug of War", 
+        "Billiards 8-Ball", "Baseball Bat"
+      ],
+      professions: [
+        "Astronaut", "Pirate Captain", "Private Detective", "Master Chef", "Firefighter", "Stage Magician", 
+        "Ninja", "Surgeon Doctor", "Airplane Pilot", "Medieval Knight", "Vampire", "Cowboy", 
+        "Secret Spy", "Mad Scientist", "Police Officer", "Ballerina", "Construction Worker", "Deep Sea Diver", 
+        "Egyptian Pharaoh", "Beach Lifeguard", "Court Judge", "Rockstar Singer", "Superhero", "Bearded Wizard", 
+        "Ancient Mummy", "Royal King", "Samurai Warrior", "Pastry Baker", "Army Soldier", "Circus Clown", 
+        "Railway Conductor", "Plumber"
+      ],
+      desi: [
+        "Auto Rickshaw", "Pressure Cooker", "Cutting Chai Glass", "Wooden Cricket Bat", "Rolling Pin (Belan)", "Street Hawker Cart", 
+        "Flying Patang (Kite)", "Dholak Drum", "Clay Matka", "Kolhapuri Chappals", "Crispy Jalebi", "Rickshaw Meter", 
+        "Gulab Jamun", "Hot Samosa", "Hand Fan (Pankha)", "Steel Lunch Tiffin", "Agarbatti Stand", "Diya Lamp", 
+        "Tabla Pair", "Marigold Garland", "Cycle Rickshaw", "Ceiling Fan", "Matchbox", "Safety Pin", 
+        "Wooden Swing (Jhula)", "Steel Thali Plate", "Chai Boiling Kettle", "Kerosene Lalten", "Royal Enfield Bullet", "Goli Soda Bottle", 
+        "Gilli Danda", "Coconut Water Cart"
+      ]
+    };
+
+    const CATEGORY_NAMES = {
+      movies: "🎬 Movies & Pop Culture",
+      food: "🍕 Food & Snacks",
+      animals: "🦁 Animals & Creatures",
+      objects: "🚗 Objects & Gear",
+      places: "🏰 Places & Icons",
+      sports: "⚽ Sports & Activities",
+      professions: "👔 Professions & Characters",
+      desi: "🇮🇳 Desi Nostalgia",
+      random: "🎲 Surprise Mix"
+    };
+
+    /* =========================================================
+       APP STATE
+       ========================================================= */
+    let playerCount = 6;
+    let imposterCount = 1;
+    let selectedCategory = "movies";
+
+    let playersRoles = [];
+    let currentPlayerIndex = 0;
+    let currentCategoryTitle = "";
+    let currentSecretWord = "";
+    let cooldownTimer = null;
+    let cooldownSeconds = 5;
+    let isHolding = false;
+
+    // DOM Elements
+    const setupScreen = document.getElementById("setupScreen");
+    const passScreen = document.getElementById("passScreen");
+    const finishScreen = document.getElementById("finishScreen");
+
+    const playerCountVal = document.getElementById("playerCountVal");
+    const imposterCountVal = document.getElementById("imposterCountVal");
+    const incPlayersBtn = document.getElementById("incPlayersBtn");
+    const decPlayersBtn = document.getElementById("decPlayersBtn");
+    const incImpostersBtn = document.getElementById("incImpostersBtn");
+    const decImpostersBtn = document.getElementById("decImpostersBtn");
+    const categoryGrid = document.getElementById("categoryGrid");
+    const startGameBtn = document.getElementById("startGameBtn");
+
+    const playerTurnBanner = document.getElementById("playerTurnBanner");
+    const playerStepTag = document.getElementById("playerStepTag");
+    const cardCategoryDisplay = document.getElementById("cardCategoryDisplay");
+    const hiddenState = document.getElementById("hiddenState");
+    const revealedState = document.getElementById("revealedState");
+    const roleBadge = document.getElementById("roleBadge");
+    const mainWordBox = document.getElementById("mainWordBox");
+    const holdBtn = document.getElementById("holdBtn");
+    const nextPlayerBtn = document.getElementById("nextPlayerBtn");
+    const cooldownBanner = document.getElementById("cooldownBanner");
+    const cooldownTimerVal = document.getElementById("cooldownTimerVal");
+
+    const newGameBtn = document.getElementById("newGameBtn");
+    const openRulesBtn = document.getElementById("openRulesBtn");
+    const closeRulesBtn = document.getElementById("closeRulesBtn");
+    const gotItRulesBtn = document.getElementById("gotItRulesBtn");
+    const rulesModal = document.getElementById("rulesModal");
+
+    /* =========================================================
+       STEPPERS & CATEGORY SELECTION
+       ========================================================= */
+    function updateSteppers() {
+      playerCountVal.textContent = playerCount;
+      imposterCountVal.textContent = imposterCount;
+
+      decPlayersBtn.disabled = playerCount <= 3;
+      incPlayersBtn.disabled = playerCount >= 20;
+
+      decImpostersBtn.disabled = imposterCount <= 1;
+      incImpostersBtn.disabled = imposterCount >= playerCount - 1;
+    }
+
+    incPlayersBtn.addEventListener("click", () => {
+      if (playerCount < 20) {
+        playerCount++;
+        updateSteppers();
+      }
+    });
+
+    decPlayersBtn.addEventListener("click", () => {
+      if (playerCount > 3) {
+        playerCount--;
+        if (imposterCount >= playerCount) {
+          imposterCount = Math.max(1, playerCount - 1);
+        }
+        updateSteppers();
+      }
+    });
+
+    incImpostersBtn.addEventListener("click", () => {
+      if (imposterCount < playerCount - 1) {
+        imposterCount++;
+        updateSteppers();
+      }
+    });
+
+    decImpostersBtn.addEventListener("click", () => {
+      if (imposterCount > 1) {
+        imposterCount--;
+        updateSteppers();
+      }
+    });
+
+    categoryGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest(".cat-btn");
+      if (!btn) return;
+      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      selectedCategory = btn.getAttribute("data-cat");
+    });
+
+    /* =========================================================
+       GAME INITIALIZATION
+       ========================================================= */
+    function startGame() {
+      let resolvedCategory = selectedCategory;
+      if (selectedCategory === "random") {
+        const catKeys = Object.keys(WORD_BANK);
+        resolvedCategory = catKeys[Math.floor(Math.random() * catKeys.length)];
+      }
+
+      currentCategoryTitle = CATEGORY_NAMES[resolvedCategory] || "Selected Category";
+      const wordsPool = WORD_BANK[resolvedCategory];
+      currentSecretWord = wordsPool[Math.floor(Math.random() * wordsPool.length)];
+
+      // 0 = Real Artist, 1 = Fake Artist
+      playersRoles = new Array(playerCount).fill(0);
+      let assignedImposters = 0;
+      while (assignedImposters < imposterCount) {
+        const randIdx = Math.floor(Math.random() * playerCount);
+        if (playersRoles[randIdx] === 0) {
+          playersRoles[randIdx] = 1;
+          assignedImposters++;
+        }
+      }
+
+      currentPlayerIndex = 0;
+      setupScreen.classList.remove("active");
+      finishScreen.classList.remove("active");
+      passScreen.classList.add("active");
+
+      loadPlayer(currentPlayerIndex, false);
+    }
+
+    startGameBtn.addEventListener("click", startGame);
+
+    /* =========================================================
+       PASS & REVEAL SYSTEM (CLEAN & SYMMETRICAL)
+       ========================================================= */
+    function loadPlayer(index, runCooldown = true) {
+      hideCard();
+      nextPlayerBtn.style.display = "none";
+      
+      const playerNum = index + 1;
+      playerTurnBanner.textContent = `Pass to Player ${playerNum}`;
+      playerStepTag.textContent = `Player ${playerNum} of ${playerCount}`;
+      cardCategoryDisplay.textContent = currentCategoryTitle;
+
+      const isImposter = playersRoles[index] === 1;
+
+      // Clean, symmetrical presentation
+      if (isImposter) {
+        roleBadge.textContent = "Fake Artist";
+        mainWordBox.textContent = "YOU ARE THE IMPOSTER";
+      } else {
+        roleBadge.textContent = "Real Artist";
+        mainWordBox.textContent = currentSecretWord;
+      }
+
+      if (runCooldown) {
+        startCooldown();
+      } else {
+        clearCooldown();
+      }
+    }
+
+    function startCooldown() {
+      holdBtn.disabled = true;
+      holdBtn.style.opacity = "0.4";
+      cooldownBanner.classList.add("active");
+      cooldownSeconds = 5;
+      cooldownTimerVal.textContent = cooldownSeconds;
+
+      if (cooldownTimer) clearInterval(cooldownTimer);
+      cooldownTimer = setInterval(() => {
+        cooldownSeconds--;
+        cooldownTimerVal.textContent = cooldownSeconds;
+        if (cooldownSeconds <= 0) {
+          clearCooldown();
+        }
+      }, 1000);
+    }
+
+    function clearCooldown() {
+      if (cooldownTimer) clearInterval(cooldownTimer);
+      cooldownBanner.classList.remove("active");
+      holdBtn.disabled = false;
+      holdBtn.style.opacity = "1";
+    }
+
+    /* Hold to Reveal Logic */
+    function showCard() {
+      if (holdBtn.disabled) return;
+      isHolding = true;
+      holdBtn.classList.add("holding");
+      hiddenState.style.display = "none";
+      revealedState.style.display = "flex";
+      nextPlayerBtn.style.display = "flex";
+    }
+
+    function hideCard() {
+      isHolding = false;
+      holdBtn.classList.remove("holding");
+      hiddenState.style.display = "flex";
+      revealedState.style.display = "none";
+    }
+
+    // Touch events for mobile
+    holdBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      showCard();
+    }, { passive: false });
+
+    holdBtn.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      hideCard();
+    });
+
+    holdBtn.addEventListener("touchcancel", (e) => {
+      e.preventDefault();
+      hideCard();
+    });
+
+    // Mouse events for desktop
+    holdBtn.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      showCard();
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (isHolding) hideCard();
+    });
+
+    holdBtn.addEventListener("contextmenu", (e) => e.preventDefault());
+
+    // Next Player button
+    nextPlayerBtn.addEventListener("click", () => {
+      hideCard();
+      currentPlayerIndex++;
+      if (currentPlayerIndex < playerCount) {
+        loadPlayer(currentPlayerIndex, true);
+      } else {
+        passScreen.classList.remove("active");
+        finishScreen.classList.add("active");
+      }
+    });
+
+    newGameBtn.addEventListener("click", () => {
+      finishScreen.classList.remove("active");
+      setupScreen.classList.add("active");
+      updateSteppers();
+    });
+
+    /* =========================================================
+       RULES MODAL
+       ========================================================= */
+    function toggleRulesModal(open) {
+      if (open) rulesModal.classList.add("open");
+      else rulesModal.classList.remove("open");
+    }
+
+    openRulesBtn.addEventListener("click", () => toggleRulesModal(true));
+    closeRulesBtn.addEventListener("click", () => toggleRulesModal(false));
+    gotItRulesBtn.addEventListener("click", () => toggleRulesModal(false));
+    rulesModal.addEventListener("click", (e) => {
+      if (e.target === rulesModal) toggleRulesModal(false);
+    });
+
+    // Initialize
+    updateSteppers();
+  </script>
+</body>
+</html>

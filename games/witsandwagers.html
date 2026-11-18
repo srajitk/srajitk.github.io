@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Wits &amp; Wagers — Place Your Bet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Oswald:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --felt:#0d3327;
+    --felt-deep:#082019;
+    --felt-line:#1a4a3a;
+    --cream:#f3e9d2;
+    --cream-shadow:#d8c9a3;
+    --brass:#c9a24b;
+    --brass-bright:#e8c470;
+    --maroon:#8a2a35;
+    --maroon-bright:#b0333f;
+    --ink:#241c12;
+    --text:#f2ede0;
+    --muted:#9db3a7;
+    --board:#0c0f0e;
+    --amber:#f5a623;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    min-height:100vh;
+    background:var(--felt-deep);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    overflow-x:hidden;
+  }
+
+  /* ---------- felt table background ---------- */
+  .bg{
+    position:fixed; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 100% 70% at 50% -10%, #164536 0%, transparent 55%),
+      radial-gradient(ellipse 90% 70% at 50% 115%, #061713 0%, transparent 60%),
+      var(--felt);
+  }
+  .bg::before{
+    /* felt weave texture */
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(-45deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 4px);
+  }
+  .bg::after{
+    /* rail border vignette, like a card table edge */
+    content:"";
+    position:absolute; inset:18px;
+    border:3px solid rgba(201,162,75,0.14);
+    border-radius:24px;
+    box-shadow:
+      inset 0 0 90px rgba(0,0,0,0.55),
+      0 0 60px rgba(0,0,0,0.4);
+  }
+  @media (max-width:640px){
+    .bg::after{ inset:8px; border-radius:14px; }
+  }
+
+  main{
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:36px 20px 44px;
+    gap:clamp(24px, 4.5vh, 38px);
+  }
+
+  .masthead{ text-align:center; max-width:560px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.34em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 10px;
+    opacity:0.85;
+  }
+  h1{
+    font-family:'Alfa Slab One', serif;
+    font-weight:400;
+    font-size:clamp(2.1rem, 8vw, 3.6rem);
+    margin:0;
+    letter-spacing:0.01em;
+    color:var(--cream);
+    text-shadow:
+      0 3px 0 rgba(0,0,0,0.35),
+      0 0 26px rgba(201,162,75,0.2);
+  }
+  h1 span{ color:var(--brass-bright); }
+  .tagline{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:clamp(0.8rem, 2.2vw, 0.92rem);
+    color:var(--muted);
+    margin:12px 0 0;
+  }
+
+  .table{
+    width:100%;
+    max-width:560px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+  }
+
+  /* ---------- buttons ---------- */
+  button.action{
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:clamp(0.95rem, 2.6vw, 1.1rem);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:16px 34px;
+    border-radius:999px;
+    cursor:pointer;
+    border:none;
+    transition:transform 0.08s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    -webkit-tap-highlight-color:transparent;
+    width:100%;
+    max-width:340px;
+  }
+  button.action:active{ transform:translateY(2px); }
+  button.action:focus-visible{ outline:2px solid var(--brass-bright); outline-offset:3px; }
+
+  button.deal{
+    background:linear-gradient(180deg, var(--brass-bright), var(--brass));
+    color:#241c0c;
+    box-shadow:0 6px 0 #8a6d2f, 0 10px 20px rgba(0,0,0,0.35);
+  }
+  button.deal:hover{ box-shadow:0 6px 0 #8a6d2f, 0 12px 26px rgba(201,162,75,0.28); }
+  button.deal:active{ box-shadow:0 2px 0 #8a6d2f; }
+
+  button.reveal{
+    background:linear-gradient(180deg, var(--maroon-bright), var(--maroon));
+    color:var(--cream);
+    box-shadow:0 6px 0 #5c1c24, 0 10px 20px rgba(0,0,0,0.35);
+  }
+  button.reveal:hover{ box-shadow:0 6px 0 #5c1c24, 0 12px 26px rgba(176,51,63,0.3); }
+  button.reveal:active{ box-shadow:0 2px 0 #5c1c24; }
+  button.reveal:disabled{
+    opacity:0.4;
+    cursor:not-allowed;
+    box-shadow:0 6px 0 #5c1c24;
+  }
+
+  /* ---------- question ticket ---------- */
+  .ticket{
+    width:100%;
+    background:var(--cream);
+    color:var(--ink);
+    border-radius:8px;
+    padding:22px 22px 20px;
+    box-shadow:0 14px 30px rgba(0,0,0,0.35), 0 3px 0 var(--cream-shadow);
+    position:relative;
+    min-height:118px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .ticket::before{
+    content:"";
+    position:absolute; inset:8px;
+    border:1.5px dashed rgba(36,28,18,0.25);
+    border-radius:5px;
+    pointer-events:none;
+  }
+  .ticket .tkt-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:#8a7248;
+    margin:0 0 8px;
+  }
+  .ticket .tkt-question{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:clamp(1.02rem, 3.4vw, 1.2rem);
+    font-weight:500;
+    line-height:1.4;
+    margin:0;
+  }
+  .ticket .tkt-question.placeholder{
+    color:#9a8b66;
+    font-style:italic;
+    font-weight:400;
+  }
+
+  /* ---------- tote board ---------- */
+  .board-wrap{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    min-height:104px;
+    justify-content:center;
+  }
+  .board-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--muted);
+    opacity:0;
+    transition:opacity 0.2s ease;
+  }
+  .board-label.show{ opacity:1; }
+
+  .board{
+    display:flex;
+    gap:6px;
+    padding:14px 18px;
+    background:var(--board);
+    border-radius:8px;
+    border:3px solid #2a2f27;
+    box-shadow:inset 0 2px 10px rgba(0,0,0,0.6), 0 10px 24px rgba(0,0,0,0.4);
+    opacity:0;
+    transform:translateY(8px);
+    transition:opacity 0.25s ease, transform 0.25s ease;
+  }
+  .board.show{ opacity:1; transform:translateY(0); }
+
+  .flip-digit{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:clamp(2.2rem, 9vw, 3rem);
+    color:var(--amber);
+    background:#151a15;
+    width:1.05em;
+    text-align:center;
+    border-radius:4px;
+    padding:4px 0;
+    text-shadow:0 0 12px rgba(245,166,35,0.55);
+  }
+
+  footer{
+    position:relative; z-index:1;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:#6f8a7c;
+    text-align:center;
+    padding:0 20px 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<main>
+  <div class="masthead">
+    <p class="eyebrow">// place your bet</p>
+    <h1>Wits &amp; <span>Wagers</span></h1>
+    <p class="tagline">the smart guess rarely knows the answer — it just gets closest</p>
+  </div>
+
+  <div class="table">
+    <button class="action deal" id="btnDeal" type="button">New Question</button>
+
+    <div class="ticket">
+      <p class="tkt-label">Question on the board</p>
+      <p class="tkt-question placeholder" id="questionText">Deal a question to get started.</p>
+    </div>
+
+    <button class="action reveal" id="btnReveal" type="button" disabled>Reveal Answer</button>
+
+    <div class="board-wrap">
+      <p class="board-label" id="boardLabel">Official Answer</p>
+      <div class="board" id="board"></div>
+    </div>
+  </div>
+</main>
+
+<footer>310 questions in the deck — every answer is a number, so somebody's guess is always closest.</footer>
+
+<script>
+const Q = [
+{q:"How many countries are members of the United Nations?",a:193},
+{q:"How many time zones does Russia span?",a:11},
+{q:"How many countries share a border with Germany?",a:9},
+{q:"How many countries share the Amazon rainforest?",a:9},
+{q:"How many standard time zones does the continental United States have?",a:4},
+{q:"How many countries share a border with Russia?",a:14},
+{q:"About how many islands make up Indonesia?",a:17000},
+{q:"What is the approximate length of the Nile River, in kilometers?",a:6650},
+{q:"What is the approximate length of the Amazon River, in kilometers?",a:6400},
+{q:"How many U.S. states border Mexico?",a:4},
+{q:"How many Canadian provinces and territories are there in total?",a:13},
+{q:"How many countries are there in Africa?",a:54},
+{q:"How many countries are there in South America?",a:12},
+{q:"How many member countries are currently in the European Union?",a:27},
+{q:"What is the approximate height of Mount Everest, in meters?",a:8849},
+{q:"What is the approximate depth of the Mariana Trench, in meters?",a:10935},
+{q:"How many oceans are commonly recognized on Earth?",a:5},
+{q:"What is the approximate area of Australia, in million square kilometers?",a:8},
+{q:"How many countries have a coastline on the Mediterranean Sea?",a:21},
+{q:"What is the approximate length of the Panama Canal, in kilometers?",a:82},
+{q:"What is the approximate length of the Suez Canal, in kilometers?",a:193},
+{q:"How many U.S. states have a coastline on the Pacific Ocean?",a:5},
+{q:"How many countries does the equator pass through?",a:13},
+{q:"How many countries share a border with China?",a:14},
+{q:"What is the approximate length of the Great Barrier Reef, in kilometers?",a:2300},
+{q:"How many emirates make up the United Arab Emirates?",a:7},
+{q:"How many countries share a border with France?",a:8},
+{q:"In what year was the first iPhone released?",a:2007},
+{q:"In what year did the Chernobyl nuclear disaster occur?",a:1986},
+{q:"In what year did apartheid officially end in South Africa?",a:1994},
+{q:"In what year was the Eiffel Tower completed?",a:1889},
+{q:"In what year was NASA founded?",a:1958},
+{q:"In what year is the fall of the Western Roman Empire traditionally dated?",a:476},
+{q:"In what year was the Statue of Liberty dedicated?",a:1886},
+{q:"In what year did the first modern Olympic Games take place?",a:1896},
+{q:"In what year was the Panama Canal completed?",a:1914},
+{q:"In what year was Facebook founded?",a:2004},
+{q:"In what year was the Suez Canal opened?",a:1869},
+{q:"How many elements are on the standard periodic table?",a:118},
+{q:"How many degrees are there in a full circle?",a:360},
+{q:"What is the approximate speed of sound in air, in meters per second?",a:343},
+{q:"About how many days are there in a lunar month?",a:29},
+{q:"What is the atomic number of gold?",a:79},
+{q:"How many pairs of ribs does a human typically have?",a:12},
+{q:"How many bones are in the human hand, including the wrist?",a:27},
+{q:"About how many liters of blood does an average adult human body contain?",a:5},
+{q:"About how many bones does a newborn baby have before some fuse together?",a:300},
+{q:"About what percentage of the adult human body is water?",a:60},
+{q:"How many bones are in each human foot?",a:26},
+{q:"How many pairs of cranial nerves do humans have?",a:12},
+{q:"How many milk (baby) teeth does a child typically have?",a:20},
+{q:"How many vertebrae are in the human spine?",a:33},
+{q:"How many muscles does it take to move the human eye?",a:6},
+{q:"How many layers does human skin have?",a:3},
+{q:"What is a normal adult resting heart rate, in beats per minute?",a:70},
+{q:"How many pints of blood does the average adult body hold, approximately?",a:10},
+{q:"How many holes are there in a standard round of golf?",a:18},
+{q:"How many players make up an American football team on the field at once?",a:11},
+{q:"How many Grand Slam tennis tournaments are there in a year?",a:4},
+{q:"How many periods are there in a standard ice hockey game?",a:3},
+{q:"How many players are on a baseball team's starting lineup on the field?",a:9},
+{q:"How many players are on a rugby union team on the field at once?",a:15},
+{q:"How many quarters are there in a standard basketball game?",a:4},
+{q:"How many Wimbledon singles titles did Roger Federer win in his career?",a:8},
+{q:"How many World Cups has the Brazil men's soccer team won, as of 2022?",a:5},
+{q:"How many rounds are in a standard professional boxing world title fight?",a:12},
+{q:"How many players are on an ice hockey team on the ice at once, including the goalie?",a:6},
+{q:"How many Olympic gold medals did Michael Phelps win in total, across his career?",a:23},
+{q:"How many players are on a field hockey team on the field at once?",a:11},
+{q:"How many strokes under par is a golf 'eagle' on a hole?",a:2},
+{q:"How many Formula 1 World Championship titles did Michael Schumacher win?",a:7},
+{q:"How many innings are in a standard Major League Baseball game?",a:9},
+{q:"What is the approximate height of the Eiffel Tower, in meters?",a:330},
+{q:"What is the approximate height of the Statue of Liberty, including its pedestal, in meters?",a:93},
+{q:"What is the approximate height of the Burj Khalifa, in meters?",a:828},
+{q:"How many floors does the Empire State Building have?",a:102},
+{q:"What is the approximate height of the Taj Mahal's main dome, in meters?",a:73},
+{q:"About how many years did it take to build the Taj Mahal?",a:17},
+{q:"What is the approximate length of the Golden Gate Bridge, in meters?",a:2737},
+{q:"How many steps are there to the top of the Eiffel Tower?",a:1665},
+{q:"What is the approximate height of Big Ben's clock tower, in meters?",a:96},
+{q:"How many pyramids of Giza are considered the main 'Great Pyramids'?",a:3},
+{q:"What is the approximate height of the Great Pyramid of Giza, in meters?",a:139},
+{q:"About how many bricks were used to build the Empire State Building, in millions?",a:10},
+{q:"What is the approximate height of the Leaning Tower of Pisa, in meters?",a:57},
+{q:"How many pillars support the main structure of the Taj Mahal's platform corners?",a:4},
+{q:"What is the approximate length of the Great Wall of China, in kilometers, according to a 2012 survey?",a:21196},
+{q:"How many bells are in Big Ben's tower?",a:5},
+{q:"What is the approximate height of the Sydney Opera House's tallest roof shell, in meters?",a:65},
+{q:"How many stories tall is the Shanghai Tower, approximately?",a:128},
+{q:"What is the approximate span of the Golden Gate Bridge's main suspension span, in meters?",a:1280},
+{q:"About how many visitors does the Taj Mahal receive each year, in millions?",a:6},
+{q:"What is the approximate height of the Washington Monument, in meters?",a:169},
+{q:"How many floors does the Burj Khalifa have?",a:163},
+{q:"What is the approximate width of the Great Pyramid of Giza's base, in meters?",a:230},
+{q:"How many years did the construction of the Sydney Opera House take, from start to completion?",a:14},
+{q:"What is the approximate height of the Space Needle in Seattle, in meters?",a:184},
+{q:"How many astronauts have walked on the Moon, in total, as of today?",a:12},
+{q:"How many Apollo missions successfully landed astronauts on the Moon?",a:6},
+{q:"About how many years does it take Saturn to orbit the Sun?",a:29},
+{q:"About how many years does it take Jupiter to orbit the Sun?",a:12},
+{q:"How many known major moons does Jupiter have as commonly taught (the Galilean moons)?",a:4},
+{q:"About how many Earth days does it take Mars to orbit the Sun?",a:687},
+{q:"About how many light-years away is the nearest star system to our Sun (Alpha Centauri)?",a:4},
+{q:"How many astronauts typically crew the International Space Station at a time, on average?",a:6},
+{q:"About how many minutes does it take the International Space Station to orbit the Earth once?",a:90},
+{q:"In what year was the Hubble Space Telescope launched?",a:1990},
+{q:"In what year did the Chandrayaan-1 mission launch, marking India's first lunar probe?",a:2008},
+{q:"About how many kilometers is the average distance from Earth to the Moon?",a:384400},
+{q:"In what year did the Soviet satellite Sputnik 1 launch?",a:1957},
+{q:"About how many degrees Celsius is the surface temperature of the Sun?",a:5500},
+{q:"How many known rings does Saturn have as major named ring groups?",a:7},
+{q:"About how many times bigger in diameter is the Sun compared to Earth?",a:109},
+{q:"In what year did India's Chandrayaan-3 mission successfully land near the Moon's south pole?",a:2023},
+{q:"In what year was the first Harry Potter movie released?",a:2001},
+{q:"In what year was the movie Titanic released?",a:1997},
+{q:"In what year was the first Star Wars movie released?",a:1977},
+{q:"In what year was the first iPhone announced?",a:2007},
+{q:"In what year was Walt Disney's first full-length animated film, Snow White, released?",a:1937},
+{q:"How many Fast & Furious main-series films had been released by 2023?",a:10},
+{q:"In what year was the first Toy Story movie released?",a:1995},
+{q:"How many Academy Awards (Oscars) did the movie Titanic win?",a:11},
+{q:"In what year did the original Jurassic Park movie release?",a:1993},
+{q:"How many main Godfather films are there in the original trilogy?",a:3},
+{q:"In what year was the first Avengers movie released?",a:2012},
+{q:"How many seasons did the TV show Friends run for?",a:10},
+{q:"In what year did the show Game of Thrones premiere?",a:2011},
+{q:"How many main Star Wars 'saga' films make up the Skywalker series?",a:9},
+{q:"In what year was the first James Bond movie, Dr. No, released?",a:1962},
+{q:"How many James Bond films had been officially released as of 2023, in the main Eon series?",a:25},
+{q:"In what year was the animated movie The Lion King originally released?",a:1994},
+{q:"How many minutes long is the movie Titanic, approximately?",a:195},
+{q:"In what year was Netflix founded?",a:1997},
+{q:"In what year was YouTube founded?",a:2005},
+{q:"How many Oscar nominations did the movie La La Land receive?",a:14},
+{q:"In what year was the first Spider-Man movie starring Tobey Maguire released?",a:2002},
+{q:"In what year was Pixar's movie Up released?",a:2009},
+{q:"How many ounces are there in a standard U.S. pound?",a:16},
+{q:"How many cups are there in a standard U.S. gallon?",a:16},
+{q:"About how many calories are in a standard medium-sized banana?",a:105},
+{q:"How many teaspoons are there in a tablespoon?",a:3},
+{q:"How many slices are typically cut from a standard large pizza?",a:8},
+{q:"About how many cups of coffee does the average American coffee drinker have per day?",a:3},
+{q:"About how many spice varieties are used in a traditional Indian garam masala blend?",a:7},
+{q:"How many main ingredients are traditionally in a classic margherita pizza?",a:3},
+{q:"About how many calories are in a standard slice of cheese pizza?",a:285},
+{q:"How many grams are there in a kilogram?",a:1000},
+{q:"About how many cups of tea does the average person in the UK drink per day?",a:3},
+{q:"How many minutes does it typically take to soft boil an egg?",a:6},
+{q:"How many standard courses are typically served in a classic French meal (starter, main, dessert)?",a:3},
+{q:"About how many varieties of mango are grown in India, according to common estimates?",a:1000},
+{q:"How many days are in the Hindu festival of Navratri?",a:9},
+{q:"How many main flavors is the classic Indian thali said to represent, according to tradition?",a:6},
+{q:"How many days does the Diwali festival typically span?",a:5},
+{q:"About how many cups are there in a standard liter?",a:4},
+{q:"How many hearts does an octopus have?",a:3},
+{q:"How many humps does a Bactrian camel have?",a:2},
+{q:"About how many years is the average lifespan of an Asian elephant?",a:60},
+{q:"How many stomach chambers does a cow have?",a:4},
+{q:"How many bones are in a giraffe's neck?",a:7},
+{q:"About how many teeth does an adult dog typically have?",a:42},
+{q:"How many teeth does an adult cat typically have?",a:30},
+{q:"About how many species of tiger are commonly recognized today?",a:6},
+{q:"About how many eggs does a single hen lay per year on average?",a:300},
+{q:"How many legs does an insect have?",a:6},
+{q:"About how many years can a giant tortoise live, at the high end?",a:150},
+{q:"How many chambers does a fish's heart have?",a:2},
+{q:"About how many hours a day does a koala typically sleep?",a:20},
+{q:"About how many species of penguin are there?",a:18},
+{q:"How many toes does a rhinoceros have on each foot?",a:3},
+{q:"About how many kilometers per hour can a cheetah run at top speed?",a:100},
+{q:"About how many years is the average lifespan of a domestic cat?",a:15},
+{q:"How many wings does a bee have?",a:4},
+{q:"About how many species of big cats are there (lion, tiger, leopard, jaguar, snow leopard)?",a:5},
+{q:"How many keys are on a standard piano?",a:88},
+{q:"How many strings does a standard violin have?",a:4},
+{q:"How many strings does a standard guitar have?",a:6},
+{q:"How many valves does a standard trumpet have?",a:3},
+{q:"How many lines are there on a standard musical staff?",a:5},
+{q:"How many strings does a standard double bass have?",a:4},
+{q:"How many main musical notes are there in a Western musical scale (do re mi fa sol la ti)?",a:7},
+{q:"How many Grammy Awards has Beyoncé won, as of early 2024?",a:32},
+{q:"How many strings does a standard banjo typically have?",a:5},
+{q:"How many members are typically in a string quartet?",a:4},
+{q:"How many pedals does a standard grand piano have?",a:3},
+{q:"How many drums, at minimum, are in a standard rock drum kit (kick, snare, two toms, floor tom)?",a:5},
+{q:"How many keys does a standard clarinet have, approximately?",a:17},
+{q:"How many Grammy Awards has the album 'Thriller' by Michael Jackson won?",a:8},
+q:"How many players are on a kabaddi team on the court at once?",a:7},
+{q:"About how many kilometers long is the Ganges River?",a:2525},
+{q:"How many years did it take to build the Taj Mahal?",a:17},
+{q:"In what year did India launch its first satellite, Aryabhata?",a:1975},
+{q:"In what year did India conduct its first Test cricket match?",a:1932},
+{q:"In what year was the Indian Space Research Organisation (ISRO) founded?",a:1969},
+{q:"How many Bollywood films are produced in India annually, according to common industry estimates?",a:1500},
+{q:"How many players are on a standard field hockey team on the field, India's national sport?",a:11},
+{q:"About how many islands make up the Andaman and Nicobar Islands?",a:572},
+{q:"How many judges, including the Chief Justice, currently make up the Supreme Court of India's sanctioned strength?",a:34},
+{q:"How many horses pull the chariot depicted in the Konark Sun Temple's iconic stone wheel design?",a:7},
+{q:"In what year did India perform its first nuclear test, Smiling Buddha?",a:1974},
+{q:"About how many kilometers separate Delhi and Mumbai by road?",a:1400}
+];
+
+const questionText = document.getElementById('questionText');
+const btnDeal = document.getElementById('btnDeal');
+const btnReveal = document.getElementById('btnReveal');
+const board = document.getElementById('board');
+const boardLabel = document.getElementById('boardLabel');
+
+let currentAnswer = null;
+let usedIndexes = new Set();
+let activeTimers = [];
+
+function clearTimers(){
+  activeTimers.forEach(t => clearInterval(t));
+  activeTimers = [];
+}
+
+function pickQuestion(){
+  if(usedIndexes.size >= Q.length) usedIndexes.clear();
+  let idx;
+  do{ idx = Math.floor(Math.random() * Q.length); } while(usedIndexes.has(idx));
+  usedIndexes.add(idx);
+  return Q[idx];
+}
+
+function resetBoard(){
+  clearTimers();
+  board.classList.remove('show');
+  boardLabel.classList.remove('show');
+  board.innerHTML = '';
+}
+
+btnDeal.addEventListener('click', () => {
+  const item = pickQuestion();
+  currentAnswer = item.a;
+  questionText.textContent = item.q;
+  questionText.classList.remove('placeholder');
+  resetBoard();
+  btnReveal.disabled = false;
+});
+
+btnReveal.addEventListener('click', () => {
+  if(currentAnswer === null) return;
+  clearTimers();
+  const digits = String(currentAnswer).split('');
+  board.innerHTML = '';
+  board.classList.add('show');
+  boardLabel.classList.add('show');
+
+  digits.forEach((d, i) => {
+    const span = document.createElement('span');
+    span.className = 'flip-digit';
+    span.textContent = '0';
+    board.appendChild(span);
+
+    let elapsed = 0;
+    const duration = 450;
+    const tick = 40;
+    setTimeout(() => {
+      const timer = setInterval(() => {
+        elapsed += tick;
+        if(elapsed >= duration){
+          clearInterval(timer);
+          span.textContent = d;
+          return;
+        }
+        span.textContent = Math.floor(Math.random()*10);
+      }, tick);
+      activeTimers.push(timer);
+    }, i*120);
+  });
+
+  btnReveal.disabled = true;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Just One</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#faf3ea;
+    --paper:#ffffff;
+    --coral:#ef7b64;
+    --coral-deep:#c85a46;
+    --coral-bright:#f4a08e;
+    --teal:#4fa89a;
+    --teal-deep:#357c70;
+    --lavender:#a78bc9;
+    --ink:#2c2620;
+    --muted:#8a7f72;
+    --shadow:rgba(44,38,32,0.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    min-height:100vh;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    overflow-x:hidden;
+  }
+
+  /* ---------- background ---------- */
+  .bg{ position:fixed; inset:0; z-index:0; overflow:hidden; }
+  .bg span{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(1px);
+    opacity:0.22;
+  }
+  .bg .b1{ width:460px; height:460px; background:var(--coral-bright); top:-160px; right:-140px; }
+  .bg .b2{ width:360px; height:360px; background:var(--teal); bottom:-140px; left:-120px; }
+  .bg .b3{ width:220px; height:220px; background:var(--lavender); top:30%; left:-90px; opacity:0.16; }
+  .bg::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:radial-gradient(rgba(44,38,32,0.045) 1px, transparent 1px);
+    background-size:26px 26px;
+    mask-image:radial-gradient(ellipse 75% 65% at 50% 35%, black 30%, transparent 90%);
+  }
+
+  main{
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:40px 18px 50px;
+    gap:32px;
+  }
+
+  .masthead{ text-align:center; max-width:520px; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:'Comfortaa', sans-serif;
+    font-weight:700;
+    font-size:clamp(2.1rem, 8vw, 3.4rem);
+    margin:0;
+    letter-spacing:0.01em;
+    color:var(--ink);
+  }
+  h1 .one{
+    color:var(--coral);
+    position:relative;
+  }
+  .tagline{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:clamp(0.9rem, 2.2vw, 1rem);
+    color:var(--muted);
+    margin:12px 0 0;
+  }
+
+  button.draw{
+    font-family:'Comfortaa', sans-serif;
+    font-weight:700;
+    font-size:clamp(1rem, 2.6vw, 1.15rem);
+    padding:16px 36px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    color:#fff;
+    background:linear-gradient(135deg, var(--coral-bright), var(--coral));
+    box-shadow:0 8px 0 var(--coral-deep), 0 14px 26px var(--shadow);
+    transition:transform 0.08s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  button.draw:active{ transform:translateY(5px); box-shadow:0 3px 0 var(--coral-deep); }
+  button.draw:focus-visible{ outline:2px solid var(--coral-deep); outline-offset:4px; }
+
+  .sequence{
+    width:100%;
+    max-width:760px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:16px;
+  }
+
+  .spot{
+    width:84px; height:84px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--coral-bright), var(--coral) 70%);
+    box-shadow:0 8px 18px var(--shadow), inset 0 0 0 4px rgba(255,255,255,0.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+    position:relative;
+  }
+  .spot:hover{ transform:translateY(-3px) scale(1.03); }
+  .spot:active{ transform:translateY(0) scale(0.96); }
+  .spot .num{
+    font-family:'Comfortaa', sans-serif;
+    font-weight:700;
+    font-size:1.5rem;
+    color:#fff;
+  }
+  .spot.seen{
+    background:radial-gradient(circle at 35% 30%, #e7ddcf, #d8cbb8 70%);
+  }
+  .spot.seen .num{ color:var(--muted); }
+  .spot.seen::after{
+    content:"✓";
+    position:absolute;
+    bottom:-4px; right:-4px;
+    width:22px; height:22px;
+    border-radius:50%;
+    background:var(--teal);
+    color:#fff;
+    font-size:12px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.25);
+  }
+
+  .empty-hint{
+    text-align:center;
+    color:var(--muted);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.9rem;
+    max-width:340px;
+    margin:0;
+  }
+
+  /* ---------- info button ---------- */
+  .info-btn{
+    position:fixed;
+    top:16px;
+    right:16px;
+    z-index:20;
+    width:38px; height:38px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--coral);
+    color:var(--coral-deep);
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 10px var(--shadow);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .info-btn:hover{ background:var(--coral); color:#fff; }
+
+  /* ---------- shared overlay/modal ---------- */
+  .overlay{
+    position:fixed; inset:0; z-index:30;
+    background:rgba(44,38,32,0.55);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+  }
+  .overlay.show{ opacity:1; pointer-events:auto; }
+
+  .modal{
+    position:relative;
+    width:100%; max-width:400px;
+    background:var(--paper);
+    border-radius:20px;
+    padding:28px 24px 22px;
+    text-align:center;
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
+    transform:translateY(12px) scale(0.96);
+    transition:transform 0.25s cubic-bezier(.2,.8,.2,1);
+  }
+  .overlay.show .modal{ transform:translateY(0) scale(1); }
+
+  .modal.info-modal{ text-align:left; }
+  .modal h3{
+    font-family:'Comfortaa', sans-serif;
+    font-size:1.25rem;
+    margin:0 0 4px;
+    color:var(--coral-deep);
+  }
+  .modal .meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:0.05em;
+    margin:0 0 14px;
+  }
+  .modal ul{
+    margin:0 0 18px;
+    padding-left:18px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.9rem;
+    line-height:1.55;
+    color:var(--ink);
+  }
+  .modal li{ margin-bottom:8px; }
+  .modal li b{ color:var(--coral-deep); }
+
+  .word-round{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .word-text{
+    font-family:'Comfortaa', sans-serif;
+    font-weight:700;
+    font-size:clamp(1.5rem, 7vw, 2.2rem);
+    line-height:1.25;
+    color:var(--ink);
+  }
+
+  .modal-close{
+    margin-top:22px;
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:none;
+    background:var(--coral);
+    color:#fff;
+    font-family:'Comfortaa', sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+
+<button class="info-btn" id="infoBtn" type="button" aria-label="How to play">i</button>
+
+<main>
+  <div class="masthead">
+    <p class="eyebrow">// one word, one shot, one team</p>
+    <h1>Just <span class="one">One</span></h1>
+    <p class="tagline">Draw the round, then tap a spotlight when it's that round's turn to reveal the mystery word.</p>
+  </div>
+
+  <button class="draw" id="drawBtn" type="button">Draw 7 Words</button>
+
+  <div class="sequence" id="sequence"></div>
+  <p class="empty-hint" id="emptyHint">Tap draw to line up 7 mystery words for tonight's rounds, in order.</p>
+</main>
+
+<div class="overlay" id="infoOverlay">
+  <div class="modal info-modal">
+    <h3>How to Play</h3>
+    <p class="meta">3–7 players · ~20 minutes</p>
+    <ul>
+      <li>Each round, one player is the <b>guesser</b> and steps back or closes their eyes.</li>
+      <li>Everyone else secretly writes <b>one single-word clue</b> for the mystery word.</li>
+      <li>Clues are compared. Any clue that <b>matches another player's clue</b> is cancelled and hidden.</li>
+		<li> <b>Other rules </b> about clues
+			<ul>
+				<li>Your clue must be just one word.</li>
+				<li>Numbers, acronyms, onomatopoeia and special characters are allowed (007, $, SMS, Riiiiing).</li>
+				<li>It cannot be the word spelt differently  (shurt / shirt).</li>
+				<li>Or in a foreign language (Poisson / Fish).</li>
+				<li>It cannot be from the same family (prince / princess).</li>
+				<li>a phonetically identical word (Whether / Weather)</li>
+Or an invented word (Swee’ting / Cake).</li>>
+				
+			</ul>
+		</li>
+      <li>The guesser sees only the surviving unique clues and gets <b>one guess</b>.</li>
+      <li>Correct guess = a point for the whole table. It's fully cooperative — everyone wins or loses together.</li>
+      <li>Rotate the guesser each round and play through all 7 (or 13) words to get a final score.</li>
+    </ul>
+    <button class="modal-close" id="infoClose" type="button">Got it</button>
+  </div>
+</div>
+
+<div class="overlay" id="wordOverlay">
+  <div class="modal">
+    <p class="word-round" id="wordRoundLabel"></p>
+    <p class="word-text" id="wordText"></p>
+    <button class="modal-close" id="wordClose" type="button">Close</button>
+  </div>
+</div>
+
+<script>
+const WORDS = [
+"ELEPHANT","GIRAFFE","PENGUIN","DOLPHIN","OCTOPUS","KANGAROO","VOLCANO","WATERFALL","GLACIER","DESERT",
+"RAINFOREST","CORAL REEF","TORNADO","EARTHQUAKE","AVALANCHE","ECLIPSE","RAINBOW","THUNDERSTORM","TSUNAMI","ICEBERG",
+"CACTUS","BAMBOO","MUSHROOM","BEEHIVE","SPIDERWEB","BUTTERFLY","CHAMELEON","PEACOCK","FLAMINGO","CROCODILE",
+"SHARK","WHALE","JELLYFISH","STARFISH","KOALA","HEDGEHOG","PORCUPINE","ARMADILLO","PLATYPUS","OASIS",
+"PIZZA","SUSHI","TACO","PANCAKE","BURGER","SANDWICH","DUMPLING","NOODLES","SPAGHETTI","ICE CREAM",
+"CHOCOLATE","POPCORN","PRETZEL","DONUT","CUPCAKE","WAFFLE","MILKSHAKE","SMOOTHIE","LEMONADE","HONEY",
+"PEANUT BUTTER","MARSHMALLOW","CARAMEL","CINNAMON","GINGERBREAD","PUMPKIN PIE","BARBECUE","BAGEL","CROISSANT","HUMMUS",
+"FONDUE","OMELETTE","CEREAL","SALSA","GUACAMOLE",
+"CASTLE","LIGHTHOUSE","PYRAMID","TEMPLE","PALACE","WINDMILL","IGLOO","TREEHOUSE","SKYSCRAPER","BRIDGE",
+"TUNNEL","LIBRARY","MUSEUM","AQUARIUM","ZOO","STADIUM","AIRPORT","TRAIN STATION","HARBOR","MARKETPLACE",
+"AMUSEMENT PARK","PLAYGROUND","GARDEN","GREENHOUSE","BARN","COTTAGE","CATHEDRAL","MONASTERY","FORTRESS","MAZE",
+"CAVE","ISLAND","CANYON","MOUNTAIN PEAK","VALLEY",
+"UMBRELLA","BACKPACK","SUITCASE","CAMERA","TELESCOPE","MICROSCOPE","COMPASS","MAGNET","FLASHLIGHT","CANDLE",
+"MIRROR","CLOCK","CALENDAR","NOTEBOOK","ENVELOPE","STAMP","SCISSORS","STAPLER","PAPERCLIP","RUBBER BAND",
+"TOOTHBRUSH","HAIRBRUSH","RAZOR","PERFUME","WALLET","KEYCHAIN","SUNGLASSES","HELMET","GLOVES","SCARF",
+"BLANKET","PILLOW","HAMMOCK","LADDER","HAMMER","ROPE","ANCHOR","PARACHUTE","KALEIDOSCOPE","TOOLBOX",
+"FIREFIGHTER","ASTRONAUT","DETECTIVE","MAGICIAN","PIRATE","KNIGHT","WIZARD","NINJA","SAMURAI","GLADIATOR",
+"VIKING","PHARAOH","EXPLORER","SCIENTIST","ARCHITECT","CHEF","SURGEON","LIFEGUARD","LIBRARIAN","TRANSLATOR",
+"PHOTOGRAPHER","JOURNALIST","DIPLOMAT","ARCHAEOLOGIST","BEEKEEPER",
+"SKYDIVING","SURFING","SNOWBOARDING","ROCK CLIMBING","SCUBA DIVING","HORSEBACK RIDING","ARCHERY","FENCING","GYMNASTICS","WRESTLING",
+"BOXING","MARATHON","TRIATHLON","YOGA","MEDITATION","JUGGLING","MAGIC TRICK","TIGHTROPE WALKING","BUNGEE JUMPING","PARAGLIDING",
+"KAYAKING","SAILING","FISHING","CAMPING","HIKING","PICNIC","KARAOKE","CHESS TOURNAMENT","TREASURE HUNT","SCAVENGER HUNT",
+"SUPERHERO","VILLAIN","SIDEKICK","TIME TRAVEL","TELEPORTATION","INVISIBILITY CLOAK","MAGIC WAND","CRYSTAL BALL","TREASURE MAP","SECRET AGENT",
+"ROBOT","ALIEN","ZOMBIE","VAMPIRE","WEREWOLF","GHOST","MERMAID","UNICORN","DRAGON","PHOENIX",
+"GENIE","FAIRY","GOBLIN","TROLL","ENCHANTED FOREST","WITCH","SORCERER","ORACLE","PROPHECY","RIDDLE",
+"GALAXY","ASTEROID","COMET","BLACK HOLE","SATELLITE","SPACE STATION","ROCKET","GRAVITY","MAGNETISM","ELECTRICITY",
+"ATOM","DNA","VACCINE","MICROCHIP","LASER","HOLOGRAM","VIRTUAL REALITY","ARTIFICIAL INTELLIGENCE","SOLAR PANEL","WIND TURBINE",
+"NORTHERN LIGHTS","METEOR SHOWER","SPACESHIP","MOON LANDING","PARTICLE ACCELERATOR",
+"ANCIENT EGYPT","MEDIEVAL CASTLE","RENAISSANCE PAINTING","INDUSTRIAL REVOLUTION","STONE AGE","ICE AGE","SILK ROAD","GOLD RUSH","WILD WEST","ROMAN EMPIRE",
+"GREEK MYTHOLOGY","TROJAN HORSE","HOLY GRAIL","EXCALIBUR","ATLANTIS","ROSETTA STONE","TERRACOTTA ARMY","GREAT WALL","HANGING GARDENS","ORACLE OF DELPHI",
+"FRIENDSHIP","JEALOUSY","NOSTALGIA","CURIOSITY","COURAGE","PATIENCE","GRATITUDE","FORGIVENESS","AMBITION","FREEDOM",
+"JUSTICE","DESTINY","LUCK","CHAOS","HARMONY","BALANCE","SILENCE","ECHO","SHADOW","REFLECTION",
+"SMARTPHONE","WIRELESS HEADPHONES","VIDEO CALL","SOCIAL MEDIA","STREAMING SERVICE","SELF-DRIVING CAR","DRONE","3D PRINTER","SMARTWATCH","ROBOT VACUUM",
+"SEARCH ENGINE","CLOUD STORAGE","ONLINE SHOPPING","FOOD DELIVERY APP","RIDE SHARING APP","ELECTRIC CAR","CHARGING STATION","VOICE ASSISTANT","WIFI ROUTER","QR CODE",
+"TOUCHSCREEN","FACIAL RECOGNITION","GPS NAVIGATION","ONLINE GAMING","PODCAST",
+"BICYCLE","MOTORCYCLE","SUBMARINE","HELICOPTER","HOT AIR BALLOON","SAILBOAT","CANOE","SKATEBOARD","SCOOTER","TRACTOR",
+"BULLDOZER","CRANE TRUCK","FIRE TRUCK","AMBULANCE","TAXI","SUBWAY TRAIN","CABLE CAR","ROLLER COASTER","FERRIS WHEEL","RICKSHAW",
+"HOVERBOARD","SLEIGH","GONDOLA","ZEPPELIN","SPACE SHUTTLE",
+"ALARM CLOCK","BREAKFAST TABLE","LAUNDRY BASKET","VACUUM CLEANER","DISHWASHER","REFRIGERATOR","MICROWAVE","WASHING MACHINE","IRONING BOARD","DOORBELL",
+"MAILBOX","GARDEN HOSE","LAWN MOWER","BIRDHOUSE","FRONT PORCH","ROCKING CHAIR","FIREPLACE","BOOKSHELF","WARDROBE","STAIRCASE",
+"TAJ MAHAL","HOLI","DIWALI","MONSOON","BOLLYWOOD","CRICKET MATCH","SARI","BINDI","HENNA","MEHENDI",
+"RANGOLI","LOTUS","PEACOCK THRONE","MAHARAJA","AYURVEDA","TEMPLE BELL","INCENSE STICK","SITAR","TABLA","AUTO RICKSHAW",
+"CHAI STALL","SPICE MARKET","HIMALAYAS","GANGES RIVER","ELEPHANT PROCESSION","KATHAKALI DANCE","HOWRAH BRIDGE","GATEWAY OF INDIA","RED FORT","LOTUS TEMPLE"
+];
+
+const sequence = document.getElementById('sequence');
+const emptyHint = document.getElementById('emptyHint');
+const drawBtn = document.getElementById('drawBtn');
+const wordOverlay = document.getElementById('wordOverlay');
+const wordRoundLabel = document.getElementById('wordRoundLabel');
+const wordText = document.getElementById('wordText');
+const wordClose = document.getElementById('wordClose');
+
+function pickSeven(){
+  const pool = WORDS.slice();
+  const chosen = [];
+  for(let i=0;i<7;i++){
+    const idx = Math.floor(Math.random()*pool.length);
+    chosen.push(pool[idx]);
+    pool.splice(idx,1);
+  }
+  return chosen;
+}
+
+function renderSequence(words){
+  sequence.innerHTML = '';
+  words.forEach((word, i) => {
+    const spot = document.createElement('div');
+    spot.className = 'spot';
+    spot.innerHTML = '<span class="num">' + (i+1) + '</span>';
+    spot.addEventListener('click', () => {
+      wordRoundLabel.textContent = 'Round ' + (i+1) + ' of 7';
+      wordText.textContent = word;
+      wordOverlay.classList.add('show');
+      spot.classList.add('seen');
+    });
+    sequence.appendChild(spot);
+  });
+}
+
+drawBtn.addEventListener('click', () => {
+  renderSequence(pickSeven());
+  emptyHint.style.display = 'none';
+});
+
+wordClose.addEventListener('click', () => wordOverlay.classList.remove('show'));
+wordOverlay.addEventListener('click', (e) => { if(e.target === wordOverlay) wordOverlay.classList.remove('show'); });
+
+const infoBtn = document.getElementById('infoBtn');
+const infoOverlay = document.getElementById('infoOverlay');
+const infoClose = document.getElementById('infoClose');
+infoBtn.addEventListener('click', () => infoOverlay.classList.add('show'));
+infoClose.addEventListener('click', () => infoOverlay.classList.remove('show'));
+infoOverlay.addEventListener('click', (e) => { if(e.target === infoOverlay) infoOverlay.classList.remove('show'); });
+
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape'){
+    wordOverlay.classList.remove('show');
+    infoOverlay.classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>
